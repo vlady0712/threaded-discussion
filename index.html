@@ -1,14 +1,35 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="Description" content="IST Vercel app example">
+  <title>Vercel example</title>
+
+  <base href="/">
+
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      background-color: #ededed;
+    }
+    x-weather {
+      border: 1px solid black;
+    }
+  </style>
+  <title>ist-vercel-demo</title>
 </head>
+
 <body>
-	<h1>This is the Weather Microfrontend</h1>
-	<x-weather city="boston"></x-weather>
-	<script src="components/x-weather.js" type="module"></script>
+  <x-weather city="pittsburgh"></x-weather>
+  <x-weather city="boston"></x-weather>
+  <x-weather city="portland"></x-weather>
+
+  <script type="module" src="./src/x-weather.js"></script>
 </body>
 </html>

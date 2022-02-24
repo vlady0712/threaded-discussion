@@ -1,10 +1,10 @@
-import { LitElement, html, css } from 'https://unpkg.com/lit?module';
+import { LitElement, html, css } from 'lit';
 
 class XWeather extends LitElement {
 	static get properties() {
 		return {
 			endpoint: { type: String },
-			city: { type: String },
+			city: { type: String, reflect: true },
 			weather: { type: Object }
 		}
 	}
@@ -13,7 +13,7 @@ class XWeather extends LitElement {
 		super();
 		this.city = 'Boston';
 		this.weather = {};
-		this.endpoint = new URL('../api/weather', import.meta.url);
+		this.endpoint = '/api/weather';
 	}
 
 	updated(changedProperties) {
@@ -28,14 +28,25 @@ class XWeather extends LitElement {
 		const weather = await fetch(`${this.endpoint}?city=${city}`).then(res => res.json());
 		this.weather = weather?.weather[0];
 	}
-
+	static get style() {
+		return css`
+			:host {
+				display: block;
+			}
+      .overcast {
+        color: white;
+        background-color: #555555;
+      }
+		`;
+	}
 	render() {
 		return html`
-			Current weather in ${this.city}: ${this.weather.description},
-
+			<p>
+				Current weather in ${this.city}: <span class="${this.weather.description}">${this.weather.description}</span>,
 			<br>
 			Do you want to book a trip to ${this.city}?
 			<a href="${this.city}-visitors-center">Visit ${this.city}</a>
+			</p>
 		`
 	}
 }
