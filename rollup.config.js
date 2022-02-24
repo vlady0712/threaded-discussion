@@ -29,9 +29,7 @@ export default {
     /** Minify JS */
     terser(),
     /** Bundle assets references via import.meta.url */
-    importMetaAssets({
-      exclude: ["**/api/*.{js}"]
-    }),
+    importMetaAssets(),
     /** Compile JS to a lower language target */
     babel({
       babelHelpers: 'bundled',

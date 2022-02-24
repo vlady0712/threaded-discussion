@@ -4,22 +4,24 @@
   "license": "MIT",
   "author": "ist-vercel-demo",
   "version": "0.0.0",
+  "main": "index.js",
+  "type": "module",
   "scripts": {
     "lint": "eslint --ext .js,.html . --ignore-path .gitignore && prettier \"**/*.js\" --check --ignore-path .gitignore",
     "format": "eslint --ext .js,.html . --fix --ignore-path .gitignore && prettier \"**/*.js\" --write --ignore-path .gitignore",
     "test": "web-test-runner --coverage",
     "test:watch": "web-test-runner --watch",
-    "storybook": "npm run analyze -- --exclude dist && web-dev-server -c .storybook/server.mjs",
-    "storybook:build": "npm run analyze -- --exclude dist && build-storybook",
-    "build": "rimraf dist && rollup -c rollup.config.js && npm run analyze -- --exclude dist",
+    "storybook": "npm run analyze && web-dev-server -c .storybook/server.mjs",
+    "storybook:build": "npm run analyze && build-storybook",
+    "build": "rimraf dist && rollup -c rollup.config.js && npm run analyze",
     "start:build": "web-dev-server --root-dir dist --app-index index.html --open",
-    "analyze": "cem analyze --litelement",
-    "start": "vercel dev",
-    "start:app": "web-dev-server"
+    "analyze": "cem analyze --litelement --exclude dist,api",
+    "start": "web-dev-server"
   },
   "dependencies": {
     "lit": "^2.0.2",
-    "node-fetch": "^3.1.0"
+    "node-fetch": "^3.1.0",
+    "@lrnwebcomponents/lrnsys-comment": "4.0.8"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.16.4",

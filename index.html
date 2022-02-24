@@ -30,6 +30,16 @@
   <x-weather city="boston"></x-weather>
   <x-weather city="portland"></x-weather>
 
+  <lrnsys-comment-list></lrnsys-comment-list>
+
   <script type="module" src="./src/x-weather.js"></script>
+  <script type="module" defer async>
+    await import("@lrnwebcomponents/lrnsys-comment/lib/lrnsys-comment-list.js").then(() => {
+		fetch(`/api/comments?op=GET`).then(res => res.json()).then((comments) => 
+    {
+      document.querySelector("lrnsys-comment-list").comments = comments;
+    });
+    });
+  </script>
 </body>
 </html>
