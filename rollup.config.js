@@ -21,7 +21,7 @@ export default {
     /** Enable using HTML as rollup entrypoint */
     html({
       minify: true,
-      injectServiceWorker: true,
+      injectServiceWorker: process.env.VERCEL_ENV == "development" ? false : true,
       serviceWorkerPath: 'dist/sw.js',
     }),
     /** Resolve bare module imports */

@@ -28,15 +28,27 @@ class XWeather extends LitElement {
 		const weather = await fetch(`${this.endpoint}?city=${city}`).then(res => res.json());
 		this.weather = weather?.weather[0];
 	}
-	static get style() {
+	static get styles() {
 		return css`
 			:host {
 				display: block;
 			}
-      .overcast {
-        color: white;
-        background-color: #555555;
-      }
+			.overcast {
+				color: white;
+				background-color: #555555;
+			}
+			.mist {
+				color: blue;
+				background-color: black;
+			}
+			.clear.sky {
+				color: black;
+				background-color: blue;
+			}
+			.snow {
+				background-color: orange;
+				color: white;
+			}
 		`;
 	}
 	render() {
