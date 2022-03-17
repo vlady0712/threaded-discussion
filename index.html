@@ -26,11 +26,20 @@
 </head>
 
 <body>
-  <x-weather city="pittsburgh"></x-weather>
+  <!-- <x-weather city="pittsburgh"></x-weather>
   <x-weather city="boston"></x-weather>
-  <x-weather city="portland"></x-weather>
+  <x-weather city="portland"></x-weather> -->
 
-  <textarea id="response" rows="50" cols="50"></textarea>
+
+<script type="module">
+
+  import {ThreadedDiscussion} from '@lrnwebcomponents/threaded-discussion';
+</script>
+
+<threaded-discussion comment-icon="send" demo source="https://webcomponents.psu.edu/styleguide/elements/threaded-discussion/demo/discussion.json">
+</threaded-discussion>
+
+  <!-- <textarea id="response" rows="50" cols="50"></textarea>
   <button id="refresh">Click to refresh</button>
   <button id="user">Add user</button>
   <script>
@@ -69,6 +78,6 @@
         document.querySelector("lrnsys-comment-list").comments = comments;
       });
     });
-  </script>
+  </script> -->
 </body>
 </html>

@@ -19,7 +19,9 @@
     "start": "web-dev-server"
   },
   "dependencies": {
+    "@github/time-elements": "^3.1.2",
     "@lrnwebcomponents/lrnsys-comment": "4.0.12",
+    "@lrnwebcomponents/threaded-discussion": "^4.0.16",
     "lit": "2.2.0",
     "node-fetch": "^3.1.0",
     "planetscale-node": "^0.3.0"
