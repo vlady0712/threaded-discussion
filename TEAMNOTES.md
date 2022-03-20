@@ -34,3 +34,5 @@ Backend Changes
 6. post-main-- UUID
 7. comments-- UUID
 8. Get all comments
+
+Schema: [See DBDiagram ER diagram for relational database schema](https://dbdiagram.io/d/623369b20ac038740c529b9c) ![Diagram Image](https://i.imgur.com/mFoLAaT.png)
