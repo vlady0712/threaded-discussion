@@ -36,3 +36,7 @@ Backend Changes
 8. Get all comments
 
 Schema: [See DBDiagram ER diagram for relational database schema](https://dbdiagram.io/d/623369b20ac038740c529b9c) ![Diagram Image](https://i.imgur.com/mFoLAaT.png)
+
+### Check-in 2
+
+User Flow Diagrams: https://drive.google.com/file/d/1zTNajlIRsRx9pMkl9N4dzaivTKuTI8sC/view?usp=sharing
