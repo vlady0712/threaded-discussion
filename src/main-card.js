@@ -143,6 +143,31 @@ export class promptImg extends LitElement {
     super.disconnectedCallback();
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  async createComment(){
+    const response = await fetch('/api/submit-comment', {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors', // no-cors, *cors, same-origin
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      headers: {
+        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+      body: JSON.stringify({
+         thread_uid: "1234",
+         user_uid: "jumbo",
+         body: "This is a test",
+      }) // body data type must match "Content-Type" header
+    }).then(res => res.json());
+    console.log(response);
+  }
+
+  async getComments(){
+    const response = await fetch('/api/get-comment').then(res => res.json());
+    console.log(response)
+  }
+
   // HTML - specific to Lit
   render() {
     return html`
@@ -156,14 +181,18 @@ export class promptImg extends LitElement {
                     .imgKeyword}?lock=1"
                   alt=""
                 />`}
+
           </div>
         </div>
         ${this.answerIcon
           ? html`<simple-icon-lite icon="${this.icon}"></simple-icon-lite>`
           : ``}
+          <button @click=${this.createComment}> Hi</button>
+          <button @click=${this.getComments}>GET</button>
       </div>
     `;
   }
+
 
   // HAX specific callback
   // This teaches HAX how to edit and work with your web component
