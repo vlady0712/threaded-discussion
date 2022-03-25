@@ -163,6 +163,11 @@ export class promptImg extends LitElement {
     console.log(response);
   }
 
+  async getComments(){
+    const response = await fetch('/api/get-comment').then(res => res.json());
+    console.log(response)
+  }
+
   // HTML - specific to Lit
   render() {
     return html`
@@ -183,6 +188,7 @@ export class promptImg extends LitElement {
           ? html`<simple-icon-lite icon="${this.icon}"></simple-icon-lite>`
           : ``}
           <button @click=${this.createComment}> Hi</button>
+          <button @click=${this.getComments}>GET</button>
       </div>
     `;
   }
