@@ -163,8 +163,16 @@ export class promptImg extends LitElement {
     console.log(response);
   }
 
+  // eslint-disable-next-line class-methods-use-this
   async getComments(){
     const response = await fetch('/api/get-comment').then(res => res.json());
+    console.log(response)
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  async likeComment(){
+    // 07e76fec-9f18-4b94-b464-df930de006a1
+    const response = await fetch('/api/like-comment?uid=07e76fec-9f18-4b94-b464-df930de006a1').then(res => res.json());
     console.log(response)
   }
 
@@ -187,8 +195,9 @@ export class promptImg extends LitElement {
         ${this.answerIcon
           ? html`<simple-icon-lite icon="${this.icon}"></simple-icon-lite>`
           : ``}
-          <button @click=${this.createComment}> Hi</button>
-          <button @click=${this.getComments}>GET</button>
+          <button @click=${this.createComment}> Create Comment</button>
+          <button @click=${this.getComments}>GET All Comments</button>
+          <button @click=${this.likeComment}>Like Comment</button>
       </div>
     `;
   }

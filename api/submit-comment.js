@@ -19,7 +19,7 @@ export default async function handler(req, res) {
   const commentUUID = uuidv4();
   reqBody.uid = commentUUID;
   reqBody.submitted_time = new Date().toISOString().slice(0, 19).replace('T', ' ');
-  const dbResponse = await connection.query('INSERT INTO comments (uid, thread_uid, submitted_time, body) VALUES (?,?,?,?)', [reqBody.uid, reqBody.thread_uid, reqBody.submitted_time, reqBody.body]);
+  await connection.query('INSERT INTO comments (uid, thread_uid, submitted_time, body) VALUES (?,?,?,?)', [reqBody.uid, reqBody.thread_uid, reqBody.submitted_time, reqBody.body]);
   res.json(JSON.stringify(reqBody));
   await connection.end();
 }
