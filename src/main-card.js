@@ -164,8 +164,13 @@ export class promptImg extends LitElement {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async getComments(){
+  async getAllComments(){
     const response = await fetch('/api/get-comment').then(res => res.json());
+    console.log(response)
+  }
+
+  async getSpeificComments(){
+    const response = await fetch('/api/get-comment?uid=07e76fec-9f18-4b94-b464-df930de006a1').then(res => res.json());
     console.log(response)
   }
 
@@ -196,7 +201,8 @@ export class promptImg extends LitElement {
           ? html`<simple-icon-lite icon="${this.icon}"></simple-icon-lite>`
           : ``}
           <button @click=${this.createComment}> Create Comment</button>
-          <button @click=${this.getComments}>GET All Comments</button>
+          <button @click=${this.getAllComments}>GET All Comments</button>
+          <button @click=${this.getSpeificComments}>GET Specific Comments</button>
           <button @click=${this.likeComment}>Like Comment</button>
       </div>
     `;
