@@ -1,7 +1,6 @@
 import * as mysql from 'mysql2/promise';
 
 export default async function handler(req, res) {
-  
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,PATCH,DELETE,POST,PUT");
@@ -16,6 +15,5 @@ export default async function handler(req, res) {
     ssl: {}
   });
   const [rows] = await connection.query('SELECT * FROM comments');
-  console.log(rows)
   res.json(rows);
 }
