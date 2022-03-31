@@ -169,6 +169,7 @@ export class promptImg extends LitElement {
     console.log(response)
   }
 
+  // eslint-disable-next-line class-methods-use-this
   async getSpeificComments(){
     const response = await fetch('/api/get-comment?uid=07e76fec-9f18-4b94-b464-df930de006a1').then(res => res.json());
     console.log(response)

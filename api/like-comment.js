@@ -3,6 +3,7 @@ import * as mysql from 'mysql2/promise';
 export default async function handler(req, res) {
   // const reqBody = req.body;
   const reqBody = req.query.uid;
+  // console.log(`Path: ${req.originalUrl}`)
   console.log(`UID: ${reqBody}`);
   const connection = await mysql.createConnection({
     host: process.env.PLANETSCALE_DB_HOST,
