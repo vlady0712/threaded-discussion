@@ -61,6 +61,7 @@ class XWeather extends LitElement {
 			Do you want to book a trip to ${this.city}?
 			<a href="${this.city}-visitors-center">Visit ${this.city}</a>
 			</p>
+			
 		`
 	}
 }
