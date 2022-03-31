@@ -144,6 +144,45 @@ export class maincard extends LitElement {
     super.disconnectedCallback();
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  async createComment(){
+    const response = await fetch('/api/submit-comment', {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors', // no-cors, *cors, same-origin
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      headers: {
+        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+      body: JSON.stringify({
+         thread_uid: "1234",
+         user_uid: "jumbo",
+         body: "This is a test",
+      }) // body data type must match "Content-Type" header
+    }).then(res => res.json());
+    console.log(response);
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  async getAllComments(){
+    const response = await fetch('/api/get-comment').then(res => res.json());
+    console.log(response)
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  async getSpeificComments(){
+    const response = await fetch('/api/get-comment?uid=07e76fec-9f18-4b94-b464-df930de006a1').then(res => res.json());
+    console.log(response)
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  async likeComment(){
+    // 07e76fec-9f18-4b94-b464-df930de006a1
+    const response = await fetch('/api/like-comment?uid=07e76fec-9f18-4b94-b464-df930de006a1').then(res => res.json());
+    console.log(response)
+  }
+
   // HTML - specific to Lit
   render() {
     return html`
@@ -157,9 +196,14 @@ export class maincard extends LitElement {
         ${this.answerIcon
           ? html`<simple-icon-lite icon="${this.icon}"></simple-icon-lite>`
           : ``}
+          <button @click=${this.createComment}> Create Comment</button>
+          <button @click=${this.getAllComments}>GET All Comments</button>
+          <button @click=${this.getSpeificComments}>GET Specific Comments</button>
+          <button @click=${this.likeComment}>Like Comment</button>
       </div>
     `;
   }
+
 
   // HAX specific callback
   // This teaches HAX how to edit and work with your web component
