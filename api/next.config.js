@@ -2,8 +2,8 @@ module.exports = {
     async rewrites() {
         return [
           {
-            source: '/api/weather',
-            destination: '/api/weather',
+            source: '/api/like-comment',
+            destination: '/api/discussions/comment/like',
           },
         ]
       },
