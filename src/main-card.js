@@ -182,6 +182,12 @@ export class promptImg extends LitElement {
     console.log(response)
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  async deleteComment(){
+    const response = await fetch('/api/delete-comment?uid=16a2761a-bbab-4707-9c3f-5f5b43f2cf18').then(res => res.json());
+    console.log(response)
+  }
+
   // HTML - specific to Lit
   render() {
     return html`
@@ -205,6 +211,7 @@ export class promptImg extends LitElement {
           <button @click=${this.getAllComments}>GET All Comments</button>
           <button @click=${this.getSpeificComments}>GET Specific Comments</button>
           <button @click=${this.likeComment}>Like Comment</button>
+          <button @click=${this.deleteComment}>Delete Comment</button>
       </div>
     `;
   }
