@@ -1,7 +1,6 @@
 import * as mysql from 'mysql2/promise';
 
 export default async function handler(req, res) {
-
   const connection = await mysql.createConnection({
     host: process.env.PLANETSCALE_DB_HOST,
     user: process.env.PLANETSCALE_DB_USERNAME,
@@ -11,7 +10,6 @@ export default async function handler(req, res) {
     ssl: {}
   });
 
-  res.setHeader('Cache-Control', 'max-age=0, s-maxage=300');
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,PATCH,DELETE,POST,PUT");
@@ -28,5 +26,4 @@ export default async function handler(req, res) {
   const [rows] = await connection.query('SELECT * FROM comments WHERE uid = ?', commentID);
     console.log(rows[0]);
     res.json(rows[0]);
-
 }

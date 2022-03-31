@@ -37,6 +37,16 @@ Backend Changes
 
 Schema: [See DBDiagram ER diagram for relational database schema](https://dbdiagram.io/d/623369b20ac038740c529b9c) ![Diagram Image](https://i.imgur.com/mFoLAaT.png)
 
-### Check-in 2
+### Check-in 2 ###
 
-User Flow Diagrams: https://drive.google.com/file/d/1zTNajlIRsRx9pMkl9N4dzaivTKuTI8sC/view?usp=sharing
+#### User Flow Diagrams: ####
+_Reply Workflow:_
+
+![Reply-userflow-diagram](https://user-images.githubusercontent.com/48635853/160300745-cb69a590-b35b-4a5f-abbd-390a0f993d2f.png)
+    
+_Comment Workflow:_
+
+![Comment-workflow-diagram](https://user-images.githubusercontent.com/48635853/160300983-77c89afa-554d-4e28-8648-06e6f9034c39.png)
+
+
+**_The above diagrams have also been added to the 11ty docs, which can be viewed under the [Notes post](https://da-penguins.github.io/threaded-discussion-docs/posts/notes/)._**
