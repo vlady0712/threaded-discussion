@@ -22,6 +22,7 @@
     "@github/time-elements": "^3.1.2",
     "@lrnwebcomponents/lrnsys-comment": "4.0.12",
     "@lrnwebcomponents/threaded-discussion": "^4.0.16",
+    "jsonwebtoken": "^8.5.1",
     "lit": "2.2.0",
     "mysql2": "^2.3.3",
     "node-fetch": "^3.1.0",
