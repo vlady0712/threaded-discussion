@@ -171,7 +171,7 @@ export class maincard extends LitElement {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async getSpeificComments(){
+  async getSpecificComments(){
     const response = await fetch('/api/get-comment?uid=07e76fec-9f18-4b94-b464-df930de006a1').then(res => res.json());
     console.log(response)
   }
@@ -198,7 +198,7 @@ export class maincard extends LitElement {
           : ``}
           <button @click=${this.createComment}> Create Comment</button>
           <button @click=${this.getAllComments}>GET All Comments</button>
-          <button @click=${this.getSpeificComments}>GET Specific Comments</button>
+          <button @click=${this.getSpecificComments}>GET Specific Comments</button>
           <button @click=${this.likeComment}>Like Comment</button>
       </div>
     `;
