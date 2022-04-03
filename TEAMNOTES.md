@@ -52,5 +52,4 @@ _Comment Workflow:_
 **_The above diagrams have also been added to the 11ty docs, which can be viewed under the [Notes post](https://da-penguins.github.io/threaded-discussion-docs/posts/notes/)._**
 
 ### Check-in 3 ###
-- Documentation of each end point
-https://da-penguins.stoplight.io/studio/threaded-discussion?source=b5xrzjkw&symbol=%252Fp%252Freference%252Fapi.yaml%252Fpaths%252F%7E1get-comment%252Fget
+- [API Documentation](https://da-penguins.stoplight.io/docs/threaded-discussion/YXBpOjI4MTkzNA-threaded-discussion-api)
