@@ -1,18 +1,10 @@
-import * as mysql from 'mysql2/promise';
+import { connection } from "./dbConnection.js";
 
 export default async function handler(req, res) {
   // const reqBody = req.body;
   const reqBody = req.query.uid;
   // console.log(`Path: ${req.originalUrl}`)
   console.log(`UID: ${reqBody}`);
-  const connection = await mysql.createConnection({
-    host: process.env.PLANETSCALE_DB_HOST,
-    user: process.env.PLANETSCALE_DB_USERNAME,
-    password: process.env.PLANETSCALE_DB_PASSWORD,
-    port: 3306,
-    database: process.env.PLANETSCALE_DB,
-    ssl: {}
-  });
   let [rows] = await connection.query(`SELECT * FROM comments WHERE uid = ?`, reqBody);
   console.log(`Response from database to get row`)
 
