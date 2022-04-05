@@ -20,14 +20,15 @@
   },
   "dependencies": {
     "@github/time-elements": "^3.1.2",
-    "@lrnwebcomponents/lrnsys-comment": "4.0.12",
     "@lrnwebcomponents/threaded-discussion": "^4.0.16",
+    "@lrnwebcomponents/rpg-character": "^4.0.20",
     "lit": "2.2.0",
     "mysql2": "^2.3.3",
     "node-fetch": "^3.1.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "rollup-plugin-copy": "3.4.0",
     "@babel/preset-env": "^7.16.4",
     "@custom-elements-manifest/analyzer": "^0.4.17",
     "@open-wc/building-rollup": "^2.0.1",
