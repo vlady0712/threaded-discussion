@@ -1,6 +1,7 @@
 import { connection } from "./dbConnection.js";
 
 export default async function handler(req, res) {
+  console.log(`Get Comment Endpoint: ${req}`)
 
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Allow-Origin", "*");

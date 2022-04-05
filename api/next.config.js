@@ -7,24 +7,56 @@ module.exports = {
     async redirects() {
         return [
           {
-            source: '/api/I-dont-like-Bryan/1',
+            source: '/api/comment/:uid',
+            has: [
+              {
+                type: "header",
+                key: "operation",
+                value: "like"
+              }
+            ],
             destination: '/api/like-comment',
           },
           {
-            source: '/api/I-dont-like-Bryan/2',
+            source: '/api/comment/:uid',
+            has: [
+              {
+                type: "header",
+                key: "operation",
+                value: "get"
+              }
+            ],
             destination: '/api/get-comment',
           },
           {
-            source: '/api/I-dont-like-Bryan/3',
+            source: '/api/comment/:uid',
+            has: [
+              {
+                type: "header",
+                key: "operation",
+                value: "delete"
+              }
+            ],
             destination: '/api/delete-comment',
           },
           {
-            source: '/api/I-dont-like-Bryan/4',
+            source: '/api/comment',
             destination: '/api/submit-comment',
           },
           {
-            source: '/api/I-dont-like-Bryan/5',
+            source: '/api/comment/:uid',
+            has: [
+              {
+                type: "header",
+                key: "operation",
+                value: "edit"
+              }
+            ],
             destination: '/api/edit-comment',
+          },
+          {
+            source: '/api/user',
+            destination: '/api/create-user',
           },
         ]
       },
