@@ -50,3 +50,13 @@ _Comment Workflow:_
 
 
 **_The above diagrams have also been added to the 11ty docs, which can be viewed under the [Notes post](https://da-penguins.github.io/threaded-discussion-docs/posts/notes/)._**
+
+### Check-in 3 ###
+- [API Documentation](https://da-penguins.stoplight.io/docs/threaded-discussion/YXBpOjI4MTkzNA-threaded-discussion-api)
+- Added backend logic for 4 CRUD related operations for each comment
+  - Create `/submit-comment`
+  - Read `/get-comment`
+  - Update `/edit-comment`
+  - Delete `/delete-comment`
+- Added Additional 'Like Comment' backend API logic `/like-comment`
+- Created `/auth` API for future implementation of JWT authentication on each API endpoint

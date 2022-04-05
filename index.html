@@ -26,6 +26,7 @@
 </head>
 
 <body>
+  <main-card></main-card>
   <x-weather city="pittsburgh"></x-weather>
   <x-weather city="boston"></x-weather>
   <x-weather city="portland"></x-weather>
@@ -38,6 +39,7 @@
   import './src/main-card.js'
   import './src/x-weather.js';
   import  '@lrnwebcomponents/threaded-discussion';
+  import './src/main-card.js';
 </script>
 
 <!-- <threaded-discussion comment-icon="send" demo source="https://webcomponents.psu.edu/styleguide/elements/threaded-discussion/demo/discussion.json">
@@ -67,19 +69,6 @@
       fetch(`/api/addUser?${queryString}`).then(res => res.json()).then((data) => {
         // update the data bc we just got a result that we added a user
         updateData();
-      });
-    });
-  </script>
-
-  <lrnsys-comment-list></lrnsys-comment-list>
-
-  <script type="module" src="./src/x-weather.js"></script>
-  <script type="module" defer async>
-    // comment list
-    await import("@lrnwebcomponents/lrnsys-comment/lib/lrnsys-comment-list.js").then(() => {
-      fetch(`/api/comments?op=GET`).then(res => res.json()).then((comments) => 
-      {
-        document.querySelector("lrnsys-comment-list").comments = comments;
       });
     });
   </script> -->
