@@ -5,32 +5,41 @@ import { importMetaAssets } from '@web/rollup-plugin-import-meta-assets';
 import { terser } from 'rollup-plugin-terser';
 import { generateSW } from 'rollup-plugin-workbox';
 import path from 'path';
+import copy from 'rollup-plugin-copy';
 
 export default {
   input: 'index.html',
-  output: {
-    entryFileNames: '[hash].js',
-    chunkFileNames: '[hash].js',
-    assetFileNames: '[hash][extname]',
-    format: 'es',
-    dir: 'dist',
-  },
-  preserveEntrySignatures: false,
-
+  output: [
+    {
+      format: 'es',
+      dir: 'dist',
+    },
+  ],
   plugins: [
-    /** Enable using HTML as rollup entrypoint */
     html({
       minify: true,
-      injectServiceWorker: process.env.VERCEL_ENV == "development" ? false : true,
+      injectServiceWorker: process.env.VERCEL_ENV !== 'development',
       serviceWorkerPath: 'dist/sw.js',
     }),
-    /** Resolve bare module imports */
+    copy({
+      targets: [
+        {
+          src: 'node_modules/@lrnwebcomponents/rpg-character/lib/**',
+          dest: 'dist/node_modules/@lrnwebcomponents/rpg-character/lib',
+        },
+        {
+          src: 'node_modules/@lrnwebcomponents/simple-icon/lib/svgs/**',
+          dest: 'dist/node_modules/@lrnwebcomponents/simple-icon/lib/svgs',
+        },
+        {
+          src: 'node_modules/@lrnwebcomponents/hax-iconset/lib/svgs/**',
+          dest: 'dist/node_modules/@lrnwebcomponents/hax-iconset/lib/svgs',
+        },
+      ],
+    }),
     nodeResolve(),
-    /** Minify JS */
     terser(),
-    /** Bundle assets references via import.meta.url */
     importMetaAssets(),
-    /** Compile JS to a lower language target */
     babel({
       babelHelpers: 'bundled',
       presets: [
@@ -66,7 +75,6 @@ export default {
         ],
       ],
     }),
-    /** Create and inject a service worker */
     generateSW({
       navigateFallback: '/index.html',
       // where to output the generated sw
