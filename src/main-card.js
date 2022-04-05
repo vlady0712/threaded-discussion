@@ -41,14 +41,16 @@ export class maincard extends LitElement {
       }
 
       .post-title {
+        display: flex;
         background-color: var(--simple-colors-default-theme-accent-3);
         border: solid 10px var(--simple-colors-default-theme-accent-2);
         border-radius: 19px;
-        margin-left: 170px;
+        margin-left: 15px;
+        margin-top: 15px;
         padding-top: 15px;
         padding-bottom: 15px;
         height: 75px;
-        width: 1155px;
+        width: 1300px;
       }
 
       .post-body {
@@ -56,12 +58,46 @@ export class maincard extends LitElement {
         border: solid 10px var(--simple-colors-default-theme-accent-2);
         border-radius: 19px;
         margin-top: 15px;
-        margin-left: 25px;
+        margin-left: 15px;
         margin-bottom: 15px;
         height: 215px;
         width: 1300px;
       }
 
+      .profile-pic {
+        display: inline-flex;
+        background-color: var(--simple-colors-default-theme-accent-7);
+        border-radius: 50px;
+        margin-left: 15px;
+        height: 75px;
+        width: 75px;
+        vertical-align: text-top;
+      }
+
+      .title-content {
+        display: block;
+        background-color: red;
+        margin-left: 15px;
+        height: 75px;
+        width: 1175px;
+      }
+
+      .header{
+        display: block;
+        background-color: yellow;
+        margin-left: 15px;
+        height: 55%;
+        width: 97%;
+      }
+
+      .username {
+        display: block;
+        background-color: green;
+        margin-left: 15px;
+        margin-top: 10px;
+        height: 45%;
+        width: 40%;
+      }
       /* .replybox {
         display: block;
         background-color: var(--simple-colors-default-theme-accent-2);
@@ -189,8 +225,19 @@ export class maincard extends LitElement {
       <div id="Nest">
           <div class="post-main">
             <div class="post-title">
-            </div>
+              <div class="profile-pic">
+                </div>
+              <div class="title-content">
+                <div class="header">
+                  this is my personal Hell 
+                  </div>
+                <div class="username">
+                  Username
+                  </div>
+                </div>
+              </div>
             <div class="post-body">
+              Swaggy
               </div>
           </div>
         ${this.answerIcon
