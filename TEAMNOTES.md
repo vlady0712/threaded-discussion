@@ -60,3 +60,6 @@ _Comment Workflow:_
   - Delete `/delete-comment`
 - Added Additional 'Like Comment' backend API logic `/like-comment`
 - Created `/auth` API for future implementation of JWT authentication on each API endpoint
+
+### Check-in 4 ###
+-User flow ![402userflow drawio](https://user-images.githubusercontent.com/54961655/161813364-ce668fa0-f0fe-4631-b9a9-f0e54a3569ad.png)
