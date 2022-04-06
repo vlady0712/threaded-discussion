@@ -1,6 +1,7 @@
 import { connection } from "./dbConnection.js";
 
 export default async function handler(req, res) {
+  console.log(`Like Comment Endpoint: ${req}`)
   // const reqBody = req.body;
   const reqBody = req.query.uid;
   // console.log(`Path: ${req.originalUrl}`)

@@ -1,8 +1,5 @@
 // dependencies / things imported
 import { LitElement, html, css } from 'lit';
-import '@lrnwebcomponents/simple-icon/lib/simple-icons.js';
-import '@lrnwebcomponents/simple-icon/lib/simple-icon-lite.js';
-import '@lrnwebcomponents/simple-colors';
 
 // EXPORT (so make available to other documents that reference this file) a class, that extends LitElement
 
@@ -182,40 +179,58 @@ export class maincard extends LitElement {
 
   // eslint-disable-next-line class-methods-use-this
   async createComment(){
+    console.log("Create Comment Ran")
     const response = await fetch('/api/submit-comment', {
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      mode: 'cors', // no-cors, *cors, same-origin
-      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      headers: {
-        'Content-Type': 'application/json'
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+      method: 'POST',
       body: JSON.stringify({
-         thread_uid: "1234",
-         user_uid: "jumbo",
-         body: "This is a test",
-      }) // body data type must match "Content-Type" header
+        thread_uid: "1234",
+        user_uid: "jumbo",
+        body: "This is a test",
+     })
     }).then(res => res.json());
     console.log(response);
   }
 
   // eslint-disable-next-line class-methods-use-this
+  async createUser(){
+    console.log("Create User Ran")
+    const response = await fetch('/api/create-user', {
+      method: 'POST',
+      body: JSON.stringify({
+        name: "Jimmy",
+         is_admin: false,
+      }) // body data type must match "Content-Type" header
+    }).then(res => res.json());
+    console.log(response);
+  }
+
+
+  // eslint-disable-next-line class-methods-use-this
   async getAllComments(){
+    console.log("Get All Comments Ran")
     const response = await fetch('/api/get-comment').then(res => res.json());
     console.log(response)
   }
 
   // eslint-disable-next-line class-methods-use-this
   async getSpecificComments(){
+    console.log("Get Specific Comment Ran")
     const response = await fetch('/api/get-comment?uid=07e76fec-9f18-4b94-b464-df930de006a1').then(res => res.json());
     console.log(response)
   }
 
   // eslint-disable-next-line class-methods-use-this
   async likeComment(){
+    console.log("Like Comment Ran")
     // 07e76fec-9f18-4b94-b464-df930de006a1
     const response = await fetch('/api/like-comment?uid=07e76fec-9f18-4b94-b464-df930de006a1').then(res => res.json());
+    console.log(response)
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  async deleteComment(){
+    console.log("Delete Comments Ran")
+    const response = await fetch('/api/delete-comment?uid=16a2761a-bbab-4707-9c3f-5f5b43f2cf18').then(res => res.json());
     console.log(response)
   }
 
@@ -247,6 +262,8 @@ export class maincard extends LitElement {
           <button @click=${this.getAllComments}>GET All Comments</button>
           <button @click=${this.getSpecificComments}>GET Specific Comments</button>
           <button @click=${this.likeComment}>Like Comment</button>
+          <button @click=${this.deleteComment}>Delete Comment</button>
+          <button @click=${this.createUser}>Create User</button>
       </div>
     `;
   }
