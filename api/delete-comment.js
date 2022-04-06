@@ -1,6 +1,7 @@
 import * as mysql from 'mysql2/promise';
 
 export default async function handler(req, res) {
+  console.log("Delete Comment Ran")
   const reqID = req.query.uid;
   const connection = await mysql.createConnection({
     host: process.env.PLANETSCALE_DB_HOST,
