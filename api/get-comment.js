@@ -1,14 +1,7 @@
-import * as mysql from 'mysql2/promise';
+import { connection } from "./dbConnection.js";
 
 export default async function handler(req, res) {
-  const connection = await mysql.createConnection({
-    host: process.env.PLANETSCALE_DB_HOST,
-    user: process.env.PLANETSCALE_DB_USERNAME,
-    password: process.env.PLANETSCALE_DB_PASSWORD,
-    port: 3306,
-    database: process.env.PLANETSCALE_DB,
-    ssl: {}
-  });
+  console.log(`Get Comment Endpoint: ${req}`)
 
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Allow-Origin", "*");
