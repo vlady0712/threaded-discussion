@@ -1,6 +1,6 @@
 import pkg from 'jsonwebtoken';
-import * as mysql from 'mysql2/promise';
 import { v4 as uuidv4 } from 'uuid';
+import { connection } from "./_dbConnection.js";
 
 /**
  * @param {*} req 
@@ -19,15 +19,7 @@ export default async function handler(req, res) {
         res.status(200).json();
     }
     const accessTokenSecret = process.env.AUTH_ACCESS_TOKEN_SECRET;
-    const refreshTokenSecret = process.env.AUTH_REFRESH_TOKEN_SECRET;
-    const connection = await mysql.createConnection({
-        host: process.env.PLANETSCALE_DB_HOST,
-        user: process.env.PLANETSCALE_DB_USERNAME,
-        password: process.env.PLANETSCALE_DB_PASSWORD,
-        port: 3306,
-        database: process.env.PLANETSCALE_DB,
-        ssl: {}
-    });
+    // const refreshTokenSecret = process.env.AUTH_REFRESH_TOKEN_SECRET;
     const username = req.body.username;
     const user = {
         username: username,

@@ -1,6 +1,6 @@
 // addUser.js
 import { v4 as uuidv4 } from 'uuid';
-import { connection } from "./dbConnection.js";
+import { connection } from "./_dbConnection.js";
 
 
 export default async function handler(req, res) {
