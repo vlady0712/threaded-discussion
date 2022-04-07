@@ -1,4 +1,4 @@
-import { connection } from "./dbConnection.js";
+import { connection } from "./_dbConnection.js";
 
 export default async function handler(req, res) {
   console.log(`Edit Comment Ran: ${req.body}`)
