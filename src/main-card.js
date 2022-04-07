@@ -1,10 +1,13 @@
 // dependencies / things imported
 import { LitElement, html, css } from 'lit';
+import { SimpleColors } from '@lrnwebcomponents/simple-colors/simple-colors.js';
+import '@lrnwebcomponents/simple-icon/lib/simple-icons.js';
+import '@lrnwebcomponents/simple-icon/lib/simple-icon-lite.js';
 
 // EXPORT (so make available to other documents that reference this file) a class, that extends LitElement
 
 // which has the magic life-cycles and developer experience below added
-export class maincard extends LitElement {
+export class maincard extends SimpleColors {
   // a convention I enjoy so you can change the tag name in 1 place
   static get tag() {
     return 'main-card';
@@ -12,7 +15,7 @@ export class maincard extends LitElement {
 
   // CSS - specific to Lit
   static get styles() {
-    return css`
+    return [...super.styles ,css`
       :host {
           display: block;
           border: 1px solid var(--simple-colors-default-theme-accent-6);
@@ -23,6 +26,10 @@ export class maincard extends LitElement {
           width: 5em;
           background-color: var(--simple-colors-default-theme-accent-2);
           box-shadow: 0 0 5px var(--simple-colors-default-theme-accent-7);
+          
+          /* font info */
+          font-family: 'Open Sans', sans-serif;
+          color: black;
       }
 
       .post-main {
@@ -46,7 +53,6 @@ export class maincard extends LitElement {
         margin-top: 15px;
         padding-top: 15px;
         padding-bottom: 15px;
-        height: 75px;
         width: 1300px;
       }
 
@@ -68,31 +74,27 @@ export class maincard extends LitElement {
         margin-left: 15px;
         height: 75px;
         width: 75px;
-        vertical-align: text-top;
+        vertical-align: center;
       }
 
       .title-content {
         display: block;
-        background-color: red;
         margin-left: 15px;
-        height: 75px;
         width: 1175px;
       }
 
       .header{
         display: block;
-        background-color: yellow;
         margin-left: 15px;
-        height: 55%;
+        height: auto;
         width: 97%;
       }
 
       .username {
         display: block;
-        background-color: green;
         margin-left: 15px;
         margin-top: 10px;
-        height: 45%;
+        height: auto;
         width: 40%;
       }
       /* .replybox {
@@ -103,7 +105,7 @@ export class maincard extends LitElement {
         height: 75px;
         width: 1275px;
       } */
-
+/* 
       simple-icon-lite {
         --simple-icon-height: 100px;
         --simple-icon-width: 100px;
@@ -112,8 +114,8 @@ export class maincard extends LitElement {
         top: 50%;
         left: 50%;
         z-index: 100;
-      }
-    `;
+      } */
+    `];
   }
 
   // overlay on div tag - wrap image in div & style div
@@ -244,10 +246,11 @@ export class maincard extends LitElement {
                 </div>
               <div class="title-content">
                 <div class="header">
-                  this is my personal Hell 
+                    <h1> Question that needs Answers </h1>
                   </div>
                 <div class="username">
-                  Username
+                    <h2> @xyz1234 </h2>
+                    <simple-icon-lite icon="favorite"> </simple-icon-lite>
                   </div>
                 </div>
               </div>
