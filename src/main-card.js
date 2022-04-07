@@ -179,7 +179,6 @@ export class maincard extends LitElement {
 
   // eslint-disable-next-line class-methods-use-this
   async createComment(){
-    console.log("Create Comment Ran")
     const response = await fetch('/api/submit-comment', {
       method: 'POST',
       body: JSON.stringify({
@@ -193,7 +192,6 @@ export class maincard extends LitElement {
 
   // eslint-disable-next-line class-methods-use-this
   async createUser(){
-    console.log("Create User Ran")
     const response = await fetch('/api/create-user', {
       method: 'POST',
       body: JSON.stringify({
@@ -207,21 +205,18 @@ export class maincard extends LitElement {
 
   // eslint-disable-next-line class-methods-use-this
   async getAllComments(){
-    console.log("Get All Comments Ran")
     const response = await fetch('/api/get-comment').then(res => res.json());
     console.log(response)
   }
 
   // eslint-disable-next-line class-methods-use-this
   async getSpecificComments(){
-    console.log("Get Specific Comment Ran")
     const response = await fetch('/api/get-comment?uid=07e76fec-9f18-4b94-b464-df930de006a1').then(res => res.json());
     console.log(response)
   }
 
   // eslint-disable-next-line class-methods-use-this
   async likeComment(){
-    console.log("Like Comment Ran")
     // 07e76fec-9f18-4b94-b464-df930de006a1
     const response = await fetch('/api/like-comment?uid=07e76fec-9f18-4b94-b464-df930de006a1').then(res => res.json());
     console.log(response)
@@ -229,7 +224,6 @@ export class maincard extends LitElement {
 
   // eslint-disable-next-line class-methods-use-this
   async deleteComment(){
-    console.log("Delete Comments Ran")
     const response = await fetch('/api/delete-comment?uid=16a2761a-bbab-4707-9c3f-5f5b43f2cf18').then(res => res.json());
     console.log(response)
   }
