@@ -1,4 +1,5 @@
 import nodeResolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 import babel from '@rollup/plugin-babel';
 import html from '@web/rollup-plugin-html';
 import { importMetaAssets } from '@web/rollup-plugin-import-meta-assets';
@@ -15,6 +16,7 @@ export default {
       dir: 'dist',
     },
   ],
+  preserveEntrySignatures: false,
   plugins: [
     html({
       minify: true,
@@ -38,6 +40,14 @@ export default {
       ],
     }),
     nodeResolve(),
+    commonjs({
+      namedExports: {
+        'sjcl': ['isValidElementType'],
+      },
+      include: [
+        /node_modules\/sjcl/
+      ],
+    }),
     terser(),
     importMetaAssets(),
     babel({
