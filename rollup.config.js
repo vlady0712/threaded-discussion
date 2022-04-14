@@ -1,4 +1,5 @@
 import nodeResolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 import babel from '@rollup/plugin-babel';
 import html from '@web/rollup-plugin-html';
 import { importMetaAssets } from '@web/rollup-plugin-import-meta-assets';
@@ -11,10 +12,14 @@ export default {
   input: 'index.html',
   output: [
     {
+      entryFileNames: '[hash].js',
+      chunkFileNames: '[hash].js',
+      assetFileNames: '[hash][extname]',
       format: 'es',
       dir: 'dist',
     },
   ],
+  preserveEntrySignatures: false,
   plugins: [
     html({
       minify: true,
@@ -24,20 +29,28 @@ export default {
     copy({
       targets: [
         {
-          src: 'node_modules/@lrnwebcomponents/rpg-character/lib/**',
-          dest: 'dist/node_modules/@lrnwebcomponents/rpg-character/lib',
+          src: 'node_modules/@lrnwebcomponents/rpg-character/lib',
+          dest: 'dist',
         },
         {
-          src: 'node_modules/@lrnwebcomponents/simple-icon/lib/svgs/**',
-          dest: 'dist/node_modules/@lrnwebcomponents/simple-icon/lib/svgs',
+          src: 'node_modules/@lrnwebcomponents/simple-icon/lib/svgs',
+          dest: 'dist',
         },
         {
-          src: 'node_modules/@lrnwebcomponents/hax-iconset/lib/svgs/**',
-          dest: 'dist/node_modules/@lrnwebcomponents/hax-iconset/lib/svgs',
+          src: 'node_modules/@lrnwebcomponents/hax-iconset/lib/svgs',
+          dest: 'dist',
         },
       ],
     }),
     nodeResolve(),
+    commonjs({
+      namedExports: {
+        'sjcl': ['isValidElementType'],
+      },
+      include: [
+        /node_modules\/sjcl/
+      ],
+    }),
     terser(),
     importMetaAssets(),
     babel({
