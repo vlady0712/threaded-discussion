@@ -244,7 +244,7 @@ export class maincard extends SimpleColors {
                   </div>
                 <div class="username">
                     <h2> @xyz1234 </h2>
-                    <simple-icon-lite icon="favorite"> </simple-icon-lite>
+                    <simple-icon-lite icon="icons:favorite"> </simple-icon-lite>
                   </div>
                 </div>
               </div>
