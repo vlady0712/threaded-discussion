@@ -131,6 +131,7 @@ export class maincard extends SimpleColors {
     this.icon = '';
     this.threadPermissions = null;
     this.threadEnabled = false;
+    // Gets the ID NEEDED FOR GETTING COMMENTS
     this.threadID = this.getThreadID();
     // handles authentication events from jwt-auth
     this.addEventListener('auth-success', (e) => {
@@ -298,23 +299,38 @@ export class maincard extends SimpleColors {
         </div>
       `
     } return html`
-      <div id="Nest">
+      ${this.getComment({user_uid: "jim1234", likes: 69420, body: "Does I works?"}, "b")}
+    
+      <div>
+        ${this.displayItems.map(
+          item => html`
+          ${this.getComment(item)}
+          `
+        )}
+      </div>
+    `;
+    
+  }
+
+  getComment(comment, thread) {
+    return html`
+    <div id="Nest">
           <div class="post-main">
             <div class="post-title">
               <div class="profile-pic">
               </div>
               <div class="title-content">
                 <div class="header">
-                  <h1> Question that needs Answers </h1>
+                  <h1> ${comment.user_uid} </h1>
                 </div>
                 <div class="username">
-                  <h2> @xyz1234 </h2>
                   <simple-icon-lite icon="favorite"> </simple-icon-lite>
+                  <p>${comment.likes}</p>
                 </div>
               </div>
             </div>
             <div class="post-body">
-              Swaggy
+            ${comment.body}
             </div>
           </div>
         ${this.answerIcon
@@ -328,7 +344,6 @@ export class maincard extends SimpleColors {
           <button @click=${this.createUser}>Create User</button>
       </div>
     `;
-    
   }
 
 
