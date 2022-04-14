@@ -222,6 +222,7 @@ export class maincard extends SimpleColors {
   async createComment(){
     const response = await fetch('/api/submit-comment', {
       method: 'POST',
+      headers: { Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}` },
       body: JSON.stringify({
         thread_uid: "1234",
         user_uid: "jumbo",
@@ -235,6 +236,7 @@ export class maincard extends SimpleColors {
   async createUser(){
     const response = await fetch('/api/create-user', {
       method: 'POST',
+      headers: { Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}` },
       body: JSON.stringify({
         name: "Jimmy",
          is_admin: false,
@@ -246,26 +248,42 @@ export class maincard extends SimpleColors {
 
   // eslint-disable-next-line class-methods-use-this
   async getAllComments(){
-    const response = await fetch('/api/get-comment').then(res => res.json());
+    const response = await fetch('/api/get-comment', {
+      headers: {
+        Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
+      }
+    }).then(res => res.json());
     console.log(response)
   }
 
   // eslint-disable-next-line class-methods-use-this
   async getSpecificComments(){
-    const response = await fetch('/api/get-comment?uid=07e76fec-9f18-4b94-b464-df930de006a1').then(res => res.json());
+    const response = await fetch('/api/get-comment?uid=07e76fec-9f18-4b94-b464-df930de006a1', {
+      headers: {
+        Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
+      }
+    }).then(res => res.json());
     console.log(response)
   }
 
   // eslint-disable-next-line class-methods-use-this
   async likeComment(){
     // 07e76fec-9f18-4b94-b464-df930de006a1
-    const response = await fetch('/api/like-comment?uid=07e76fec-9f18-4b94-b464-df930de006a1').then(res => res.json());
+    const response = await fetch('/api/like-comment?uid=07e76fec-9f18-4b94-b464-df930de006a1', {
+      headers: {
+        Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
+      }
+    }).then(res => res.json());
     console.log(response)
   }
 
   // eslint-disable-next-line class-methods-use-this
   async deleteComment(){
-    const response = await fetch('/api/delete-comment?uid=16a2761a-bbab-4707-9c3f-5f5b43f2cf18').then(res => res.json());
+    const response = await fetch('/api/delete-comment?uid=16a2761a-bbab-4707-9c3f-5f5b43f2cf18', {
+      headers: {
+        Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
+      }
+    }).then(res => res.json());
     console.log(response)
   }
 
