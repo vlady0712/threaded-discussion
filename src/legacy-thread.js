@@ -1,3 +1,6 @@
+// LEFT OVER FROM BEFORE SEPARATION OF COMMENT AND THREAD
+
+
 // dependencies / things imported
 import { LitElement, html, css } from 'lit';
 import '@lrnwebcomponents/simple-icon/lib/simple-icons.js';
@@ -7,10 +10,10 @@ import '@lrnwebcomponents/simple-colors';
 // EXPORT (so make available to other documents that reference this file) a class, that extends LitElement
 
 // which has the magic life-cycles and developer experience below added
-export class thread extends LitElement {
+export class OldThread extends LitElement {
   // a convention I enjoy so you can change the tag name in 1 place
   static get tag() {
-    return 'image-prompt';
+    return 'old-thread';
   }
 
   // CSS - specific to Lit
@@ -174,4 +177,4 @@ export class thread extends LitElement {
     return new URL(`../lib/FlashCard.haxProperties.json`, import.meta.url).href;
   }
 }
-customElements.define(thread.tag, thread);
+customElements.define(OldThread.tag, OldThread);
