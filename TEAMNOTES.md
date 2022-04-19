@@ -70,3 +70,36 @@ https://da-penguins.stoplight.io/studio/threaded-discussion?source=b5xrzjkw&symb
 - Tie user credential checks into other API endpoints
 - API Documentation is complete and available **_[here](https://da-penguins.stoplight.io/studio/threaded-discussion?source=b5xrzjkw&symbol=%252Fp%252Freference%252Fapi.yaml%252Fpaths%252F%7E1get-comment%252Fget)_**
 - User flows have been updated, with User Authentication being the only flow that has not been documented ![image](https://user-images.githubusercontent.com/48635853/162653524-4ec45952-4179-4e2a-ae18-76ca32507c16.png)
+
+
+### Check-in 5 ###
+- What's done:
+  - Backend:
+    - Database is fully set up and persists data 
+    - CRUD functionality and all API endpoints setup
+    - Support for multiple threads and pervasive data storage
+    - Comments have been set up to return chronologically based on most recent
+  - Frontend:
+    - Sign-in page with what's your name input
+    - General design for comment structure and threaded-discussion tag have been created
+    - Buttons that facilitate API calls for CRUD functionality on comment data
+  - API/Documentation:
+    - OpenAPI documentation has been published
+    - Workflow diagrams for all API endpoints
+    - 11ty Documentation site is up to date
+- What's left:
+  - Backend:
+    - Error handling with JWT generation and user authentication
+    - Cleaning API returns for easier translation to frontend
+    - Verifying that domain validation is completely functional
+  - Frontend:
+    - Visually present all comments on page 
+    - Create visual representation for replies
+    - Finish main comment structure (working through implementation of icons and content display)
+    - Verify that UUID management is working properly
+  - API/Documentation: 
+    - Keep 11ty documenation up to date
+    - Update Auth endpoint workflow based on backend's final decisions with JWT Auth
+- Questions:
+  - Having trouble conceptualizing management of different threads on frontend (not visually but in the code), any advice/recommendation is welcome!
+  - Async calls to API end up showing empty comments that just have a "promise" object to start. Other than going synchronous, is there any way to stop the comment HTML from generating until the comment data is fetched? (e.g. a timeout or something similar?)

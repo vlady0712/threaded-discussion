@@ -131,13 +131,17 @@ export class maincard extends SimpleColors {
     this.icon = '';
     this.threadPermissions = null;
     this.threadEnabled = false;
+    this.displayItems = [];
     // Gets the ID NEEDED FOR GETTING COMMENTS
     this.threadID = this.getThreadID();
     // handles authentication events from jwt-auth
-    this.addEventListener('auth-success', (e) => {
-      console.log("auth-event received!");
-      this.threadEnabled = true;
-    })
+    this.addEventListener('auth-success', this.authsucks)
+    console.log(this.displayItems);
+  }
+
+  async authsucks() {
+    this.displayItems = await this.getAllComments();
+    this.threadEnabled = true;
   }
 
   // properties that you wish to use as data in HTML, CSS, and the updated life-cycle
@@ -151,7 +155,8 @@ export class maincard extends SimpleColors {
       icon: { type: String },
       threadEnabled: {type: Boolean},
       threadPermissions: {type: String},
-      threadID: {type: String}
+      threadID: {type: String},
+      displayItems: {type: Array },
     };
   }
 
@@ -248,7 +253,7 @@ export class maincard extends SimpleColors {
   // eslint-disable-next-line class-methods-use-this
   async getAllComments(){
     const response = await fetch('/api/get-comment').then(res => res.json());
-    console.log(response)
+    return response;
   }
 
   // eslint-disable-next-line class-methods-use-this
