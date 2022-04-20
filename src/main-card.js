@@ -1,3 +1,5 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable class-methods-use-this */
 // dependencies / things imported
 import { html, css } from 'lit';
 import { SimpleColors } from '@lrnwebcomponents/simple-colors/simple-colors.js';
@@ -132,7 +134,8 @@ export class maincard extends SimpleColors {
     this.threadPermissions = null;
     this.threadEnabled = false;
     // Gets the ID NEEDED FOR GETTING COMMENTS
-    this.threadID = this.getThreadID();
+    this.threadID = '1234';
+    // this.threadID = this.getThreadID();
     // handles authentication events from jwt-auth
     this.addEventListener('auth-success', (e) => {
       console.log("auth-event received!");
@@ -233,6 +236,21 @@ export class maincard extends SimpleColors {
     console.log(response);
   }
 
+  async createCommentReply(parentId){
+    const response = fetch('/api/submit-comment', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}` },
+      body: JSON.stringify({
+        thread_uid: '1234',
+        user_uid: "jumbo",
+        body: "this is a reply",
+        reply_to: parentId,
+        is_reply: true
+      })
+    }).then(res => res.json());
+    console.log(response)
+  }
+
   // eslint-disable-next-line class-methods-use-this
   async createUser(){
     const response = await fetch('/api/create-user', {
@@ -288,6 +306,30 @@ export class maincard extends SimpleColors {
     console.log(response)
   }
 
+  renderCommentByPermission(){
+    // is user logged in? this.threadEnabled
+    // is user admin? window.LocalStorage.getToken.is_admin
+
+    // read and write permissions
+    if (this.threadPermissions == '777' || (this.threadEnabled && (this.threadPermissions == '770' || this.threadPermissions == '774'))){
+      return html`
+      <div>comments will go here</div>
+      `
+    // read only permissions
+    } if (this.threadPermissions == '774' || this.threadPermissions == '744' || (this.threadEnabled && this.threadPermissions == '740')) {
+      return html`
+      <button>add a comment</button>
+      `
+    } 
+      
+    return html`
+      <div class="center" id="Nest">
+        <h2>Log in to see the comments!</h2>
+        <jwt-auth authendpoint="/api/auth/"></jwt-auth>
+      </div>
+    `
+  }
+
   // HTML - specific to Lit
   render() {
     if (!this.threadEnabled) {
@@ -300,16 +342,7 @@ export class maincard extends SimpleColors {
       `
     } return html`
       ${this.getComment({user_uid: "jim1234", likes: 69420, body: "Does I works?"}, "b")}
-    
-      <div>
-        ${this.displayItems.map(
-          item => html`
-          ${this.getComment(item)}
-          `
-        )}
-      </div>
     `;
-    
   }
 
   getComment(comment, thread) {
@@ -345,7 +378,6 @@ export class maincard extends SimpleColors {
       </div>
     `;
   }
-
 
   // HAX specific callback
   // This teaches HAX how to edit and work with your web component
