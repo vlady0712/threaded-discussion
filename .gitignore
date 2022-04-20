@@ -27,3 +27,4 @@ custom-elements.json
 package-lock.json
 yarn.lock
 .vercel
+queries.sql
