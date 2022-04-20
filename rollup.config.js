@@ -12,6 +12,9 @@ export default {
   input: 'index.html',
   output: [
     {
+      entryFileNames: '[hash].js',
+      chunkFileNames: '[hash].js',
+      assetFileNames: '[hash][extname]',
       format: 'es',
       dir: 'dist',
     },
