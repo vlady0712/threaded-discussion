@@ -24,7 +24,7 @@ export default async function handler(req, res) {
       originUser = user;
     });
 
-    const reqBody = req.body;
+    const reqBody = JSON.parse(req.body);
 
     const commentUUID = uuidv4();
     reqBody.uid = commentUUID;

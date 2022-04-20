@@ -25,9 +25,9 @@ export default async function handler(req, res) {
     });
 
     const commentUid = req.query.uid;
-    if (!commentUid) res.status(400).send("Comment ID not supplied")
+    if (!commentUid) res.status(400).send("Comment ID not supplied");
     const [rowsBeforeEdit] = await connection.query('SELECT * FROM comments WHERE uid = ?', [commentUid]);
-    if (rowsBeforeEdit.length === 0) {res.status(404).send("Error: comment not found")}
+    if (rowsBeforeEdit.length === 0) { res.status(404).send("Error: comment not found"); }
     else if (rowsBeforeEdit[0].user_uid !== originUser.uid && !originUser.isAdmin) res.status(403).send("Action Prohibited");
 
     await connection.query('UPDATE comments SET is_deleted = ? WHERE uid = ?', [true, commentUid]);

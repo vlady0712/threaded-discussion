@@ -26,7 +26,6 @@ export default async function handler(req, res) {
     });
 
     console.log(originUser);
-    // res.status(200).send("success");
 
     console.log(req.body);
     const reqBody = req.body;
