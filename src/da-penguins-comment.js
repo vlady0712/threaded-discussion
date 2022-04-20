@@ -16,7 +16,8 @@ export class DaPenguinsComment extends SimpleColors {
 
   // CSS - specific to Lit
   static get styles() {
-    return [...super.styles ,css`
+    return [...super.styles ,
+    css`
       :host {
           display: block;
           border: 1px solid var(--simple-colors-default-theme-accent-6);
@@ -68,6 +69,18 @@ export class DaPenguinsComment extends SimpleColors {
         width: 1300px;
       }
 
+      .post-body-content {
+        border: solid 1px transparent;
+        border-radius: 19px;
+        background-color: transparent;
+        resize: none;
+        outline: none;
+        height: 215px;
+        width: 1300px;
+        font-family: 'Open Sans', sans-serif;
+        color: black;
+      }
+
       .profile-pic {
         display: inline-flex;
         background-color: var(--simple-colors-default-theme-accent-7);
@@ -116,6 +129,25 @@ export class DaPenguinsComment extends SimpleColors {
         left: 50%;
         z-index: 100;
       } */
+
+      .edit-post-body{
+        box-shadow: 0px 0px 5px cadetblue;
+        background-color: var(--simple-colors-default-theme-accent-4);
+        
+      }
+
+      .edit-post-main > *:not(.edit-post-body,.edit-options-visible){
+        filter: blur(2px);
+      }
+
+      .edit-options-hidden {
+        content-visibility: hidden;
+      }
+
+      .edit-options-visible {
+        content-visibility: visible;
+      }
+
     `];
   }
 
@@ -182,6 +214,10 @@ export class DaPenguinsComment extends SimpleColors {
       }
       if (propName === 'status' && this[propName] === 'pending') {
         this.answerIcon = false;
+      }
+      // Can't remember if this is how this works but we're gonna see about it
+      if (propName === 'likes' && this[propName] > oldValue) {
+        this.render();
       }
     });
   }
@@ -253,37 +289,49 @@ export class DaPenguinsComment extends SimpleColors {
     console.log(response);
   }
 
-  async editComment(){
+  async editComment(newBody){
     const response = await fetch('/api/edit-comment', {
       method: 'PUT',
       body: JSON.stringify({
         uid: this.UID, 
-        body: "Let's test this test",
+        body: newBody,
      })
     }).then(res => res.json());
     console.log(response);
   }
 
-  showEditingPane(comment){
-    console.log(this.goFuckYourselfLint); // TODO: Delete later
+  showEditingPane(){
+    this.shadowRoot.querySelector('.post-body-content').readOnly = false;
+    
+    this.shadowRoot.querySelector('.edit-options-hidden').classList.add('edit-options-visible');
+    this.shadowRoot.querySelector('.edit-options-visible').classList.remove('edit-options-hidden');
 
-    return html`
-      <div class="post-main">
-          <div class="post-title">
-            <div class="profile-pic"></div>
-            <div class="title-content">
-              <div class="header">
-                <h1>${comment.user_uid}</h1>
-              </div>
-              <div class="username">
-                <simple-icon-lite icon="favorite"></simple-icon-lite>
-                <p>${comment.likes}</p>
-              </div>
-            </div>
-          </div>
-          <div class="post-body">${comment.body} ${comment.uid}</div>
-        </div>
-    `;
+    this.shadowRoot.querySelector('.post-body').classList.add('edit-post-body');
+    this.shadowRoot.querySelector('.post-main').classList.add('edit-post-main');
+  }
+
+  hideEditingPane(){
+    this.shadowRoot.querySelector('.post-body-content').readOnly = true;
+
+    this.shadowRoot.querySelector('.edit-options-visible').classList.add('edit-options-hidden');
+    this.shadowRoot.querySelector('.edit-options-hidden').classList.remove('edit-options-visible');
+
+    this.shadowRoot.querySelector('.post-body').classList.remove('edit-post-body');
+    this.shadowRoot.querySelector('.post-main').classList.remove('edit-post-main');
+  }
+
+  cancelEdit(){
+    this.hideEditingPane();
+    this.shadowRoot.querySelector('.post-body-content').value = this.body;
+    }
+
+  submitEdit(){
+    const newBody = this.shadowRoot.querySelector('.post-body-content').value.trim();
+    this.body = newBody;
+    this.editComment(newBody);
+    this.hideEditingPane();
+
+    this.getSpecificComment(this.UID);
   }
 
   // HTML - specific to Lit
@@ -296,6 +344,7 @@ export class DaPenguinsComment extends SimpleColors {
             <div class="title-content">
               <div class="header">
                 <h1>${this.userUID}</h1>
+                <h2>${this.UID}</h2>
               </div>
               <div class="username">
                 <simple-icon-lite icon="favorite"></simple-icon-lite>
@@ -304,15 +353,21 @@ export class DaPenguinsComment extends SimpleColors {
               </div>
             </div>
           </div>
-          <div class="post-body">${this.body} ${this.UID}</div>
+          <div class="post-body">
+            <textarea class="post-body-content" readonly>
+              ${this.body}
+            </textarea>
+          </div>
+          <div class="edit-options-hidden">
+            <button @click=${this.cancelEdit}>Cancel</button>
+            <button @click=${this.submitEdit}>Submit</button>
+          </div>
         </div>
-        ${this.answerIcon ? html`<simple-icon-lite icon="${this.icon}"></simple-icon-lite>` : ``}
-        
         
         <button @click=${this.likeComment}>Like Comment</button>
         <button @click=${this.deleteComment}>Delete Comment</button>
         
-        <button @click=${this.editComment}>Edit Comment</button>
+        <button @click=${this.showEditingPane}>Edit Comment</button>
       </div>
     `;  
   }
