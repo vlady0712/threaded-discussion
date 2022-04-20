@@ -1,6 +1,8 @@
 // dependencies / things imported
 import { html, css } from 'lit';
 import { SimpleColors } from '@lrnwebcomponents/simple-colors/simple-colors.js';
+import sjcl from 'sjcl';
+import 'jwt-auth-component';
 import '@lrnwebcomponents/simple-icon/lib/simple-icons.js';
 import '@lrnwebcomponents/simple-icon/lib/simple-icon-lite.js';
 
@@ -97,14 +99,15 @@ export class maincard extends SimpleColors {
         height: auto;
         width: 40%;
       }
-      /* .replybox {
+
+      .replybox {
         display: block;
         background-color: var(--simple-colors-default-theme-accent-2);
         box-shadow: 0 0 5px var(--simple-colors-default-theme-accent-7);
         border-radius: 19px 19px 19px 19px;
         height: 75px;
         width: 1275px;
-      } */
+      }
 /* 
       simple-icon-lite {
         --simple-icon-height: 100px;
@@ -127,6 +130,15 @@ export class maincard extends SimpleColors {
     this.status = 'pending';
     this.answerIcon = false;
     this.icon = '';
+    this.threadPermissions = null;
+    this.threadEnabled = false;
+    // Gets the ID NEEDED FOR GETTING COMMENTS
+    this.threadID = this.getThreadID();
+    // handles authentication events from jwt-auth
+    this.addEventListener('auth-success', (e) => {
+      console.log("auth-event received!");
+      this.threadEnabled = true;
+    })
   }
 
   // properties that you wish to use as data in HTML, CSS, and the updated life-cycle
@@ -137,7 +149,10 @@ export class maincard extends SimpleColors {
       imgKeyword: { type: String, attribute: 'img-keyword'},
       status: { type: String, reflect: true }, // Correct, incorrect, pending
       answerIcon: { type: Boolean, reflect: true },
-      icon: { type: String }
+      icon: { type: String },
+      threadEnabled: {type: Boolean},
+      threadPermissions: {type: String},
+      threadID: {type: String}
     };
   }
 
@@ -171,12 +186,38 @@ export class maincard extends SimpleColors {
   // this fires EVERY time the element is moved
   connectedCallback() {
     super.connectedCallback();
+    if (this.threadPermissions == null){
+      this.fetchThreadData();
+    }
   }
 
   // HTMLElement life-cycle, element has been removed from the page OR moved
   // this fires every time the element moves
   disconnectedCallback() {
     super.disconnectedCallback();
+  }
+
+  async fetchThreadData() {
+    // throwing error bc not in db
+    const apiOrigin = window.location.origin;
+    const apiURL = new URL ("/api/get-thread/", apiOrigin);
+    apiURL.searchParams.append("uid", this.threadID);
+    await fetch(apiURL)
+    .then((res) => res.json())
+    .then((data) => {
+      this.threadPermissions = data.permissions;
+    })
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  getThreadID() {
+    // the thread id is the current page hash
+    if (window.location.host === "localhost:3000"){
+      return '1234'
+    }
+    const currentPage = window.location.href;
+    const hashBits = sjcl.hash.sha256.hash(currentPage);
+    return sjcl.codec.hex.fromBits(hashBits);
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -232,24 +273,41 @@ export class maincard extends SimpleColors {
 
   // HTML - specific to Lit
   render() {
+    if (!this.threadEnabled) {
+      // TODO: add different cases for various thread permissions
+      return html`
+        <div class="center" id="Nest">
+          <h2>Log in to see the comments!</h2>
+          <jwt-auth authendpoint="/api/auth/"></jwt-auth>
+        </div>
+      `
+    } return html`
+      ${this.getComment({user_uid: "jim1234", likes: 69420, body: "Does I works?"}, "b")}
+    `;
+    
+  }
+
+  getComment(comment, thread) {
     return html`
-      <div id="Nest">
+    <div id="Nest">
           <div class="post-main">
             <div class="post-title">
               <div class="profile-pic">
                 </div>
               <div class="title-content">
                 <div class="header">
-                    <h1> Question that needs Answers </h1>
+                  <h1> ${comment.user_uid} </h1>
                   </div>
                 <div class="username">
-                    <h2> @xyz1234 </h2>
-                    <simple-icon-lite icon="icons:favorite"> </simple-icon-lite>
+                  <simple-icon-lite icon="favorite"> </simple-icon-lite>
+                  <p>${comment.likes}</p>
                   </div>
                 </div>
-              </div>
+             </div>
             <div class="post-body">
-              Swaggy
+            ${comment.body}
+             </div>
+            <div class="replybox">
               </div>
           </div>
         ${this.answerIcon

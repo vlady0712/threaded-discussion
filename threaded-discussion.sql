@@ -20,7 +20,8 @@ CREATE TABLE `comments` (
 
 CREATE TABLE `threads` (
   `uid` varchar(255) UNIQUE PRIMARY KEY NOT NULL,
-  `domain` varchar(255) NOT NULL
+  `domain` varchar(255) NOT NULL,
+  `permissions` varchar(3) NOT NULL DEFAULT "777"
 );
 
 ALTER TABLE `comments` ADD FOREIGN KEY (`user_uid`) REFERENCES `users` (`uid`);
