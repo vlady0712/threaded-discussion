@@ -279,18 +279,24 @@ export class DaPenguinsComment extends SimpleColors {
 
   // eslint-disable-next-line class-methods-use-this
   async getSpecificComment(targetUID){
-    const response = await fetch(`/api/get-comment?uid=${targetUID}`).then(res => res.json());
+    const response = await fetch(`/api/get-comment?uid=${targetUID}`, {headers: {
+      Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
+    }}).then(res => res.json());
     console.log(response);
   }
 
   async likeComment(){
     // 07e76fec-9f18-4b94-b464-df930de006a1
-    const response = await fetch(`/api/like-comment?uid=${this.UID}`).then(res => res.json());
+    const response = await fetch(`/api/like-comment?uid=${this.UID}`, {headers: {
+      Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
+    }}).then(res => res.json());
     console.log(response);
   }
 
   async deleteComment(){
-    const response = await fetch(`/api/delete-comment?uid=${this.UID}`).then(res => res.json());
+    const response = await fetch(`/api/delete-comment?uid=${this.UID}`, {headers: {
+      Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
+    }}).then(res => res.json());
     console.log(response);
   }
 
@@ -300,7 +306,10 @@ export class DaPenguinsComment extends SimpleColors {
       body: JSON.stringify({
         uid: this.UID, 
         body: newBody,
-     })
+     }),
+     headers: {
+      Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
+    }
     }).then(res => res.json());
     console.log(response);
   }
