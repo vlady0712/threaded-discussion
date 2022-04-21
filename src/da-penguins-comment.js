@@ -1,3 +1,4 @@
+
 /* eslint-disable eqeqeq */
 /* eslint-disable class-methods-use-this */
 // dependencies / things imported
@@ -163,7 +164,10 @@ export class DaPenguinsComment extends SimpleColors {
     this.answerIcon = false;
     this.icon = '';
     this.threadPermissions = null;
+
+    // Gets the ID NEEDED FOR GETTING COMMENTS
     this.threadID = null;
+
     this.UID = null; 
     this.userUID = null;
     this.submittedTime = null;
@@ -272,6 +276,8 @@ export class DaPenguinsComment extends SimpleColors {
   }
 
   // TODO: Maybe use for chaining replies to a comment? (can be thru comment.js or thread.js)
+
+  // eslint-disable-next-line class-methods-use-this
   async getSpecificComment(targetUID){
     const response = await fetch(`/api/get-comment?uid=${targetUID}`).then(res => res.json());
     console.log(response);
@@ -331,30 +337,6 @@ export class DaPenguinsComment extends SimpleColors {
     this.hideEditingPane();
 
     this.getSpecificComment(this.UID);
-  }
-
-  renderCommentByPermission(){
-    // is user logged in? this.threadEnabled
-    // is user admin? window.LocalStorage.getToken.is_admin
-
-    // read and write permissions
-    if (this.threadPermissions == '777' || (this.threadEnabled && (this.threadPermissions == '770' || this.threadPermissions == '774'))){
-      return html`
-      <div>comments will go here</div>
-      `
-    // read only permissions
-    } if (this.threadPermissions == '774' || this.threadPermissions == '744' || (this.threadEnabled && this.threadPermissions == '740')) {
-      return html`
-      <button>add a comment</button>
-      `
-    } 
-      
-    return html`
-      <div class="center" id="Nest">
-        <h2>Log in to see the comments!</h2>
-        <jwt-auth authendpoint="/api/auth/"></jwt-auth>
-      </div>
-    `
   }
 
   // HTML - specific to Lit
