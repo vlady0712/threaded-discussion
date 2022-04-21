@@ -188,6 +188,9 @@ export class DaPenguinsThread extends LitElement {
         thread_uid: "1234",
         user_uid: "jumbo",
         body: "This is a test",
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
+        }
      })
     }).then(res => res.json());
     console.log(response);
@@ -195,7 +198,9 @@ export class DaPenguinsThread extends LitElement {
 
   // eslint-disable-next-line class-methods-use-this
   async getAllComments() {
-    const response = await fetch('/api/get-comment').then(res => res.json());
+    const response = await fetch('/api/get-comment', {headers: {
+      Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
+    }}).then(res => res.json());
     return response;
   }
 
