@@ -19,7 +19,7 @@ export class DaPenguinsComment extends SimpleColors {
     return [...super.styles ,
     css`
       :host {
-          display: block;
+          display: flex;
           border: 1px solid var(--simple-colors-default-theme-accent-6);
           min-width: 1375px;
           min-height: 155px;
@@ -113,7 +113,6 @@ export class DaPenguinsComment extends SimpleColors {
       }
 
       .replybox {
-        display: block;
         background-color: var(--simple-colors-default-theme-accent-2);
         box-shadow: 0 0 5px var(--simple-colors-default-theme-accent-7);
         border-radius: 19px 19px 19px 19px;
@@ -348,8 +347,12 @@ export class DaPenguinsComment extends SimpleColors {
                 <h2>${this.UID}</h2>
               </div>
               <div class="username">
-                <simple-icon-lite icon="favorite"></simple-icon-lite>
-                <p>${this.likes}</p>
+                <p> 
+                  <button @click=${this.likeComment}>
+                    <simple-icon-lite icon="favorite"> </simple-icon-lite>
+                  </button>
+                  ${this.likes}
+                </p>
                 <p>${this.submittedTime}</p>
               </div>
             </div>
@@ -363,12 +366,37 @@ export class DaPenguinsComment extends SimpleColors {
             <button @click=${this.cancelEdit}>Cancel</button>
             <button @click=${this.submitEdit}>Submit</button>
           </div>
+          <button @click=${this.deleteComment}>Delete Comment</button>
+          <button @click=${this.showEditingPane}>Edit Comment</button>
+
+          <!-- Reply Hell -->
+          <div class="replybox">
+            <div class="post-title">
+              <div class="profile-pic">
+                </div>
+              <div class="title-content">
+                <div class="header">
+                  <h1>${this.userUID}</h1>
+                  <h2>${this.UID}</h2>
+                </div>
+                <div class="username">
+                    <p> 
+                      <button @click=${this.likeComment}>
+                        <simple-icon-lite icon="favorite"> </simple-icon-lite>
+                      </button>
+                      ${this.likes}
+                    </p>
+                    <p>${this.submittedTime}</p>
+                </div>
+              </div>
+            </div>
+            <div class="post-body">
+              <textarea class="post-body-content" readonly>
+                ${this.body}
+              </textarea>
+            </div>
+          </div>
         </div>
-        
-        <button @click=${this.likeComment}>Like Comment</button>
-        <button @click=${this.deleteComment}>Delete Comment</button>
-        
-        <button @click=${this.showEditingPane}>Edit Comment</button>
       </div>
     `;  
   }
