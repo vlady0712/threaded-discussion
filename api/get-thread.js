@@ -10,13 +10,18 @@ export default async function handler(req, res) {
     // the response should include permissions for the thread as chmod (AGE:admin,group,everyone)
     /*
         0: (000) No permission.
-        1: (001) Execute permission.
         2: (010) Write permission.
-        3: (011) Write and execute permissions.
         4: (100) Read permission.
-        5: (101) Read and execute permissions.
-        6: (110) Read and write permissions.
-        7: (111) Read, write, and execute permissions.
+        7: (111) Read and write permissions.
+
+        Access Patterns (Initial Load):
+
+        700: no permissions unless admin
+        740: read for group only
+        744: read for all
+        770: r/w for group only
+        774: r/w for group, read for all
+        777: r/w for all
     */
     const threadUid = req.query.uid;
     const [rows] = await connection.query("SELECT * from threads WHERE uid = ?", [threadUid])
