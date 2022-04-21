@@ -144,11 +144,11 @@ export class DaPenguinsComment extends SimpleColors {
       }
 
       .edit-options-hidden {
-        content-visibility: hidden;
+        visibility: hidden;
       }
 
       .edit-options-visible {
-        content-visibility: visible;
+        visibility: visible;
       }
 
     `];
