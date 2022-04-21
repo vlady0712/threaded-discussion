@@ -1,7 +1,6 @@
 // dependencies / things imported
 import { html, css } from 'lit';
 import { SimpleColors } from '@lrnwebcomponents/simple-colors/simple-colors.js';
-import sjcl from 'sjcl';
 import 'jwt-auth-component';
 import '@lrnwebcomponents/simple-icon/lib/simple-icons.js';
 import '@lrnwebcomponents/simple-icon/lib/simple-icon-lite.js';
@@ -9,15 +8,16 @@ import '@lrnwebcomponents/simple-icon/lib/simple-icon-lite.js';
 // EXPORT (so make available to other documents that reference this file) a class, that extends LitElement
 
 // which has the magic life-cycles and developer experience below added
-export class maincard extends SimpleColors {
+export class DaPenguinsComment extends SimpleColors {
   // a convention I enjoy so you can change the tag name in 1 place
   static get tag() {
-    return 'main-card';
+    return 'da-penguins-comment';
   }
 
   // CSS - specific to Lit
   static get styles() {
-    return [...super.styles ,css`
+    return [...super.styles ,
+    css`
       :host {
           display: block;
           border: 1px solid var(--simple-colors-default-theme-accent-6);
@@ -69,6 +69,18 @@ export class maincard extends SimpleColors {
         width: 1300px;
       }
 
+      .post-body-content {
+        border: solid 1px transparent;
+        border-radius: 19px;
+        background-color: transparent;
+        resize: none;
+        outline: none;
+        height: 215px;
+        width: 1300px;
+        font-family: 'Open Sans', sans-serif;
+        color: black;
+      }
+
       .profile-pic {
         display: inline-flex;
         background-color: var(--simple-colors-default-theme-accent-7);
@@ -117,6 +129,25 @@ export class maincard extends SimpleColors {
         left: 50%;
         z-index: 100;
       } */
+
+      .edit-post-body{
+        box-shadow: 0px 0px 5px cadetblue;
+        background-color: var(--simple-colors-default-theme-accent-4);
+        
+      }
+
+      .edit-post-main > *:not(.edit-post-body,.edit-options-visible){
+        filter: blur(2px);
+      }
+
+      .edit-options-hidden {
+        content-visibility: hidden;
+      }
+
+      .edit-options-visible {
+        content-visibility: visible;
+      }
+
     `];
   }
 
@@ -130,27 +161,42 @@ export class maincard extends SimpleColors {
     this.answerIcon = false;
     this.icon = '';
     this.threadPermissions = null;
-    this.threadEnabled = false;
-    this.threadID = this.getThreadID();
-    // handles authentication events from jwt-auth
-    this.addEventListener('auth-success', (e) => {
-      console.log("auth-event received!");
-      this.threadEnabled = true;
-    })
+    // Gets the ID NEEDED FOR GETTING COMMENTS
+    this.threadID = null;
+
+    this.UID = null; 
+    this.userUID = null;
+    this.submittedTime = null;
+    this.body = null;
+    this.editedTime = null;
+    this.isEdited = false;
+    this.isReply = false;
+    this.replyTo = null;
+    this.likes = 0;
+    
   }
 
   // properties that you wish to use as data in HTML, CSS, and the updated life-cycle
   static get properties() {
     return {
       ...super.properties,
-      imgSrc: { type: String, reflect: true, attribute: 'img-src'},
-      imgKeyword: { type: String, attribute: 'img-keyword'},
+      imgSrc: { type: String, reflect: true, attribute: 'img-src' },
+      imgKeyword: { type: String, attribute: 'img-keyword' },
       status: { type: String, reflect: true }, // Correct, incorrect, pending
       answerIcon: { type: Boolean, reflect: true },
       icon: { type: String },
-      threadEnabled: {type: Boolean},
-      threadPermissions: {type: String},
-      threadID: {type: String}
+      threadPermissions: { type: String },
+      threadID: { type: String },
+
+      UID: { type: String },
+      userUID: { type: String },
+      submittedTime: { type: String },
+      body: { type: String },
+      editedTime: { type: String },
+      isEdited: { type: Boolean },
+      isReply: { type: Boolean },
+      replyTo: { type: String },
+      likes: { type: String }
     };
   }
 
@@ -168,6 +214,10 @@ export class maincard extends SimpleColors {
       }
       if (propName === 'status' && this[propName] === 'pending') {
         this.answerIcon = false;
+      }
+      // Can't remember if this is how this works but we're gonna see about it
+      if (propName === 'likes' && this[propName] > oldValue) {
+        this.render();
       }
     });
   }
@@ -204,18 +254,7 @@ export class maincard extends SimpleColors {
     .then((res) => res.json())
     .then((data) => {
       this.threadPermissions = data.permissions;
-    })
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  getThreadID() {
-    // the thread id is the current page hash
-    if (window.location.host === "localhost:3000"){
-      return '1234'
-    }
-    const currentPage = window.location.href;
-    const hashBits = sjcl.hash.sha256.hash(currentPage);
-    return sjcl.codec.hex.fromBits(hashBits);
+    });
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -231,87 +270,108 @@ export class maincard extends SimpleColors {
     console.log(response);
   }
 
+  // TODO: Maybe use for chaining replies to a comment? (can be thru comment.js or thread.js)
   // eslint-disable-next-line class-methods-use-this
-  async createUser(){
-    const response = await fetch('/api/create-user', {
-      method: 'POST',
-      body: JSON.stringify({
-        name: "Jimmy",
-         is_admin: false,
-      }) // body data type must match "Content-Type" header
-    }).then(res => res.json());
+  async getSpecificComment(targetUID){
+    const response = await fetch(`/api/get-comment?uid=${targetUID}`).then(res => res.json());
     console.log(response);
   }
 
 
-  // eslint-disable-next-line class-methods-use-this
-  async getAllComments(){
-    const response = await fetch('/api/get-comment').then(res => res.json());
-    console.log(response)
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  async getSpecificComments(){
-    const response = await fetch('/api/get-comment?uid=07e76fec-9f18-4b94-b464-df930de006a1').then(res => res.json());
-    console.log(response)
-  }
-
-  // eslint-disable-next-line class-methods-use-this
   async likeComment(){
     // 07e76fec-9f18-4b94-b464-df930de006a1
-    const response = await fetch('/api/like-comment?uid=07e76fec-9f18-4b94-b464-df930de006a1').then(res => res.json());
-    console.log(response)
+    const response = await fetch(`/api/like-comment?uid=${this.UID}`).then(res => res.json());
+    console.log(response);
   }
 
-  // eslint-disable-next-line class-methods-use-this
   async deleteComment(){
-    const response = await fetch('/api/delete-comment?uid=16a2761a-bbab-4707-9c3f-5f5b43f2cf18').then(res => res.json());
-    console.log(response)
+    const response = await fetch(`/api/delete-comment?uid=${this.UID}`).then(res => res.json());
+    console.log(response);
+  }
+
+  async editComment(newBody){
+    const response = await fetch('/api/edit-comment', {
+      method: 'PUT',
+      body: JSON.stringify({
+        uid: this.UID, 
+        body: newBody,
+     })
+    }).then(res => res.json());
+    console.log(response);
+  }
+
+  showEditingPane(){
+    this.shadowRoot.querySelector('.post-body-content').readOnly = false;
+    
+    this.shadowRoot.querySelector('.edit-options-hidden').classList.add('edit-options-visible');
+    this.shadowRoot.querySelector('.edit-options-visible').classList.remove('edit-options-hidden');
+
+    this.shadowRoot.querySelector('.post-body').classList.add('edit-post-body');
+    this.shadowRoot.querySelector('.post-main').classList.add('edit-post-main');
+  }
+
+  hideEditingPane(){
+    this.shadowRoot.querySelector('.post-body-content').readOnly = true;
+
+    this.shadowRoot.querySelector('.edit-options-visible').classList.add('edit-options-hidden');
+    this.shadowRoot.querySelector('.edit-options-hidden').classList.remove('edit-options-visible');
+
+    this.shadowRoot.querySelector('.post-body').classList.remove('edit-post-body');
+    this.shadowRoot.querySelector('.post-main').classList.remove('edit-post-main');
+  }
+
+  cancelEdit(){
+    this.hideEditingPane();
+    this.shadowRoot.querySelector('.post-body-content').value = this.body;
+    }
+
+  submitEdit(){
+    const newBody = this.shadowRoot.querySelector('.post-body-content').value.trim();
+    this.body = newBody;
+    this.editComment(newBody);
+    this.hideEditingPane();
+
+    this.getSpecificComment(this.UID);
   }
 
   // HTML - specific to Lit
   render() {
-    if (!this.threadEnabled) {
-      // TODO: add different cases for various thread permissions
-      return html`
-        <div class="center" id="Nest">
-          <h2>Log in to see the comments!</h2>
-          <jwt-auth authendpoint="/api/auth/"></jwt-auth>
-        </div>
-      `
-    } return html`
+    return html`
       <div id="Nest">
-          <div class="post-main">
-            <div class="post-title">
-              <div class="profile-pic">
+        <div class="post-main">
+          <div class="post-title">
+            <div class="profile-pic"></div>
+            <div class="title-content">
+              <div class="header">
+                <h1>${this.userUID}</h1>
+                <h2>${this.UID}</h2>
               </div>
-              <div class="title-content">
-                <div class="header">
-                  <h1> Question that needs Answers </h1>
-                </div>
-                <div class="username">
-                  <h2> @xyz1234 </h2>
-                  <simple-icon-lite icon="favorite"> </simple-icon-lite>
-                </div>
+              <div class="username">
+                <simple-icon-lite icon="favorite"></simple-icon-lite>
+                <p>${this.likes}</p>
+                <p>${this.submittedTime}</p>
               </div>
-            </div>
-            <div class="post-body">
-              Swaggy
             </div>
           </div>
-        ${this.answerIcon
-          ? html`<simple-icon-lite icon="${this.icon}"></simple-icon-lite>`
-          : ``}
-          <button @click=${this.createComment}> Create Comment</button>
-          <button @click=${this.getAllComments}>GET All Comments</button>
-          <button @click=${this.getSpecificComments}>GET Specific Comments</button>
-          <button @click=${this.likeComment}>Like Comment</button>
-          <button @click=${this.deleteComment}>Delete Comment</button>
-          <button @click=${this.createUser}>Create User</button>
+          <div class="post-body">
+            <textarea class="post-body-content" readonly>
+              ${this.body}
+            </textarea>
+          </div>
+          <div class="edit-options-hidden">
+            <button @click=${this.cancelEdit}>Cancel</button>
+            <button @click=${this.submitEdit}>Submit</button>
+          </div>
+        </div>
+        
+        <button @click=${this.likeComment}>Like Comment</button>
+        <button @click=${this.deleteComment}>Delete Comment</button>
+        
+        <button @click=${this.showEditingPane}>Edit Comment</button>
       </div>
-    `;
-    
+    `;  
   }
+
 
 
   // HAX specific callback
@@ -323,4 +383,4 @@ export class maincard extends SimpleColors {
     return new URL(`../lib/FlashCard.haxProperties.json`, import.meta.url).href;
   }
 }
-customElements.define(maincard.tag, maincard);
+customElements.define(DaPenguinsComment.tag, DaPenguinsComment);

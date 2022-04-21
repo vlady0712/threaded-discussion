@@ -22,6 +22,6 @@ export default async function handler(req, res) {
 
   const [rows] = await connection.query('SELECT * FROM comments WHERE uid = ?', [editedComment.uid]);
   const returnedComment = rows[0];
-  res.json(returnedComment)
+  res.json(returnedComment);
 
 }
