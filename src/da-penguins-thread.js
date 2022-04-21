@@ -175,7 +175,10 @@ export class DaPenguinsThread extends LitElement {
       body: JSON.stringify({
         name: "Jimmy",
          is_admin: false,
-      }) // body data type must match "Content-Type" header
+      }),
+      headers: {
+        Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
+      }
     }).then(res => res.json());
     console.log(response);
   }
@@ -188,6 +191,9 @@ export class DaPenguinsThread extends LitElement {
         thread_uid: "1234",
         user_uid: "jumbo",
         body: "This is a test",
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
+        }
      })
     }).then(res => res.json());
     console.log(response);
@@ -195,14 +201,18 @@ export class DaPenguinsThread extends LitElement {
 
   // eslint-disable-next-line class-methods-use-this
   async getAllComments() {
-    const response = await fetch('/api/get-comment').then(res => res.json());
+    const response = await fetch('/api/get-comment', {headers: {
+      Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
+    }}).then(res => res.json());
     return response;
   }
 
   // TODO: Maybe use for chaining replies to a comment? (can be thru comment.js or thread.js)
   // eslint-disable-next-line class-methods-use-this
   async getSpecificComment(targetUID){
-    const response = await fetch(`/api/get-comment?uid=1d89ffaf-f8b2-4bc4-b71e-ddbc19827b66`).then(res => res.json());
+    const response = await fetch(`/api/get-comment?uid=1d89ffaf-f8b2-4bc4-b71e-ddbc19827b66`, {headers: {
+      Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
+    }}).then(res => res.json());
     console.log(targetUID ," ", response);
     
   }

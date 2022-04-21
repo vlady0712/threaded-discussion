@@ -1,3 +1,6 @@
+
+/* eslint-disable eqeqeq */
+/* eslint-disable class-methods-use-this */
 // dependencies / things imported
 import { html, css } from 'lit';
 import { SimpleColors } from '@lrnwebcomponents/simple-colors/simple-colors.js';
@@ -161,6 +164,7 @@ export class DaPenguinsComment extends SimpleColors {
     this.answerIcon = false;
     this.icon = '';
     this.threadPermissions = null;
+
     // Gets the ID NEEDED FOR GETTING COMMENTS
     this.threadID = null;
 
@@ -261,6 +265,7 @@ export class DaPenguinsComment extends SimpleColors {
   async createComment(){
     const response = await fetch('/api/submit-comment', {
       method: 'POST',
+      headers: { Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}` },
       body: JSON.stringify({
         thread_uid: "1234",
         user_uid: "jumbo",
@@ -271,21 +276,27 @@ export class DaPenguinsComment extends SimpleColors {
   }
 
   // TODO: Maybe use for chaining replies to a comment? (can be thru comment.js or thread.js)
+
   // eslint-disable-next-line class-methods-use-this
   async getSpecificComment(targetUID){
-    const response = await fetch(`/api/get-comment?uid=${targetUID}`).then(res => res.json());
+    const response = await fetch(`/api/get-comment?uid=${targetUID}`, {headers: {
+      Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
+    }}).then(res => res.json());
     console.log(response);
   }
 
-
   async likeComment(){
     // 07e76fec-9f18-4b94-b464-df930de006a1
-    const response = await fetch(`/api/like-comment?uid=${this.UID}`).then(res => res.json());
+    const response = await fetch(`/api/like-comment?uid=${this.UID}`, {headers: {
+      Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
+    }}).then(res => res.json());
     console.log(response);
   }
 
   async deleteComment(){
-    const response = await fetch(`/api/delete-comment?uid=${this.UID}`).then(res => res.json());
+    const response = await fetch(`/api/delete-comment?uid=${this.UID}`, {headers: {
+      Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
+    }}).then(res => res.json());
     console.log(response);
   }
 
@@ -295,7 +306,10 @@ export class DaPenguinsComment extends SimpleColors {
       body: JSON.stringify({
         uid: this.UID, 
         body: newBody,
-     })
+     }),
+     headers: {
+      Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
+    }
     }).then(res => res.json());
     console.log(response);
   }
