@@ -223,14 +223,14 @@ export class DaPenguinsThread extends LitElement {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async createComment(){
+  async createComment(commentBody){
     const response = await fetch('/api/submit-comment', {
       method: 'POST',
       headers: { Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}` },
       body: JSON.stringify({
         thread_uid: "1234",
         user_uid: "jumbo",
-        body: "This is a test"
+        body: commentBody
      })
     }).then(res => res.json());
     console.log(response);
@@ -264,21 +264,14 @@ export class DaPenguinsThread extends LitElement {
     const isReply= comment.is_reply != '0';
 
     // UNDER CONSTRUCTION
-    let submittedTime = comment.submitted_time;
-    console.log(`presubmitted: ${submittedTime}`);
-    submittedTime = `${submittedTime.replace(' ', 'T')}`;
 
-    const submittedTimeString = new Date(submittedTime).toLocaleString();
-    console.log(`submitted: ${submittedTimeString}`);
+    const submittedTime = new Date(comment.submitted_time).toLocaleString();
 
-    const editedTime = comment.edited_time;
-    // editedTime = `${editedTime.replace(' ', 'T')}`;
-  
-    let editedTimeString = '';    
+    let editedTime = '';
+
     if(isEdited){
-      editedTimeString = new Date(editedTime).toLocaleString();
+      editedTime = new Date(comment.edited_time).toLocaleString();
     }
-    console.log(`edited: ${editedTimeString}`);
 
     // END UNDER CONSTRUCTION
 
@@ -307,7 +300,7 @@ export class DaPenguinsThread extends LitElement {
     if(newComment == null || newComment.trim() == ""){
       console.log("nothing to see here");
     } else {
-      console.log(newComment);
+      this.createComment(newComment);
     }
 
     // TODO: Once createComment() is working, set this up to create a new comment

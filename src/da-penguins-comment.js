@@ -327,13 +327,11 @@ export class DaPenguinsComment extends SimpleColors {
   async editComment(newBody){
     const response = await fetch('/api/edit-comment', {
       method: 'PUT',
+      headers: { Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}` },
       body: JSON.stringify({
         uid: this.UID, 
-        body: newBody,
-     }),
-     headers: {
-      Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
-    }
+        body: newBody
+     })
     }).then(res => res.json());
     console.log(response);
   }
@@ -394,7 +392,7 @@ export class DaPenguinsComment extends SimpleColors {
           </div>
           <div class="post-body">
             <textarea class="post-body-content" readonly>
-              ${this.body}
+              ${this.body.trim()}
             </textarea>
           </div>
           <div class="edit-options-hidden">
