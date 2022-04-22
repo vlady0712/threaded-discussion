@@ -14,8 +14,6 @@ export default async function handler(req, res) {
     const authHeader = req.headers.authorization;
     const userToken = authHeader && authHeader.split(' ')[1]
     let originUser = null;
-    console.log(userToken);
-    console.log(authSecret);
     
     pkg.verify(userToken, authSecret, (err, user) => {
       if (err) {
@@ -28,10 +26,7 @@ export default async function handler(req, res) {
     console.log(originUser);
 
     console.log(req.body);
-    const reqBody = req.body;
-    const [rows] = await connection.query('SELECT * FROM comments WHERE uid = ?', [editedComment.uid]);
-    const returnedComment = rows[0];
-    res.json(returnedComment);
+    const reqBody = JSON.parse(req.body);
 
     const editedComment = {
       uid: reqBody.uid,
