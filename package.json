@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@github/time-elements": "^3.1.2",
-    "@lrnwebcomponents/rpg-character": "^4.0.20",
+    "@lrnwebcomponents/rpg-character": "^4.0.24",
     "@lrnwebcomponents/simple-colors": "^4.0.20",
     "@lrnwebcomponents/simple-icon": "^4.0.20",
     "@lrnwebcomponents/threaded-discussion": "^4.0.16",

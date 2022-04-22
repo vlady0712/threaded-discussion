@@ -7,6 +7,7 @@ import { SimpleColors } from '@lrnwebcomponents/simple-colors/simple-colors.js';
 import 'jwt-auth-component';
 import '@lrnwebcomponents/simple-icon/lib/simple-icons.js';
 import '@lrnwebcomponents/simple-icon/lib/simple-icon-lite.js';
+ import '@lrnwebcomponents/rpg-character/rpg-character.js';
 
 // EXPORT (so make available to other documents that reference this file) a class, that extends LitElement
 
@@ -173,6 +174,10 @@ export class DaPenguinsComment extends SimpleColors {
         margin: 10px;
         width: fit-content;
         border-radius: 5px;
+      }
+
+      .rpg {
+        display: block;
       }
 
     `];
@@ -376,7 +381,9 @@ export class DaPenguinsComment extends SimpleColors {
       <div id="Nest">
         <div class="post-main">
           <div class="post-title">
-            <div class="profile-pic"></div>
+            <div class="profile-pic">
+            <rpg-character class="rpg" seed="test" width="60" height="60" ></rpg-character>
+            </div>
             <div class="title-content">
               <div class="header">
                 <h1>${this.userUID}</h1>
