@@ -238,9 +238,11 @@ export class DaPenguinsThread extends LitElement {
 
   // eslint-disable-next-line class-methods-use-this
   async getAllComments() {
-    const response = await fetch('/api/get-comment', {headers: {
+    // TODO: make query into URL object
+    const response = await fetch(`/api/get-comment?threadId=${this.threadID}`, {headers: {
       Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
     }}).then(res => res.json());
+    console.log(response);
     return response;
   }
 
@@ -280,6 +282,7 @@ export class DaPenguinsThread extends LitElement {
         <da-penguins-comment
           UID=${comment.uid}
           userUID=${comment.user_uid}
+          username=${comment.name}
           submittedTime=${submittedTime}
           body=${comment.body}
           editedTime=${editedTime}
@@ -324,7 +327,7 @@ export class DaPenguinsThread extends LitElement {
         <button class="create-comment" @click=${this.getSpecificComment}> GET Specific Comment </button>
       </div>
       <div>
-        ${this.commentList.map(item => html` ${this.renderComment(item)} `)}
+        ${this.commentList.map(commentArray => commentArray.map(comment => html` ${this.renderComment(comment)} `))}
       </div>
     `;
     
