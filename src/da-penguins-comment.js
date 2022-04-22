@@ -223,6 +223,7 @@ export class DaPenguinsComment extends SimpleColors {
 
       UID: { type: String },
       userUID: { type: String },
+      username: {type: String },
       submittedTime: { type: String },
       body: { type: String },
       editedTime: { type: String },
@@ -386,7 +387,7 @@ export class DaPenguinsComment extends SimpleColors {
             </div>
             <div class="title-content">
               <div class="header">
-                <h1>${this.userUID}</h1>
+                <h1>${this.username ? this.username : "Anonymous"}</h1>
                 <h2>${this.UID}</h2>
               </div>
               <div class="username">
