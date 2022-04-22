@@ -2,6 +2,7 @@ import pkg from 'jsonwebtoken';
 import { connection } from "./_dbConnection.js";
 
 export default async function handler(req, res) {
+  res.setHeader('Cache-Control', 'max-age=0, s-maxage=7');
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,PATCH,DELETE,POST,PUT");
