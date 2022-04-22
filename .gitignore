@@ -28,3 +28,4 @@ package-lock.json
 yarn.lock
 .vercel
 queries.sql
+src/renderFn.js

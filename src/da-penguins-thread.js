@@ -226,13 +226,11 @@ export class DaPenguinsThread extends LitElement {
   async createComment(){
     const response = await fetch('/api/submit-comment', {
       method: 'POST',
+      headers: { Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}` },
       body: JSON.stringify({
         thread_uid: "1234",
         user_uid: "jumbo",
-        body: "This is a test",
-        headers: {
-          Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
-        }
+        body: "This is a test"
      })
     }).then(res => res.json());
     console.log(response);
