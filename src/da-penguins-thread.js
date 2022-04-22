@@ -122,6 +122,12 @@ export class DaPenguinsThread extends LitElement {
       .create-comment:active {
         box-shadow: 0px 0px 2px #0EBD60;
       }
+
+      .disabled-button{
+        background-color: lightgrey !important;
+        color: darkgrey !important;
+        pointer-events: none;
+      }
       
     `;
   }
@@ -228,12 +234,12 @@ export class DaPenguinsThread extends LitElement {
       method: 'POST',
       headers: { Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}` },
       body: JSON.stringify({
-        thread_uid: "1234",
-        user_uid: "jumbo",
+        thread_uid: this.threadID,
         body: commentBody
      })
     }).then(res => res.json());
     console.log(response);
+    return response;
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -253,7 +259,7 @@ export class DaPenguinsThread extends LitElement {
       Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
     }}).then(res => res.json());
     console.log(targetUID ," ", response);
-    
+    return response;
   }
 
 // eslint-disable-next-line class-methods-use-this
@@ -298,15 +304,37 @@ export class DaPenguinsThread extends LitElement {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  initiateCreateComment(){
+  async initiateCreateComment(){
+    /*
     const newComment = prompt("Care to add something to the discussion?\nType your comment below:", "");
     if(newComment == null || newComment.trim() == ""){
       console.log("nothing to see here");
     } else {
       this.createComment(newComment);
     }
+    */
 
     // TODO: Once createComment() is working, set this up to create a new comment
+    const commentBody = this.shadowRoot.querySelector(".submit-body");
+    if (commentBody.value !== ''){
+      const newComment = await this.createComment(commentBody.value);
+      commentBody.value = '';
+      this.commentList = await this.getAllComments();
+    }
+  }
+
+  validateSubmitButton(){
+    console.log("NEW INPUT")
+    const submitButton = this.shadowRoot.querySelector(".submit-button");
+    const commentBody = this.shadowRoot.querySelector(".submit-body");
+    if (commentBody.value == ''){
+      console.log(commentBody.value)
+      submitButton.disabled = true;
+      submitButton.classList.add('disabled-button');
+    } else {
+      submitButton.disabled = false;
+      submitButton.classList.remove('disabled-button');
+    }
   }
 
   render() {
@@ -329,6 +357,9 @@ export class DaPenguinsThread extends LitElement {
       <div>
         ${this.commentList.map(commentArray => commentArray.map(comment => html` ${this.renderComment(comment)} `))}
       </div>
+      <div class="submit-prompt">Have something to say? Leave a comment below!</div>
+      <textarea class="submit-body" @input=${this.validateSubmitButton}></textarea>
+      <button class= "create-comment submit-button disabled-button" @click="${this.initiateCreateComment}" disabled>Submit</button>
     `;
     
   }
