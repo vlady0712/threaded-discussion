@@ -157,6 +157,17 @@ export class DaPenguinsComment extends SimpleColors {
         cursor: pointer;
       }
 
+      .submit-button:disabled {
+        background-color: lightgrey !important;
+        color: darkgrey !important;
+        pointer-events: none;
+      }
+
+      .edit-options-visible > .submit-button {
+        background-color: #184C34;
+        color: #EFF4ED;
+      }
+
       .edit-options-visible > .edit-button:hover,
       .edit-options-visible > .edit-button:focus,
       .edit-options-visible > .edit-button:active {
@@ -248,10 +259,6 @@ export class DaPenguinsComment extends SimpleColors {
       }
       if (propName === 'status' && this[propName] === 'pending') {
         this.answerIcon = false;
-      }
-      // Can't remember if this is how this works but we're gonna see about it
-      if (propName === 'likes' && this[propName] > oldValue) {
-        this.render();
       }
     });
   }
@@ -365,15 +372,27 @@ export class DaPenguinsComment extends SimpleColors {
   cancelEdit(){
     this.hideEditingPane();
     this.shadowRoot.querySelector('.post-body-content').value = this.body;
-    }
+    this.validateEditButton();
+  }
 
   submitEdit(){
     const newBody = this.shadowRoot.querySelector('.post-body-content').value.trim();
-    this.body = newBody;
-    this.editComment(newBody);
-    this.hideEditingPane();
-
+    if(newBody != ""){
+      this.body = newBody;
+      this.editComment(newBody);
+      this.hideEditingPane();
+    }
     this.getSpecificComment(this.UID);
+  }
+
+  validateEditButton(){
+    const submitButton = this.shadowRoot.querySelector(".submit-button");
+    const commentBody = this.shadowRoot.querySelector(".post-body-content");
+    if (commentBody.value.trim() == ''){
+      submitButton.disabled = true;
+    } else {
+      submitButton.disabled = false;
+    }
   }
 
   // HTML - specific to Lit
@@ -383,7 +402,7 @@ export class DaPenguinsComment extends SimpleColors {
         <div class="post-main">
           <div class="post-title">
             <div class="profile-pic">
-            <rpg-character class="rpg" seed="test" width="60" height="60" ></rpg-character>
+            <!-- <rpg-character class="rpg" seed="test" width="60" height="60" ></rpg-character> -->
             </div>
             <div class="title-content">
               <div class="header">
@@ -399,19 +418,15 @@ export class DaPenguinsComment extends SimpleColors {
             </div>
           </div>
           <div class="post-body">
-            <textarea class="post-body-content" readonly>
-              ${this.body.trim()}
-            </textarea>
+            <textarea class="post-body-content" readonly @input=${this.validateEditButton}>${this.body}</textarea>
           </div>
           <div class="edit-options-hidden">
             <button class="edit-button" @click=${this.cancelEdit}>Cancel</button>
-            <button class="edit-button" @click=${this.submitEdit}>Submit</button>
+            <button class="edit-button submit-button" @click=${this.submitEdit} disabled>Submit</button>
           </div>
         </div>
-        
         <button @click=${this.likeComment}>Like Comment</button>
         <button @click=${this.deleteComment}>Delete Comment</button>
-        
         <button @click=${this.showEditingPane}>Edit Comment</button>
       </div>
     `;  

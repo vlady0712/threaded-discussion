@@ -40,6 +40,18 @@ export default {
           src: 'node_modules/@lrnwebcomponents/hax-iconset/lib/svgs',
           dest: 'dist',
         },
+        {
+          src: 'lib',
+          dest: 'dist',
+        },
+        {
+          src: 'demo',
+          dest: 'dist',
+        },
+        {
+          src: 'lib/assets/images/HAXLogo.svg',
+          dest: 'dist/assets/lib/assets/images/HAXLogo.svg',
+        }
       ],
     }),
     nodeResolve(),
