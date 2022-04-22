@@ -70,6 +70,7 @@ export class DaPenguinsComment extends SimpleColors {
         margin-bottom: 15px;
         height: 215px;
         width: 1300px;
+        font-size: 14px;
       }
 
       .post-body-content {
@@ -82,6 +83,7 @@ export class DaPenguinsComment extends SimpleColors {
         width: 1300px;
         font-family: 'Open Sans', sans-serif;
         color: black;
+        padding: 10px;
       }
 
       .profile-pic {
@@ -134,21 +136,43 @@ export class DaPenguinsComment extends SimpleColors {
       } */
 
       .edit-post-body{
-        box-shadow: 0px 0px 5px cadetblue;
+        box-shadow: 0px 0px 5px #0EBD60;
         background-color: var(--simple-colors-default-theme-accent-4);
-        
+                
       }
 
-      .edit-post-main > *:not(.edit-post-body,.edit-options-visible){
+      .edit-post-blur > *:not(.edit-post-body,.edit-options-visible){
         filter: blur(2px);
       }
 
+      .edit-options-visible > .edit-button {
+        background-color: #CAD1C9;
+        color: #184C34;
+        text-align: center;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 15px;
+        margin: 4px 2px;
+        cursor: pointer;
+      }
+
+      .edit-options-visible > .edit-button:hover,
+      .edit-options-visible > .edit-button:focus,
+      .edit-options-visible > .edit-button:active {
+        box-shadow: 0px 0px 2px #0EBD60;
+      }
+
       .edit-options-hidden {
-        content-visibility: hidden;
+        visibility: hidden;
+        height: 0px;
       }
 
       .edit-options-visible {
-        content-visibility: visible;
+        visibility: visible;
+        padding: 10px;
+        margin: 10px;
+        width: fit-content;
+        border-radius: 5px;
       }
 
     `];
@@ -321,7 +345,7 @@ export class DaPenguinsComment extends SimpleColors {
     this.shadowRoot.querySelector('.edit-options-visible').classList.remove('edit-options-hidden');
 
     this.shadowRoot.querySelector('.post-body').classList.add('edit-post-body');
-    this.shadowRoot.querySelector('.post-main').classList.add('edit-post-main');
+    this.shadowRoot.querySelector('.post-main').classList.add('edit-post-blur');
   }
 
   hideEditingPane(){
@@ -331,7 +355,7 @@ export class DaPenguinsComment extends SimpleColors {
     this.shadowRoot.querySelector('.edit-options-hidden').classList.remove('edit-options-visible');
 
     this.shadowRoot.querySelector('.post-body').classList.remove('edit-post-body');
-    this.shadowRoot.querySelector('.post-main').classList.remove('edit-post-main');
+    this.shadowRoot.querySelector('.post-main').classList.remove('edit-post-blur');
   }
 
   cancelEdit(){
@@ -364,6 +388,7 @@ export class DaPenguinsComment extends SimpleColors {
                 <simple-icon-lite icon="favorite"></simple-icon-lite>
                 <p>${this.likes}</p>
                 <p>${this.submittedTime}</p>
+                ${this.isEdited ? html`<p>edited: ${this.editedTime}</p>` : ''}
               </div>
             </div>
           </div>
@@ -373,8 +398,8 @@ export class DaPenguinsComment extends SimpleColors {
             </textarea>
           </div>
           <div class="edit-options-hidden">
-            <button @click=${this.cancelEdit}>Cancel</button>
-            <button @click=${this.submitEdit}>Submit</button>
+            <button class="edit-button" @click=${this.cancelEdit}>Cancel</button>
+            <button class="edit-button" @click=${this.submitEdit}>Submit</button>
           </div>
         </div>
         
