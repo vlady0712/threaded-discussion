@@ -84,6 +84,45 @@ export class DaPenguinsThread extends LitElement {
         background: red;
         filter: opacity(0.65);
       } */
+
+      host {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 22px;
+        color: black;
+
+        --accent-color-white: #EFF4ED;
+      }
+
+      #Nest {
+        margin: 10px;
+      }
+
+      .command-center {
+        padding: 10px;
+        border: 1px solid #184C34;
+        margin: 10px;
+        width: fit-content;
+        border-radius: 5px;
+      }
+
+      .create-comment {
+        background-color: #CAD1C9;
+        color: #184C34;
+        text-align: center;
+        border: none;
+        border-radius: 10px;
+        padding: 15px 20px;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+      }
+
+      .create-comment:hover,
+      .create-comment:focus,
+      .create-comment:active {
+        box-shadow: 0px 0px 2px #0EBD60;
+      }
+      
     `;
   }
 
@@ -184,14 +223,14 @@ export class DaPenguinsThread extends LitElement {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async createComment(){
+  async createComment(commentBody){
     const response = await fetch('/api/submit-comment', {
       method: 'POST',
       headers: { Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}` },
       body: JSON.stringify({
         thread_uid: "1234",
         user_uid: "jumbo",
-        body: "This is a test"
+        body: commentBody
      })
     }).then(res => res.json());
     console.log(response);
@@ -224,13 +263,18 @@ export class DaPenguinsThread extends LitElement {
     const isEdited = comment.is_edited != '0';
     const isReply= comment.is_reply != '0';
 
-    let submittedTime = new Date(comment.submitted_time);
-    submittedTime = `${submittedTime.toLocaleString()}`;
+    // UNDER CONSTRUCTION
 
-    let editedTime = comment.edited_time;
+    const submittedTime = new Date(comment.submitted_time).toLocaleString();
+
+    let editedTime = '';
+
     if(isEdited){
-      editedTime = new Date(editedTime);
+      editedTime = new Date(comment.edited_time).toLocaleString();
     }
+
+    // END UNDER CONSTRUCTION
+
     if(comment.is_deleted == '0'){
       return html`
         <da-penguins-comment
@@ -248,7 +292,18 @@ export class DaPenguinsThread extends LitElement {
       `;
     }
     return html``;
-    
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  initiateCreateComment(){
+    const newComment = prompt("Care to add something to the discussion?\nType your comment below:", "");
+    if(newComment == null || newComment.trim() == ""){
+      console.log("nothing to see here");
+    } else {
+      this.createComment(newComment);
+    }
+
+    // TODO: Once createComment() is working, set this up to create a new comment
   }
 
   render() {
@@ -262,11 +317,11 @@ export class DaPenguinsThread extends LitElement {
       `;
     }
     return html`
-      <div class="buttons">
-        <button @click=${this.createComment}>Create Comment</button>
-        <button @click=${this.createUser}>Create User</button>
-        <button @click=${this.getAllComments}>GET All Comments</button>
-        <button @click=${this.getSpecificComment}> GET Specific Comment </button>
+      <div class="command-center">
+        <button class="create-comment" @click=${this.initiateCreateComment}>New Comment</button>
+        <button class="create-comment" @click=${this.createUser}>Create User</button>
+        <button class="create-comment" @click=${this.getAllComments}>GET All Comments</button>
+        <button class="create-comment" @click=${this.getSpecificComment}> GET Specific Comment </button>
       </div>
       <div>
         ${this.commentList.map(item => html` ${this.renderComment(item)} `)}

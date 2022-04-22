@@ -31,20 +31,21 @@ export default async function handler(req, res) {
     const editedComment = {
       uid: reqBody.uid,
       body: reqBody.body
-    }
+    };
 
     const [rowsBeforeEdit] = await connection.query('SELECT * FROM comments WHERE uid = ?', [editedComment.uid]);
-    console.log(rowsBeforeEdit)
+    console.log(rowsBeforeEdit);
     if (rowsBeforeEdit[0].user_uid !== originUser.uid && !originUser.isAdmin) res.status(403).send("Action Prohibited");
-    // @feedback why are you editing this instead of storing this timestamp?
-    // the frontend should be able to convert this into a usable date, storage should be pure
-    const editTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+   
     editedComment.is_edited = true;
-    editedComment.edited_time = editTime;
+    const initialDate = new Date();
+    const timeOffsetDate = new Date(initialDate.getTime() - (initialDate.getTimezoneOffset() * 60000));
+    editedComment.edited_time = timeOffsetDate.toISOString().slice(0, 19).replace('T', ' ');
+    
     await connection.query('UPDATE comments SET body = ?, is_edited = ?, edited_time = ? WHERE uid = ?', [editedComment.body, editedComment.is_edited, editedComment.edited_time, editedComment.uid]);
 
     const [rowsAfterEdit] = await connection.query('SELECT * FROM comments WHERE uid = ?', [editedComment.uid]);
     const returnedComment = rowsAfterEdit[0];
-    res.status(200).json(returnedComment)
+    res.status(200).json(returnedComment);
   }
 }
