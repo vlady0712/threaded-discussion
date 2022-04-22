@@ -226,13 +226,21 @@ export class DaPenguinsThread extends LitElement {
     const isEdited = comment.is_edited != '0';
     const isReply= comment.is_reply != '0';
 
-    let submittedTime = new Date(comment.submitted_time);
-    submittedTime = `${submittedTime.toLocaleString()}`;
+    let submittedTime = comment.submitted_time;
+    console.log(`presubmitted: ${submittedTime}`);
+    submittedTime = `${submittedTime.replace(' ', 'T')}`;
+
+    const submittedTimeString = new Date(submittedTime).toLocaleString();
+    console.log(`submitted: ${submittedTimeString}`);
 
     let editedTime = comment.edited_time;
+    // editedTime = `${editedTime.replace(' ', 'T')}`;
+  
+    let editedTimeString = '';    
     if(isEdited){
-      editedTime = new Date(editedTime);
+      editedTimeString = new Date(editedTime).toLocaleString();
     }
+    console.log(`edited: ${editedTimeString}`);
     if(comment.is_deleted == '0'){
       return html`
         <da-penguins-comment

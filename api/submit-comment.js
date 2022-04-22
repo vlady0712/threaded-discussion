@@ -30,6 +30,7 @@ export default async function handler(req, res) {
     reqBody.uid = commentUUID;
     reqBody.is_reply = false;
     reqBody.submitted_time = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    console.log(`input time: ${reqBody.submitted_time}`);
     if (originUser && originUser.uid) { await connection.query('INSERT INTO comments (uid, thread_uid, user_uid, submitted_time, body, is_reply, reply_to ) VALUES (?,?,?,?,?,?,?)', [reqBody.uid, reqBody.thread_uid, originUser.uid, reqBody.submitted_time, reqBody.body, reqBody.is_reply, reqBody.reply_to]); }
     else { await connection.query('INSERT INTO comments (uid, thread_uid, submitted_time, body, is_reply, reply_to ) VALUES (?,?,?,?,?,?)', [reqBody.uid, reqBody.thread_uid, reqBody.submitted_time, reqBody.body, reqBody.is_reply, reqBody.reply_to]); }
     res.status(200).json(reqBody);
