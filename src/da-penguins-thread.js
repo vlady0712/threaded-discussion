@@ -84,6 +84,97 @@ export class DaPenguinsThread extends LitElement {
         background: red;
         filter: opacity(0.65);
       } */
+
+      host {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 22px;
+        color: black;
+
+        --accent-color-white: #EFF4ED;
+      }
+
+      #Nest {
+        margin: 10px;
+      }
+
+      .command-center {
+        padding: 10px;
+        border: 1px solid #184C34;
+        margin: 10px;
+        width: fit-content;
+        border-radius: 5px;
+      }
+
+      .create-comment {
+        background-color: #CAD1C9;
+        color: #184C34;
+        text-align: center;
+        border: none;
+        border-radius: 10px;
+        padding: 15px 20px;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+      }
+
+      .create-comment:hover,
+      .create-comment:focus,
+      .create-comment:active {
+        box-shadow: 0px 0px 2px #0EBD60;
+      }
+
+      .submit-button:disabled {
+        background-color: lightgrey !important;
+        color: darkgrey !important;
+        pointer-events: none;
+      }
+
+      .submit-button {
+        background-color: #184C34;
+        color: #EFF4ED;
+      }
+
+      .new-comment-pane-visible {
+        visibility: visible;
+        background-color: #EFF4ED;
+        padding: 20px;
+        border: 1px solid #184C34;
+        margin: 20px 10px;
+        width: fit-content;
+        border-radius: 5px;
+        font-family: 'Open Sans', sans-serif;
+      }
+
+      .new-comment-pane-visible .comment-prompt {
+        margin: 0px;
+        color: #184C34;
+      }
+
+      .new-comment-pane-visible .submit-body {
+        border: solid 1px #184C34;
+        border-radius: 5px;
+        background-color: whitesmoke;
+        resize: none;
+        outline: none;
+        width: 400px;
+        height: 125px;
+        font-family: 'Open Sans', sans-serif;
+        color: #184C34;
+        padding: 10px;
+        margin: 10px 0px;
+      }
+
+      .submit-body:hover,
+      .submit-body:focus,
+      .submit-body:active {
+        box-shadow: 0px 0px 2px darkslategrey
+      }
+
+      .new-comment-pane-hidden {
+        visibility: hidden;
+        height: 0px;
+    }
+      
     `;
   }
 
@@ -175,36 +266,46 @@ export class DaPenguinsThread extends LitElement {
       body: JSON.stringify({
         name: "Jimmy",
          is_admin: false,
-      }) // body data type must match "Content-Type" header
+      }),
+      headers: {
+        Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
+      }
     }).then(res => res.json());
     console.log(response);
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async createComment(){
+  async createComment(commentBody){
     const response = await fetch('/api/submit-comment', {
       method: 'POST',
+      headers: { Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}` },
       body: JSON.stringify({
-        thread_uid: "1234",
-        user_uid: "jumbo",
-        body: "This is a test",
+        thread_uid: this.threadID,
+        body: commentBody
      })
     }).then(res => res.json());
     console.log(response);
+    return response;
   }
 
   // eslint-disable-next-line class-methods-use-this
   async getAllComments() {
-    const response = await fetch('/api/get-comment').then(res => res.json());
+    // TODO: make query into URL object
+    const response = await fetch(`/api/get-comment?threadId=${this.threadID}`, {headers: {
+      Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
+    }}).then(res => res.json());
+    console.log(response);
     return response;
   }
 
   // TODO: Maybe use for chaining replies to a comment? (can be thru comment.js or thread.js)
   // eslint-disable-next-line class-methods-use-this
   async getSpecificComment(targetUID){
-    const response = await fetch(`/api/get-comment?uid=1d89ffaf-f8b2-4bc4-b71e-ddbc19827b66`).then(res => res.json());
+    const response = await fetch(`/api/get-comment?uid=1d89ffaf-f8b2-4bc4-b71e-ddbc19827b66`, {headers: {
+      Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
+    }}).then(res => res.json());
     console.log(targetUID ," ", response);
-    
+    return response;
   }
 
 // eslint-disable-next-line class-methods-use-this
@@ -216,18 +317,19 @@ export class DaPenguinsThread extends LitElement {
     const isEdited = comment.is_edited != '0';
     const isReply= comment.is_reply != '0';
 
-    let submittedTime = new Date(comment.submitted_time);
-    submittedTime = `${submittedTime.toLocaleString()}`;
+    const submittedTime = new Date(comment.submitted_time).toLocaleString();
 
-    let editedTime = comment.edited_time;
+    let editedTime = '';
     if(isEdited){
-      editedTime = new Date(editedTime);
+      editedTime = new Date(comment.edited_time).toLocaleString();
     }
+
     if(comment.is_deleted == '0'){
       return html`
         <da-penguins-comment
           UID=${comment.uid}
           userUID=${comment.user_uid}
+          username=${comment.name}
           submittedTime=${submittedTime}
           body=${comment.body}
           editedTime=${editedTime}
@@ -240,7 +342,55 @@ export class DaPenguinsThread extends LitElement {
       `;
     }
     return html``;
-    
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  async initiateCreateComment(){
+    /*
+    const newComment = prompt("Care to add something to the discussion?\nType your comment below:", "");
+    if(newComment == null || newComment.trim() == ""){
+      console.log("nothing to see here");
+    } else {
+      this.createComment(newComment);
+    }
+    */
+
+    const commentBody = this.shadowRoot.querySelector(".submit-body");
+    if (commentBody.value.trim() !== ''){
+      const newComment = await this.createComment(commentBody.value);
+      commentBody.value = '';
+      this.commentList = await this.getAllComments();
+    }
+    this.hideNewCommentPane();
+  }
+
+  validateSubmitButton(){
+    console.log("NEW INPUT");
+    const submitButton = this.shadowRoot.querySelector(".submit-button");
+    const commentBody = this.shadowRoot.querySelector(".submit-body");
+    if (commentBody.value.trim() == ''){
+      console.log(commentBody.value);
+      submitButton.disabled = true;
+    } else {
+      submitButton.disabled = false;
+    }
+  }
+
+  showCommentPane(){
+    this.shadowRoot.querySelector('.new-comment-pane-hidden').classList.add('new-comment-pane-visible');
+    this.shadowRoot.querySelector('.new-comment-pane-visible').classList.remove('new-comment-pane-hidden');
+  }
+
+  hideNewCommentPane(){
+    this.shadowRoot.querySelector('.new-comment-pane-visible').classList.add('new-comment-pane-hidden');
+    this.shadowRoot.querySelector('.new-comment-pane-hidden').classList.remove('new-comment-pane-visible');
+
+  }
+
+  cancelComment(){
+    this.hideNewCommentPane();
+    this.shadowRoot.querySelector('.submit-body').value = "";
+    this.validateSubmitButton();
   }
 
   render() {
@@ -254,14 +404,26 @@ export class DaPenguinsThread extends LitElement {
       `;
     }
     return html`
-      <div class="buttons">
-        <button @click=${this.createComment}>Create Comment</button>
-        <button @click=${this.createUser}>Create User</button>
-        <button @click=${this.getAllComments}>GET All Comments</button>
-        <button @click=${this.getSpecificComment}> GET Specific Comment </button>
-      </div>
-      <div>
-        ${this.commentList.map(item => html` ${this.renderComment(item)} `)}
+      <div class="entire-thread">
+        <div class="command-center">
+          <button class="create-comment" @click=${this.showCommentPane}> New Comment </button>
+          <button class="create-comment" @click=${this.createUser}> Create User </button>
+          <button class="create-comment" @click=${this.getAllComments}> GET All Comments </button>
+          <button class="create-comment" @click=${this.getSpecificComment}> GET Specific Comment </button>
+        </div>
+        <div class="new-comment-pane-hidden">
+          <p class="comment-prompt">
+            Have something to say? Leave a comment below!
+          </p>
+          <textarea class="submit-body" @input=${this.validateSubmitButton} ></textarea>
+          <div class="comment-pane-buttons">
+            <button class="create-comment" @click=${this.cancelComment}> Cancel </button>
+            <button class="create-comment submit-button" @click="${this.initiateCreateComment}" disabled> Submit </button>
+          </div>
+        </div>
+        <div>
+          ${this.commentList.map(commentArray => commentArray.map(comment => html` ${this.renderComment(comment)} `) )}
+        </div>
       </div>
     `;
     
