@@ -6,7 +6,7 @@ import { SimpleColors } from '@lrnwebcomponents/simple-colors/simple-colors.js';
 import 'jwt-auth-component';
 import '@lrnwebcomponents/simple-icon/lib/simple-icons.js';
 import '@lrnwebcomponents/simple-icon/lib/simple-icon-lite.js';
- import '@lrnwebcomponents/rpg-character/rpg-character.js';
+import '@lrnwebcomponents/rpg-character/rpg-character.js';
 
 // EXPORT (so make available to other documents that reference this file) a class, that extends LitElement
 
@@ -116,17 +116,6 @@ export class DaPenguinsComment extends SimpleColors {
         height: auto;
         width: 40%;
       } 
-
-/* 
-      simple-icon-lite {
-        --simple-icon-height: 100px;
-        --simple-icon-width: 100px;
-        color: white;
-        transform: translate(-50%, -190%);
-        top: 50%;
-        left: 50%;
-        z-index: 100;
-      } */
 
       .edit-post-body{
         box-shadow: 0px 0px 5px #0EBD60;
@@ -498,7 +487,7 @@ export class DaPenguinsComment extends SimpleColors {
         <div class="post-main">
           <div class="post-title">
             <div class="profile-pic">
-              <!-- <rpg-character class="rpg" seed="test" width="60" height="60" ></rpg-character> -->
+              <rpg-character class="rpg" seed=${this.username} width="75" height="75" ></rpg-character>
             </div>
             <div class="title-content">
               <div class="header">
@@ -506,8 +495,10 @@ export class DaPenguinsComment extends SimpleColors {
                 <h2>${this.UID}</h2>
               </div>
               <div class="username">
-                <simple-icon-lite icon="favorite"></simple-icon-lite>
-                <p>${this.likes}</p>
+                <p> 
+                  <simple-icon-lite icon="favorite"></simple-icon-lite>
+                  ${this.likes}
+                </p>
                 <p>${this.submittedTime}</p>
                 ${this.isEdited ? html`<p>edited: ${this.editedTime}</p>` : ''}
               </div>
