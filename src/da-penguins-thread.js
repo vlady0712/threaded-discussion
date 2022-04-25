@@ -302,7 +302,7 @@ export class DaPenguinsThread extends LitElement {
   // TODO: Maybe use for chaining replies to a comment? (can be thru comment.js or thread.js)
   // eslint-disable-next-line class-methods-use-this
   async getSpecificComment(targetUID){
-    const response = await fetch(`/api/get-comment?uid=1d89ffaf-f8b2-4bc4-b71e-ddbc19827b66`, {headers: {
+    const response = await fetch(`/api/get-comment?uid=${targetUID}`, {headers: {
       Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
     }}).then(res => res.json());
     console.log(targetUID ," ", response);
@@ -394,6 +394,11 @@ export class DaPenguinsThread extends LitElement {
     this.validateSubmitButton();
   }
 
+  querySpecificComment(){
+    const uid = prompt("Enter the comment's UID here and view it's return in the console: ", "UID");
+    console.log(this.getSpecificComment(uid));
+  }
+
   render() {
     if (!this.threadEnabled) {
       // TODO: add different cases for various thread permissions
@@ -410,7 +415,7 @@ export class DaPenguinsThread extends LitElement {
           <button class="create-comment" @click=${this.showCommentPane}> New Comment </button>
           <button class="create-comment" @click=${this.createUser}> Create User </button>
           <button class="create-comment" @click=${this.getAllComments}> GET All Comments </button>
-          <button class="create-comment" @click=${this.getSpecificComment}> GET Specific Comment </button>
+          <button class="create-comment" @click=${this.querySpecificComment}> GET Specific Comment </button>
         </div>
         <div class="new-comment-pane-hidden">
           <p class="comment-prompt">

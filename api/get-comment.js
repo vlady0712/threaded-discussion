@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,PATCH,DELETE,POST,PUT");
   res.setHeader("Access-Control-Allow-Headers", "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version");
-  console.log(`Get Comment Endpoint: ${req}`)
+  console.log(`Get Comment Endpoint: ${req}`);
 
   /*
   if (req.headers.authorization == null) { res.status(401).send("Authentication Required"); }
