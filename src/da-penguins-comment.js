@@ -451,18 +451,18 @@ export class DaPenguinsComment extends SimpleColors {
   hideReplyPane(){
     this.shadowRoot.querySelector('.reply-pane-visible').classList.add('reply-pane-hidden');
     this.shadowRoot.querySelector('.reply-pane-hidden').classList.remove('reply-pane-visible');
+    this.validateReplyButton();
   }
 
   cancelReply(){
     this.hideReplyPane();
     this.shadowRoot.querySelector('.reply-body').value = "";
-    this.validateReplyButton();
   }
 
   initiateCreateReply(){
     const replyBody = this.shadowRoot.querySelector('.reply-body').value.trim();
     if(replyBody != ""){
-      // this.createReply(replyBody);
+      this.createReply(replyBody);
       console.log("Where reply submission would occur");
       this.hideReplyPane();
     }
