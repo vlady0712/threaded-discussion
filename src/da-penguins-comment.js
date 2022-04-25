@@ -1,4 +1,3 @@
-
 /* eslint-disable eqeqeq */
 /* eslint-disable class-methods-use-this */
 // dependencies / things imported
@@ -7,7 +6,7 @@ import { SimpleColors } from '@lrnwebcomponents/simple-colors/simple-colors.js';
 import 'jwt-auth-component';
 import '@lrnwebcomponents/simple-icon/lib/simple-icons.js';
 import '@lrnwebcomponents/simple-icon/lib/simple-icon-lite.js';
- import '@lrnwebcomponents/rpg-character/rpg-character.js';
+import '@lrnwebcomponents/rpg-character/rpg-character.js';
 
 // EXPORT (so make available to other documents that reference this file) a class, that extends LitElement
 
@@ -32,7 +31,7 @@ export class DaPenguinsComment extends SimpleColors {
           width: 5em;
           background-color: var(--simple-colors-default-theme-accent-2);
           box-shadow: 0 0 5px var(--simple-colors-default-theme-accent-7);
-          
+         
           /* font info */
           font-family: 'Open Sans', sans-serif;
           color: black;
@@ -118,21 +117,10 @@ export class DaPenguinsComment extends SimpleColors {
         width: 40%;
       } 
 
-/* 
-      simple-icon-lite {
-        --simple-icon-height: 100px;
-        --simple-icon-width: 100px;
-        color: white;
-        transform: translate(-50%, -190%);
-        top: 50%;
-        left: 50%;
-        z-index: 100;
-      } */
-
       .edit-post-body{
         box-shadow: 0px 0px 5px #0EBD60;
         background-color: var(--simple-colors-default-theme-accent-4);
-                
+               
       }
 
       .edit-post-blur > *:not(.edit-post-body,.edit-options-visible){
@@ -220,6 +208,20 @@ export class DaPenguinsComment extends SimpleColors {
         display: block;
       }
 
+      .like-button {
+        background-color: var(--simple-colors-default-theme-accent-4);
+        border: solid 1px black;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      .like-button:hover,
+      .like-button:focus,
+      .like-button:active {
+        filter: invert(.5);
+        filter: opacity(.3);
+      }
+
     `];
   }
 
@@ -237,7 +239,7 @@ export class DaPenguinsComment extends SimpleColors {
     // Gets the ID NEEDED FOR GETTING COMMENTS
     this.threadID = null;
 
-    this.UID = null; 
+    this.UID = null;
     this.userUID = null;
     this.submittedTime = null;
     this.body = null;
@@ -246,7 +248,7 @@ export class DaPenguinsComment extends SimpleColors {
     this.isReply = false;
     this.replyTo = null;
     this.likes = 0;
-    
+   
   }
 
   // properties that you wish to use as data in HTML, CSS, and the updated life-cycle
@@ -400,7 +402,7 @@ export class DaPenguinsComment extends SimpleColors {
       method: 'PUT',
       headers: { Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}` },
       body: JSON.stringify({
-        uid: this.UID, 
+        uid: this.UID,
         body: newBody
      })
     }).then(res => res.json());
@@ -410,7 +412,7 @@ export class DaPenguinsComment extends SimpleColors {
 
   showEditingPane(){
     this.shadowRoot.querySelector('.post-body-content').readOnly = false;
-    
+   
     this.shadowRoot.querySelector('.edit-options-hidden').classList.add('edit-options-visible');
     this.shadowRoot.querySelector('.edit-options-visible').classList.remove('edit-options-hidden');
 
@@ -463,19 +465,18 @@ export class DaPenguinsComment extends SimpleColors {
   hideReplyPane(){
     this.shadowRoot.querySelector('.reply-pane-visible').classList.add('reply-pane-hidden');
     this.shadowRoot.querySelector('.reply-pane-hidden').classList.remove('reply-pane-visible');
-
+    this.validateReplyButton();
   }
 
   cancelReply(){
     this.hideReplyPane();
     this.shadowRoot.querySelector('.reply-body').value = "";
-    this.validateReplyButton();
   }
 
   initiateCreateReply(){
     const replyBody = this.shadowRoot.querySelector('.reply-body').value.trim();
     if(replyBody != ""){
-      // this.createReply(replyBody);
+      this.createReply(replyBody);
       console.log("Where reply submission would occur");
       this.hideReplyPane();
     }
@@ -500,7 +501,7 @@ export class DaPenguinsComment extends SimpleColors {
         <div class="post-main">
           <div class="post-title">
             <div class="profile-pic">
-              <!-- <rpg-character class="rpg" seed="test" width="60" height="60" ></rpg-character> -->
+              <rpg-character class="rpg" seed=${this.username} width="75" height="75" ></rpg-character>
             </div>
             <div class="title-content">
               <div class="header">
@@ -508,8 +509,12 @@ export class DaPenguinsComment extends SimpleColors {
                 <h2>${this.UID}</h2>
               </div>
               <div class="username">
-                <simple-icon-lite icon="favorite"></simple-icon-lite>
-                <p>${this.likes}</p>
+                <p> 
+                  <button class="like-button" @click=${this.likeComment}>
+                    <simple-icon-lite icon="favorite"></simple-icon-lite>
+                  </button>
+                  ${this.likes}
+                </p>
                 <p>${this.submittedTime}</p>
                 ${this.isEdited ? html`<p>edited: ${this.editedTime}</p>` : ''}
               </div>
@@ -534,7 +539,6 @@ export class DaPenguinsComment extends SimpleColors {
           </div>
         </div>
         <div class="comment-buttons">
-          <button @click=${this.likeComment}>Like Comment</button>
           <button @click=${this.deleteComment}>Delete Comment</button>
           <button @click=${this.showEditingPane}>Edit Comment</button>
           <button @click=${this.showReplyPane}>replyComment</button>
