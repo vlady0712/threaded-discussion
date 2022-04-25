@@ -1,4 +1,3 @@
-
 /* eslint-disable eqeqeq */
 /* eslint-disable class-methods-use-this */
 // dependencies / things imported
@@ -32,7 +31,7 @@ export class DaPenguinsComment extends SimpleColors {
           width: 5em;
           background-color: var(--simple-colors-default-theme-accent-2);
           box-shadow: 0 0 5px var(--simple-colors-default-theme-accent-7);
-          
+         
           /* font info */
           font-family: 'Open Sans', sans-serif;
           color: black;
@@ -132,7 +131,7 @@ export class DaPenguinsComment extends SimpleColors {
       .edit-post-body{
         box-shadow: 0px 0px 5px #0EBD60;
         background-color: var(--simple-colors-default-theme-accent-4);
-                
+               
       }
 
       .edit-post-blur > *:not(.edit-post-body,.edit-options-visible){
@@ -237,7 +236,7 @@ export class DaPenguinsComment extends SimpleColors {
     // Gets the ID NEEDED FOR GETTING COMMENTS
     this.threadID = null;
 
-    this.UID = null; 
+    this.UID = null;
     this.userUID = null;
     this.submittedTime = null;
     this.body = null;
@@ -246,7 +245,7 @@ export class DaPenguinsComment extends SimpleColors {
     this.isReply = false;
     this.replyTo = null;
     this.likes = 0;
-    
+   
   }
 
   // properties that you wish to use as data in HTML, CSS, and the updated life-cycle
@@ -400,7 +399,7 @@ export class DaPenguinsComment extends SimpleColors {
       method: 'PUT',
       headers: { Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}` },
       body: JSON.stringify({
-        uid: this.UID, 
+        uid: this.UID,
         body: newBody
      })
     }).then(res => res.json());
@@ -410,7 +409,7 @@ export class DaPenguinsComment extends SimpleColors {
 
   showEditingPane(){
     this.shadowRoot.querySelector('.post-body-content').readOnly = false;
-    
+   
     this.shadowRoot.querySelector('.edit-options-hidden').classList.add('edit-options-visible');
     this.shadowRoot.querySelector('.edit-options-visible').classList.remove('edit-options-hidden');
 
@@ -463,7 +462,6 @@ export class DaPenguinsComment extends SimpleColors {
   hideReplyPane(){
     this.shadowRoot.querySelector('.reply-pane-visible').classList.add('reply-pane-hidden');
     this.shadowRoot.querySelector('.reply-pane-hidden').classList.remove('reply-pane-visible');
-
   }
 
   cancelReply(){
