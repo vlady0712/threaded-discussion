@@ -115,9 +115,9 @@ export class DaPenguinsComment extends SimpleColors {
         margin-top: 10px;
         height: auto;
         width: 40%;
-      }
+      } 
 
-/*
+/* 
       simple-icon-lite {
         --simple-icon-height: 100px;
         --simple-icon-width: 100px;
@@ -350,10 +350,10 @@ export class DaPenguinsComment extends SimpleColors {
         body: replyBody,
         is_reply: true,
         reply_to: this.UID
-       
+        
      })
     }).then(res => res.json());
-   
+    
     console.log(response);
     console.log("specific comment: ");
     console.log(await this.getAllComments());
@@ -462,18 +462,18 @@ export class DaPenguinsComment extends SimpleColors {
   hideReplyPane(){
     this.shadowRoot.querySelector('.reply-pane-visible').classList.add('reply-pane-hidden');
     this.shadowRoot.querySelector('.reply-pane-hidden').classList.remove('reply-pane-visible');
-    this.validateReplyButton();
   }
 
   cancelReply(){
     this.hideReplyPane();
     this.shadowRoot.querySelector('.reply-body').value = "";
+    this.validateReplyButton();
   }
 
   initiateCreateReply(){
     const replyBody = this.shadowRoot.querySelector('.reply-body').value.trim();
     if(replyBody != ""){
-      this.createReply(replyBody);
+      // this.createReply(replyBody);
       console.log("Where reply submission would occur");
       this.hideReplyPane();
     }
@@ -498,7 +498,7 @@ export class DaPenguinsComment extends SimpleColors {
         <div class="post-main">
           <div class="post-title">
             <div class="profile-pic">
-              <rpg-character class="rpg" seed="test" width="60" height="60" ></rpg-character>
+              <!-- <rpg-character class="rpg" seed="test" width="60" height="60" ></rpg-character> -->
             </div>
             <div class="title-content">
               <div class="header">

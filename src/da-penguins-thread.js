@@ -281,7 +281,8 @@ export class DaPenguinsThread extends LitElement {
       headers: { Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}` },
       body: JSON.stringify({
         thread_uid: this.threadID,
-        body: commentBody
+        body: commentBody,
+        is_reply: false
      })
     }).then(res => res.json());
     console.log(response);
