@@ -98,14 +98,18 @@ export class DaPenguinsThread extends LitElement {
       .submit-body:hover,
       .submit-body:focus,
       .submit-body:active {
-        box-shadow: 0px 0px 2px darkslategrey
+        box-shadow: 0px 0px 2px darkslategrey;
       }
 
       .new-comment-pane-hidden {
         visibility: hidden;
         height: 0px;
-    }
-      
+      }
+
+      .is-reply {
+        margin-left: 55px;
+        scale: (0.95);
+      }
     `;
   }
 
@@ -304,6 +308,7 @@ export class DaPenguinsThread extends LitElement {
           replyTo=${comment.reply_to}
           likes=${comment.likes}
           threadID=${this.threadID}
+          class="${isReply ? 'is-reply' : ''}"
         ></da-penguins-comment>
       `;
     }
