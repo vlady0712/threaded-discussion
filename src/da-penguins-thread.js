@@ -149,6 +149,8 @@ export class DaPenguinsThread extends LitElement {
         }
       }
     });
+    // Listen for new comment replies
+    this.addEventListener('reply-created', this.refreshCommentList)
   }
 
   // properties that you wish to use as data in HTML, CSS, and the updated life-cycle
@@ -166,6 +168,11 @@ export class DaPenguinsThread extends LitElement {
   async authsucks() {
     this.commentList = await this.getAllComments();
     this.threadEnabled = true;
+  }
+
+  async refreshCommentList() {
+    console.log("reply created, refreshing now...")
+    this.commentList = await this.getAllComments();
   }
 
   // TODO: If this hashes the current page, how will we have multiple threads on a page (as requested for comp?)

@@ -499,6 +499,11 @@ export class DaPenguinsComment extends SimpleColors {
     }
     console.log(`reply: ${replyBody}`);
     this.shadowRoot.querySelector('.reply-body').value = "";
+    const replyEvent = new CustomEvent('reply-created', {
+      bubbles: true,
+      composed: true
+    });
+    this.dispatchEvent(replyEvent);
   }
 
   validateReplyButton(){
