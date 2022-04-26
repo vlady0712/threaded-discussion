@@ -139,7 +139,9 @@ export class DaPenguinsThread extends LitElement {
             const threadIndex = this.commentList.indexOf(commentThread);
             const commentIndex = this.commentList[threadIndex].indexOf(comment);
             this.commentList[threadIndex].splice(commentIndex, commentIndex+1);
-            this.commentList.splice(threadIndex, threadIndex+1);
+            if (this.commentList[threadIndex].length === 0 || commentIndex === 0){
+              this.commentList.splice(threadIndex, threadIndex+1);
+            }
             console.log(this.commentList);
             const newCommentList = this.commentList;
             this.commentList = undefined;
