@@ -394,7 +394,22 @@ export class DaPenguinsComment extends SimpleColors {
     const response = await fetch(`/api/delete-comment?uid=${this.UID}`, {headers: {
       Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
     }}).then(res => res.json());
-    console.log(response);
+    console.log(response)
+    return response;
+  }
+
+  async handleDelete(){
+    const deleteResponse = await this.deleteComment();
+    console.log("response to delete", deleteResponse);
+
+    const deleteEvent = new CustomEvent('comment-deleted', {
+      bubbles: true,
+      composed: true,
+      detail: {
+        commentId: this.UID
+      }
+    });
+    this.dispatchEvent(deleteEvent);
   }
 
   async editComment(newBody){
@@ -540,10 +555,9 @@ export class DaPenguinsComment extends SimpleColors {
         </div>
 
         <div class="comment-buttons">
-          <button class="style-comment" @click=${this.deleteComment}>Delete Comment</button>
+          <button class="style-comment" @click=${this.handleDelete}>Delete Comment</button>
           <button class="style-comment" @click=${this.showEditingPane}>Edit Comment</button>
           <button class="style-comment" @click=${this.showReplyPane}>Reply Comment</button>
-
         </div>
       </div>
     `;  
