@@ -273,7 +273,7 @@ export class DaPenguinsComment extends SimpleColors {
       isEdited: { type: Boolean },
       isReply: { type: Boolean },
       replyTo: { type: String },
-      likes: { type: String }
+      likes: { type: Number }
     };
   }
 
@@ -385,6 +385,7 @@ export class DaPenguinsComment extends SimpleColors {
 
   async likeComment(){
     // 07e76fec-9f18-4b94-b464-df930de006a1
+    this.likes += 1;
     const response = await fetch(`/api/like-comment?uid=${this.UID}`, {headers: {
       Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
     }}).then(res => res.json());
