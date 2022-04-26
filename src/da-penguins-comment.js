@@ -292,6 +292,10 @@ export class DaPenguinsComment extends SimpleColors {
       if (propName === 'status' && this[propName] === 'pending') {
         this.answerIcon = false;
       }
+      if (propName === 'likes') {
+        this.likes = this.getSpecificComment(this.UID).likes;
+      }
+
     });
   }
 
@@ -395,7 +399,7 @@ export class DaPenguinsComment extends SimpleColors {
     const response = await fetch(`/api/delete-comment?uid=${this.UID}`, {headers: {
       Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
     }}).then(res => res.json());
-    console.log(response)
+    console.log(response);
     return response;
   }
 
@@ -425,6 +429,11 @@ export class DaPenguinsComment extends SimpleColors {
     console.log(response);
   }
 
+  facilitateLike(){
+    const likeNum = parseInt(this.likes, 10) + 1;
+    this.likes = likeNum;
+    this.likeComment();
+  }
 
   showEditingPane(){
     this.shadowRoot.querySelector('.post-body-content').readOnly = false;
@@ -498,6 +507,7 @@ export class DaPenguinsComment extends SimpleColors {
     }
     console.log(`reply: ${replyBody}`);
     this.shadowRoot.querySelector('.reply-body').value = "";
+    window.location.reload();
   }
 
   validateReplyButton(){
@@ -526,7 +536,7 @@ export class DaPenguinsComment extends SimpleColors {
               </div>
               <div class="username">
                 <p> 
-                  <button class="like-button" @click=${this.likeComment}>
+                  <button class="like-button" @click=${this.facilitateLike}>
                     <simple-icon-lite icon="favorite"></simple-icon-lite>
                   </button>
                   ${this.likes}
