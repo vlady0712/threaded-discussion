@@ -1,6 +1,6 @@
 /* eslint-disable eqeqeq */
 // dependencies / things imported
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css, supportsAdoptingStyleSheets } from 'lit';
 import '@lrnwebcomponents/simple-icon/lib/simple-icons.js';
 import '@lrnwebcomponents/simple-icon/lib/simple-icon-lite.js';
 import '@lrnwebcomponents/simple-colors';
@@ -189,6 +189,30 @@ export class DaPenguinsThread extends LitElement {
 
     // Auth wall
     this.addEventListener('auth-success', this.authsucks);
+    // listen to deleted events for re-render
+    // Issue: commentId undefined.
+    this.addEventListener('comment-deleted', (e) => {
+      console.log("delete event received", e.detail.commentId);
+      // console.log(this.commentList)
+      for (const commentThread of this.commentList){
+        // console.log(commentThread);
+        for (const comment of commentThread){
+          if (comment.uid == e.detail.commentId){
+            console.log("comment identified")
+            console.log(comment)
+            const threadIndex = this.commentList.indexOf(commentThread);
+            const commentIndex = this.commentList[threadIndex].indexOf(comment);
+            this.commentList[threadIndex].splice(commentIndex, commentIndex+1);
+            this.commentList.splice(threadIndex, threadIndex+1);
+            console.log(this.commentList);
+            const newCommentList = this.commentList;
+            this.commentList = undefined;
+            this.commentList = newCommentList;
+
+          }
+        }
+      }
+    });
   }
 
   // properties that you wish to use as data in HTML, CSS, and the updated life-cycle
@@ -240,6 +264,17 @@ export class DaPenguinsThread extends LitElement {
     if (super.firstUpdated) {
       super.firstUpdated(changedProperties);
     }
+  }
+
+  updated(changedProperties) {
+    if (super.updated){
+      super.updated(changedProperties);
+    }
+    changedProperties.forEach((oldValue, propName) => {
+      if (propName === 'commentList' && this[propName]){
+        console.log("comment list update wow");
+      }
+    });
   }
 
   // HTMLElement life-cycle, element has been connected to the page / added or moved
@@ -310,9 +345,8 @@ export class DaPenguinsThread extends LitElement {
 
 // eslint-disable-next-line class-methods-use-this
   renderComment(comment) {
-    console.log("comment", comment);
-    console.log("uid: ", comment.uid);
-    console.log("all comments: ", this.commentList);
+    // console.log("comment", comment);
+    // console.log("uid: ", comment.uid);
     
     const isEdited = comment.is_edited != '0';
     const isReply= comment.is_reply != '0';
@@ -403,6 +437,7 @@ export class DaPenguinsThread extends LitElement {
         </div>
       `;
     }
+    console.log("all comments: ", this.commentList);
     return html`
       <div class="entire-thread">
         <div class="command-center">

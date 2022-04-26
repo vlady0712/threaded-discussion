@@ -30,7 +30,7 @@ export default async function handler(req, res) {
     if (rowsBeforeEdit.length === 0) { res.status(404).send("Error: comment not found"); }
     else if (rowsBeforeEdit[0].user_uid !== originUser.uid && !originUser.isAdmin) res.status(403).send("Action Prohibited");
 
-    await connection.query('UPDATE comments SET is_deleted = ? WHERE uid = ?', [true, commentUid]);
-    res.status(200).send();
+    const queryResponse = await connection.query('UPDATE comments SET is_deleted = ? WHERE uid = ?', [true, commentUid]);
+    res.status(200).json(queryResponse);
   }
 }
