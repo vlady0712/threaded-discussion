@@ -108,7 +108,7 @@ export class DaPenguinsThread extends LitElement {
 
       .is-reply {
         margin-left: 55px;
-        scale: (0.95);
+        transform: scale(0.95);
       }
     `;
   }
