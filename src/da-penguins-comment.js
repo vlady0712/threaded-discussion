@@ -208,6 +208,20 @@ export class DaPenguinsComment extends SimpleColors {
         display: block;
       }
 
+      .like-button {
+        background-color: var(--simple-colors-default-theme-accent-4);
+        border: solid 1px black;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      .like-button:hover,
+      .like-button:focus,
+      .like-button:active {
+        filter: invert(.5);
+        filter: opacity(.3);
+      }
+
     `];
   }
 
@@ -496,7 +510,9 @@ export class DaPenguinsComment extends SimpleColors {
               </div>
               <div class="username">
                 <p> 
-                  <simple-icon-lite icon="favorite"></simple-icon-lite>
+                  <button class="like-button" @click=${this.likeComment}>
+                    <simple-icon-lite icon="favorite"></simple-icon-lite>
+                  </button>
                   ${this.likes}
                 </p>
                 <p>${this.submittedTime}</p>
@@ -523,7 +539,6 @@ export class DaPenguinsComment extends SimpleColors {
           </div>
         </div>
         <div class="comment-buttons">
-          <button @click=${this.likeComment}>Like Comment</button>
           <button @click=${this.deleteComment}>Delete Comment</button>
           <button @click=${this.showEditingPane}>Edit Comment</button>
           <button @click=${this.showReplyPane}>replyComment</button>
