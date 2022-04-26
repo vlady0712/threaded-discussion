@@ -90,7 +90,7 @@ export class DaPenguinsThread extends LitElement {
         font-size: 22px;
         color: black;
 
-        --accent-color-white: #EFF4ED;
+        --accent-color-white: #eff4ed;
       }
 
       #Nest {
@@ -99,15 +99,15 @@ export class DaPenguinsThread extends LitElement {
 
       .command-center {
         padding: 10px;
-        border: 1px solid #184C34;
+        border: 1px solid #184c34;
         margin: 10px;
         width: fit-content;
         border-radius: 5px;
       }
 
       .create-comment {
-        background-color: #CAD1C9;
-        color: #184C34;
+        background-color: #cad1c9;
+        color: #184c34;
         text-align: center;
         border: none;
         border-radius: 10px;
@@ -120,7 +120,7 @@ export class DaPenguinsThread extends LitElement {
       .create-comment:hover,
       .create-comment:focus,
       .create-comment:active {
-        box-shadow: 0px 0px 2px #0EBD60;
+        box-shadow: 0px 0px 2px #0ebd60;
       }
 
       .submit-button:disabled {
@@ -130,15 +130,15 @@ export class DaPenguinsThread extends LitElement {
       }
 
       .submit-button {
-        background-color: #184C34;
-        color: #EFF4ED;
+        background-color: #184c34;
+        color: #eff4ed;
       }
 
       .new-comment-pane-visible {
         visibility: visible;
-        background-color: #EFF4ED;
+        background-color: #eff4ed;
         padding: 20px;
-        border: 1px solid #184C34;
+        border: 1px solid #184c34;
         margin: 20px 10px;
         width: fit-content;
         border-radius: 5px;
@@ -147,11 +147,11 @@ export class DaPenguinsThread extends LitElement {
 
       .new-comment-pane-visible .comment-prompt {
         margin: 0px;
-        color: #184C34;
+        color: #184c34;
       }
 
       .new-comment-pane-visible .submit-body {
-        border: solid 1px #184C34;
+        border: solid 1px #184c34;
         border-radius: 5px;
         background-color: whitesmoke;
         resize: none;
@@ -159,7 +159,7 @@ export class DaPenguinsThread extends LitElement {
         width: 400px;
         height: 125px;
         font-family: 'Open Sans', sans-serif;
-        color: #184C34;
+        color: #184c34;
         padding: 10px;
         margin: 10px 0px;
       }
@@ -167,14 +167,17 @@ export class DaPenguinsThread extends LitElement {
       .submit-body:hover,
       .submit-body:focus,
       .submit-body:active {
-        box-shadow: 0px 0px 2px darkslategrey
+        box-shadow: 0px 0px 2px darkslategrey;
       }
 
       .new-comment-pane-hidden {
         visibility: hidden;
         height: 0px;
-    }
-      
+      }
+
+      .is-reply {
+        margin-left: 80px;
+      }
     `;
   }
 
@@ -339,6 +342,7 @@ export class DaPenguinsThread extends LitElement {
           replyTo=${comment.reply_to}
           likes=${comment.likes}
           threadID=${this.threadID}
+          class="${isReply ? 'is-reply' : ''}"
         ></da-penguins-comment>
       `;
     }
