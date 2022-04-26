@@ -8,6 +8,7 @@ import '@lrnwebcomponents/simple-colors';
 import './da-penguins-comment.js';
 import sjcl from 'sjcl';
 import 'jwt-auth-component';
+
 export class DaPenguinsThread extends LitElement {
   static get tag() {
     return 'da-penguins-thread';
