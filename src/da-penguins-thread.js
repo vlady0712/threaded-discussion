@@ -1,6 +1,6 @@
 /* eslint-disable eqeqeq */
 // dependencies / things imported
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css, supportsAdoptingStyleSheets } from 'lit';
 import '@lrnwebcomponents/simple-icon/lib/simple-icons.js';
 import '@lrnwebcomponents/simple-icon/lib/simple-icon-lite.js';
 import '@lrnwebcomponents/simple-colors';
@@ -8,89 +8,20 @@ import '@lrnwebcomponents/simple-colors';
 import './da-penguins-comment.js';
 import sjcl from 'sjcl';
 import 'jwt-auth-component';
-
-// EXPORT (so make available to other documents that reference this file) a class, that extends LitElement
-
-// which has the magic life-cycles and developer experience below added
 export class DaPenguinsThread extends LitElement {
-  // a convention I enjoy so you can change the tag name in 1 place
   static get tag() {
     return 'da-penguins-thread';
   }
-
-  // CSS - specific to Lit
+  
   static get styles() {
     return css`
-      /* :host {
-        display: block;
-        width: 320px;
-        height: 265px;
-      }
-
-      img {
-        display: flex;
-        margin: 25px auto auto;
-        height: 200px;
-        width: 275px;
-        border: 5px solid white;
-        border-radius: 19px;
-        box-shadow: 0 0 10px black;
-      }
-
-      .backgroundbox {
-        display: flex;
-        background-color: var(--simple-colors-default-theme-accent-4);
-        border-radius: 19px 19px 0 0;
-        height: 265px;
-        width: 320px;
-      }
-
-      .overlay {
-        position: relative;
-      }
-
-      .overlay::before {
-        content: '';
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        border: 1px;
-        border-radius: 19px 19px 0px 0px;
-      }
-
-      simple-icon-lite {
-        --simple-icon-height: 100px;
-        --simple-icon-width: 100px;
-        color: white;
-        transform: translate(-50%, -190%);
-        top: 50%;
-        left: 50%;
-        z-index: 100;
-      }
-
-      :host([status='pending']) .overlay::before {
-        display: flex;
-        background: transparent;
-      }
-
-      :host([status='correct']) .overlay::before {
-        display: flex;
-        background: green;
-        filter: opacity(0.65);
-      }
-
-      :host([status='incorrect']) .overlay::before {
-        display: flex;
-        background: red;
-        filter: opacity(0.65);
-      } */
 
       host {
         font-family: 'Open Sans', sans-serif;
         font-size: 22px;
         color: black;
 
-        --accent-color-white: #EFF4ED;
+        --accent-color-white: #F4EDF4;
       }
 
       #Nest {
@@ -99,15 +30,15 @@ export class DaPenguinsThread extends LitElement {
 
       .command-center {
         padding: 10px;
-        border: 1px solid #184C34;
+        border: 1px solid #571C5E;
         margin: 10px;
         width: fit-content;
         border-radius: 5px;
       }
 
       .create-comment {
-        background-color: #CAD1C9;
-        color: #184C34;
+        background-color: #DAB9DE;
+        color: #571C5E;
         text-align: center;
         border: none;
         border-radius: 10px;
@@ -120,7 +51,7 @@ export class DaPenguinsThread extends LitElement {
       .create-comment:hover,
       .create-comment:focus,
       .create-comment:active {
-        box-shadow: 0px 0px 2px #0EBD60;
+        box-shadow: 0px 0px 2px #6100EE;
       }
 
       .submit-button:disabled {
@@ -130,15 +61,15 @@ export class DaPenguinsThread extends LitElement {
       }
 
       .submit-button {
-        background-color: #184C34;
-        color: #EFF4ED;
+        background-color: #571C5E;
+        color: #F4EDF4;
       }
 
       .new-comment-pane-visible {
         visibility: visible;
-        background-color: #EFF4ED;
+        background-color: #F4EDF4;
         padding: 20px;
-        border: 1px solid #184C34;
+        border: 1px solid #571C5E;
         margin: 20px 10px;
         width: fit-content;
         border-radius: 5px;
@@ -147,11 +78,11 @@ export class DaPenguinsThread extends LitElement {
 
       .new-comment-pane-visible .comment-prompt {
         margin: 0px;
-        color: #184C34;
+        color: #571C5E;
       }
 
       .new-comment-pane-visible .submit-body {
-        border: solid 1px #184C34;
+        border: solid 1px #571C5E;
         border-radius: 5px;
         background-color: whitesmoke;
         resize: none;
@@ -159,7 +90,7 @@ export class DaPenguinsThread extends LitElement {
         width: 400px;
         height: 125px;
         font-family: 'Open Sans', sans-serif;
-        color: #184C34;
+        color: #571C5E;
         padding: 10px;
         margin: 10px 0px;
       }
@@ -189,6 +120,30 @@ export class DaPenguinsThread extends LitElement {
 
     // Auth wall
     this.addEventListener('auth-success', this.authsucks);
+    // listen to deleted events for re-render
+    // Issue: commentId undefined.
+    this.addEventListener('comment-deleted', (e) => {
+      console.log("delete event received", e.detail.commentId);
+      // console.log(this.commentList)
+      for (const commentThread of this.commentList){
+        // console.log(commentThread);
+        for (const comment of commentThread){
+          if (comment.uid == e.detail.commentId){
+            console.log("comment identified")
+            console.log(comment)
+            const threadIndex = this.commentList.indexOf(commentThread);
+            const commentIndex = this.commentList[threadIndex].indexOf(comment);
+            this.commentList[threadIndex].splice(commentIndex, commentIndex+1);
+            this.commentList.splice(threadIndex, threadIndex+1);
+            console.log(this.commentList);
+            const newCommentList = this.commentList;
+            this.commentList = undefined;
+            this.commentList = newCommentList;
+
+          }
+        }
+      }
+    });
   }
 
   // properties that you wish to use as data in HTML, CSS, and the updated life-cycle
@@ -240,6 +195,17 @@ export class DaPenguinsThread extends LitElement {
     if (super.firstUpdated) {
       super.firstUpdated(changedProperties);
     }
+  }
+
+  updated(changedProperties) {
+    if (super.updated){
+      super.updated(changedProperties);
+    }
+    changedProperties.forEach((oldValue, propName) => {
+      if (propName === 'commentList' && this[propName]){
+        console.log("comment list update wow");
+      }
+    });
   }
 
   // HTMLElement life-cycle, element has been connected to the page / added or moved
@@ -311,9 +277,8 @@ export class DaPenguinsThread extends LitElement {
 
 // eslint-disable-next-line class-methods-use-this
   renderComment(comment) {
-    console.log("comment", comment);
-    console.log("uid: ", comment.uid);
-    console.log("all comments: ", this.commentList);
+    // console.log("comment", comment);
+    // console.log("uid: ", comment.uid);
     
     const isEdited = comment.is_edited != '0';
     const isReply= comment.is_reply != '0';
@@ -404,27 +369,30 @@ export class DaPenguinsThread extends LitElement {
       // TODO: add different cases for various thread permissions
       return html`
         <div class="center" id="Nest">
-          <h2>Log in to see the comments!</h2>
+          <h2>Login to See the Comments!</h2>
           <jwt-auth authendpoint="/api/auth/"></jwt-auth>
         </div>
       `;
     }
+    console.log("all comments: ", this.commentList);
     return html`
       <div class="entire-thread">
+
         <div class="command-center">
           <button class="create-comment" @click=${this.showCommentPane}> New Comment </button>
           <button class="create-comment" @click=${this.createUser}> Create User </button>
-          <button class="create-comment" @click=${this.getAllComments}> GET All Comments </button>
-          <button class="create-comment" @click=${this.querySpecificComment}> GET Specific Comment </button>
+          <button class="create-comment" @click=${this.getAllComments}> Get All Comments </button>
+          <button class="create-comment" @click=${this.querySpecificComment}> Get Specific Comment </button>
         </div>
+
         <div class="new-comment-pane-hidden">
           <p class="comment-prompt">
-            Have something to say? Leave a comment below!
+            Have Something to Say? Leave a Comment Below!
           </p>
           <textarea class="submit-body" @input=${this.validateSubmitButton} ></textarea>
           <div class="comment-pane-buttons">
-            <button class="create-comment" @click=${this.cancelComment}> Cancel </button>
-            <button class="create-comment submit-button" @click="${this.initiateCreateComment}" disabled> Submit </button>
+            <button class="create-comment" @click=${this.cancelComment}>Cancel</button>
+            <button class="create-comment submit-button" @click="${this.initiateCreateComment}" disabled>Submit</button>
           </div>
         </div>
         <div>

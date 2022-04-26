@@ -1,23 +1,14 @@
-/* eslint-disable eqeqeq */
-/* eslint-disable class-methods-use-this */
-// dependencies / things imported
 import { html, css } from 'lit';
 import { SimpleColors } from '@lrnwebcomponents/simple-colors/simple-colors.js';
 import 'jwt-auth-component';
 import '@lrnwebcomponents/simple-icon/lib/simple-icons.js';
 import '@lrnwebcomponents/simple-icon/lib/simple-icon-lite.js';
 import '@lrnwebcomponents/rpg-character/rpg-character.js';
-
-// EXPORT (so make available to other documents that reference this file) a class, that extends LitElement
-
-// which has the magic life-cycles and developer experience below added
 export class DaPenguinsComment extends SimpleColors {
-  // a convention I enjoy so you can change the tag name in 1 place
   static get tag() {
     return 'da-penguins-comment';
   }
 
-  // CSS - specific to Lit
   static get styles() {
     return [...super.styles ,
     css`
@@ -118,7 +109,7 @@ export class DaPenguinsComment extends SimpleColors {
       } 
 
       .edit-post-body{
-        box-shadow: 0px 0px 5px #0EBD60;
+        box-shadow: 0px 0px 5px #6100EE;
         background-color: var(--simple-colors-default-theme-accent-4);
                
       }
@@ -127,13 +118,22 @@ export class DaPenguinsComment extends SimpleColors {
         filter: blur(2px);
       }
 
-      .comment-button {
-        background-color: #CAD1C9;
-        color: #184C34;
+      .comment-buttons {
+        padding: 10px;
+        border: 1px solid #571C5E;
+        margin: 10px;
+        width: fit-content;
+        border-radius: 5px;
+      }
+
+      .style-comment {
+        background-color: #DAB9DE;
+        color: #571C5E;
         text-align: center;
         border: none;
         border-radius: 10px;
-        padding: 10px 15px;
+        padding: 15px 20px;
+        font-size: 16px;
         margin: 4px 2px;
         cursor: pointer;
       }
@@ -145,14 +145,14 @@ export class DaPenguinsComment extends SimpleColors {
       }
 
       .submit-button {
-        background-color: #184C34;
-        color: #EFF4ED;
+        background-color: #571c5e;
+        color: #f4edf4;
       }
 
-      .comment-button:hover,
-      .comment-button:focus,
-      .comment-button:active {
-        box-shadow: 0px 0px 2px #0EBD60;
+      .comment-buttons:hover,
+      .comment-buttons:focus,
+      .comment-buttons:active {
+        box-shadow: 0px 0px 2px #6100EE;
       }
 
       .edit-options-hidden {
@@ -187,11 +187,11 @@ export class DaPenguinsComment extends SimpleColors {
 
       .reply-prompt {
         margin: 0px;
-        color: #184C34;
+        color: #571C5E;
       }
 
       .reply-body {
-        border: solid 1px #184C34;
+        border: solid 1px #571C5E;
         border-radius: 5px;
         background-color: whitesmoke;
         resize: none;
@@ -199,7 +199,7 @@ export class DaPenguinsComment extends SimpleColors {
         width: 1186px;
         height: 89px;
         font-family: 'Open Sans', sans-serif;
-        color: #184C34;
+        color: #571C5E;
         padding: 10px;
         margin: 15px 0px;
       }
@@ -394,7 +394,22 @@ export class DaPenguinsComment extends SimpleColors {
     const response = await fetch(`/api/delete-comment?uid=${this.UID}`, {headers: {
       Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
     }}).then(res => res.json());
-    console.log(response);
+    console.log(response)
+    return response;
+  }
+
+  async handleDelete(){
+    const deleteResponse = await this.deleteComment();
+    console.log("response to delete", deleteResponse);
+
+    const deleteEvent = new CustomEvent('comment-deleted', {
+      bubbles: true,
+      composed: true,
+      detail: {
+        commentId: this.UID
+      }
+    });
+    this.dispatchEvent(deleteEvent);
   }
 
   async editComment(newBody){
@@ -524,24 +539,25 @@ export class DaPenguinsComment extends SimpleColors {
             <textarea class="post-body-content" readonly @input=${this.validateEditButton} > ${this.body}</textarea >
           </div>
           <div class="edit-options-hidden">
-            <button class="comment-button" @click=${this.cancelEdit}>
+            <button class="comment-buttons" @click=${this.cancelEdit}>
               Cancel
             </button>
-            <button id="submit-edit" class="comment-button submit-button" @click=${this.submitEdit} disabled > Submit </button>
+            <button id="submit-edit" class="comment-buttons submit-button" @click=${this.submitEdit} disabled > Submit </button>
           </div>
         </div>
         <div class="reply-pane-hidden">
-          <p class="reply-prompt">Add a reply:</p>
-          <textarea class="reply-body" @input=${this.validateReplyButton} placeholder="What do you think?" ></textarea>
+          <p class="reply-prompt">Add a Reply:</p>
+          <textarea class="reply-body" @input=${this.validateReplyButton} placeholder="What Do You Think?" ></textarea>
           <div class="reply-pane-buttons">
-            <button class="comment-button" @click=${this.cancelReply}>Cancel</button>
-            <button id="submit-reply" class="comment-button submit-button" @click="${this.initiateCreateReply}" disabled> Reply</button>
+            <button class="comment-buttons" @click=${this.cancelReply}>Cancel</button>
+            <button id="submit-reply" class="comment-buttons submit-button" @click="${this.initiateCreateReply}" disabled> Reply</button>
           </div>
         </div>
+
         <div class="comment-buttons">
-          <button @click=${this.deleteComment}>Delete Comment</button>
-          <button @click=${this.showEditingPane}>Edit Comment</button>
-          <button @click=${this.showReplyPane}>replyComment</button>
+          <button class="style-comment" @click=${this.handleDelete}>Delete Comment</button>
+          <button class="style-comment" @click=${this.showEditingPane}>Edit Comment</button>
+          <button class="style-comment" @click=${this.showReplyPane}>Reply Comment</button>
         </div>
       </div>
     `;  
