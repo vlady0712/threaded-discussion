@@ -1,4 +1,3 @@
-
 /* eslint-disable eqeqeq */
 /* eslint-disable class-methods-use-this */
 // dependencies / things imported
@@ -7,7 +6,7 @@ import { SimpleColors } from '@lrnwebcomponents/simple-colors/simple-colors.js';
 import 'jwt-auth-component';
 import '@lrnwebcomponents/simple-icon/lib/simple-icons.js';
 import '@lrnwebcomponents/simple-icon/lib/simple-icon-lite.js';
- import '@lrnwebcomponents/rpg-character/rpg-character.js';
+import '@lrnwebcomponents/rpg-character/rpg-character.js';
 
 // EXPORT (so make available to other documents that reference this file) a class, that extends LitElement
 
@@ -32,7 +31,7 @@ export class DaPenguinsComment extends SimpleColors {
           width: 5em;
           background-color: var(--simple-colors-default-theme-accent-2);
           box-shadow: 0 0 5px var(--simple-colors-default-theme-accent-7);
-          
+         
           /* font info */
           font-family: 'Open Sans', sans-serif;
           color: black;
@@ -116,37 +115,19 @@ export class DaPenguinsComment extends SimpleColors {
         margin-top: 10px;
         height: auto;
         width: 40%;
-      }
-      /* .replybox {
-        display: block;
-        background-color: var(--simple-colors-default-theme-accent-2);
-        box-shadow: 0 0 5px var(--simple-colors-default-theme-accent-7);
-        border-radius: 19px 19px 19px 19px;
-        height: 75px;
-        width: 1275px;
-      } */
-/* 
-      simple-icon-lite {
-        --simple-icon-height: 100px;
-        --simple-icon-width: 100px;
-        color: white;
-        transform: translate(-50%, -190%);
-        top: 50%;
-        left: 50%;
-        z-index: 100;
-      } */
+      } 
 
       .edit-post-body{
         box-shadow: 0px 0px 5px #0EBD60;
         background-color: var(--simple-colors-default-theme-accent-4);
-                
+               
       }
 
       .edit-post-blur > *:not(.edit-post-body,.edit-options-visible){
         filter: blur(2px);
       }
 
-      .edit-options-visible > .edit-button {
+      .comment-button {
         background-color: #CAD1C9;
         color: #184C34;
         text-align: center;
@@ -163,14 +144,14 @@ export class DaPenguinsComment extends SimpleColors {
         pointer-events: none;
       }
 
-      .edit-options-visible > .submit-button {
+      .submit-button {
         background-color: #184C34;
         color: #EFF4ED;
       }
 
-      .edit-options-visible > .edit-button:hover,
-      .edit-options-visible > .edit-button:focus,
-      .edit-options-visible > .edit-button:active {
+      .comment-button:hover,
+      .comment-button:focus,
+      .comment-button:active {
         box-shadow: 0px 0px 2px #0EBD60;
       }
 
@@ -187,8 +168,58 @@ export class DaPenguinsComment extends SimpleColors {
         border-radius: 5px;
       }
 
+      .reply-pane-hidden {
+        visibility: hidden;
+        height: 0px;
+      }
+
+      .reply-pane-visible {
+        visibility: visible;
+        background-color: var(--simple-colors-default-theme-accent-2);
+        box-shadow: 0 0 5px var(--simple-colors-default-theme-accent-7);
+        border-radius: 19px;
+        height: 200px;
+        width: 1210px;
+        padding: 20px;
+        margin: 20px 20px 20px 75px;
+        font-family: "Open Sans", sans-serif;
+      }
+
+      .reply-prompt {
+        margin: 0px;
+        color: #184C34;
+      }
+
+      .reply-body {
+        border: solid 1px #184C34;
+        border-radius: 5px;
+        background-color: whitesmoke;
+        resize: none;
+        outline: none;
+        width: 1186px;
+        height: 89px;
+        font-family: 'Open Sans', sans-serif;
+        color: #184C34;
+        padding: 10px;
+        margin: 15px 0px;
+      }
+
       .rpg {
         display: block;
+      }
+
+      .like-button {
+        background-color: var(--simple-colors-default-theme-accent-4);
+        border: solid 1px black;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      .like-button:hover,
+      .like-button:focus,
+      .like-button:active {
+        filter: invert(.5);
+        filter: opacity(.3);
       }
 
     `];
@@ -208,7 +239,7 @@ export class DaPenguinsComment extends SimpleColors {
     // Gets the ID NEEDED FOR GETTING COMMENTS
     this.threadID = null;
 
-    this.UID = null; 
+    this.UID = null;
     this.userUID = null;
     this.submittedTime = null;
     this.body = null;
@@ -217,7 +248,7 @@ export class DaPenguinsComment extends SimpleColors {
     this.isReply = false;
     this.replyTo = null;
     this.likes = 0;
-    
+   
   }
 
   // properties that you wish to use as data in HTML, CSS, and the updated life-cycle
@@ -299,17 +330,46 @@ export class DaPenguinsComment extends SimpleColors {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async createComment(){
+  async createComment(commentBody){
     const response = await fetch('/api/submit-comment', {
       method: 'POST',
       headers: { Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}` },
       body: JSON.stringify({
-        thread_uid: "1234",
-        user_uid: "jumbo",
-        body: "This is a test",
+        thread_uid: this.threadID,
+        body: commentBody,
+        is_reply: false
      })
     }).then(res => res.json());
     console.log(response);
+    return response;
+  }
+
+  async createReply(replyBody){
+    const response = await fetch('/api/submit-comment', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}` },
+      body: JSON.stringify({
+        thread_uid: this.threadID,
+        body: replyBody,
+        is_reply: true,
+        reply_to: this.UID
+        
+     })
+    }).then(res => res.json());
+    
+    console.log(response);
+    console.log("specific comment: ");
+    console.log(await this.getAllComments());
+    return response;
+  }
+
+  async getAllComments() {
+    // TODO: make query into URL object
+    const response = await fetch(`/api/get-comment?threadId=${this.threadID}`, {headers: {
+      Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
+    }}).then(res => res.json());
+    console.log(response);
+    return response;
   }
 
   // TODO: Maybe use for chaining replies to a comment? (can be thru comment.js or thread.js)
@@ -357,16 +417,17 @@ export class DaPenguinsComment extends SimpleColors {
       method: 'PUT',
       headers: { Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}` },
       body: JSON.stringify({
-        uid: this.UID, 
+        uid: this.UID,
         body: newBody
      })
     }).then(res => res.json());
     console.log(response);
   }
 
+
   showEditingPane(){
     this.shadowRoot.querySelector('.post-body-content').readOnly = false;
-    
+   
     this.shadowRoot.querySelector('.edit-options-hidden').classList.add('edit-options-visible');
     this.shadowRoot.querySelector('.edit-options-visible').classList.remove('edit-options-hidden');
 
@@ -401,12 +462,50 @@ export class DaPenguinsComment extends SimpleColors {
   }
 
   validateEditButton(){
-    const submitButton = this.shadowRoot.querySelector(".submit-button");
+    const submitButton = this.shadowRoot.querySelector("#submit-edit");
     const commentBody = this.shadowRoot.querySelector(".post-body-content");
     if (commentBody.value.trim() == ''){
       submitButton.disabled = true;
     } else {
       submitButton.disabled = false;
+    }
+  }
+
+  showReplyPane(){
+    this.shadowRoot.querySelector('.reply-pane-hidden').classList.add('reply-pane-visible');
+    this.shadowRoot.querySelector('.reply-pane-visible').classList.remove('reply-pane-hidden');
+
+  }
+
+  hideReplyPane(){
+    this.shadowRoot.querySelector('.reply-pane-visible').classList.add('reply-pane-hidden');
+    this.shadowRoot.querySelector('.reply-pane-hidden').classList.remove('reply-pane-visible');
+    this.validateReplyButton();
+  }
+
+  cancelReply(){
+    this.hideReplyPane();
+    this.shadowRoot.querySelector('.reply-body').value = "";
+  }
+
+  initiateCreateReply(){
+    const replyBody = this.shadowRoot.querySelector('.reply-body').value.trim();
+    if(replyBody != ""){
+      this.createReply(replyBody);
+      console.log("Where reply submission would occur");
+      this.hideReplyPane();
+    }
+    console.log(`reply: ${replyBody}`);
+    this.shadowRoot.querySelector('.reply-body').value = "";
+  }
+
+  validateReplyButton(){
+    const replyButton = this.shadowRoot.querySelector("#submit-reply");
+    const replyBody = this.shadowRoot.querySelector(".reply-body");
+    if (replyBody.value.trim() == ''){
+      replyButton.disabled = true;
+    } else {
+      replyButton.disabled = false;
     }
   }
 
@@ -417,32 +516,49 @@ export class DaPenguinsComment extends SimpleColors {
         <div class="post-main">
           <div class="post-title">
             <div class="profile-pic">
-            <!-- <rpg-character class="rpg" seed="test" width="60" height="60" ></rpg-character> -->
+              <rpg-character class="rpg" seed=${this.username} width="75" height="75" ></rpg-character>
             </div>
             <div class="title-content">
               <div class="header">
-                <h1>${this.username ? this.username : "Anonymous"}</h1>
+                <h1>${this.username ? this.username : 'Anonymous'}</h1>
                 <h2>${this.UID}</h2>
               </div>
               <div class="username">
-                <simple-icon-lite icon="favorite"></simple-icon-lite>
-                <p>${this.likes}</p>
+                <p> 
+                  <button class="like-button" @click=${this.likeComment}>
+                    <simple-icon-lite icon="favorite"></simple-icon-lite>
+                  </button>
+                  ${this.likes}
+                </p>
                 <p>${this.submittedTime}</p>
                 ${this.isEdited ? html`<p>edited: ${this.editedTime}</p>` : ''}
               </div>
             </div>
           </div>
           <div class="post-body">
-            <textarea class="post-body-content" readonly @input=${this.validateEditButton}>${this.body}</textarea>
+            <textarea class="post-body-content" readonly @input=${this.validateEditButton} > ${this.body}</textarea >
           </div>
           <div class="edit-options-hidden">
-            <button class="edit-button" @click=${this.cancelEdit}>Cancel</button>
-            <button class="edit-button submit-button" @click=${this.submitEdit} disabled>Submit</button>
+            <button class="comment-button" @click=${this.cancelEdit}>
+              Cancel
+            </button>
+            <button id="submit-edit" class="comment-button submit-button" @click=${this.submitEdit} disabled > Submit </button>
           </div>
         </div>
-        <button @click=${this.likeComment}>Like Comment</button>
-        <button @click=${this.handleDelete}>Delete Comment</button>
-        <button @click=${this.showEditingPane}>Edit Comment</button>
+        <div class="reply-pane-hidden">
+          <p class="reply-prompt">Add a reply:</p>
+          <textarea class="reply-body" @input=${this.validateReplyButton} placeholder="What do you think?" ></textarea>
+          <div class="reply-pane-buttons">
+            <button class="comment-button" @click=${this.cancelReply}>Cancel</button>
+            <button id="submit-reply" class="comment-button submit-button" @click="${this.initiateCreateReply}" disabled> Reply</button>
+          </div>
+        </div>
+
+        <div class="comment-buttons">
+          <button @click=${this.handleDelete}>Delete Comment</button>
+          <button @click=${this.showEditingPane}>Edit Comment</button>
+          <button @click=${this.showReplyPane}>replyComment</button>
+        </div>
       </div>
     `;  
   }
