@@ -8,6 +8,7 @@ import '@lrnwebcomponents/simple-colors';
 import './da-penguins-comment.js';
 import sjcl from 'sjcl';
 import 'jwt-auth-component';
+
 export class DaPenguinsThread extends LitElement {
   static get tag() {
     return 'da-penguins-thread';
@@ -138,7 +139,9 @@ export class DaPenguinsThread extends LitElement {
             const threadIndex = this.commentList.indexOf(commentThread);
             const commentIndex = this.commentList[threadIndex].indexOf(comment);
             this.commentList[threadIndex].splice(commentIndex, commentIndex+1);
-            this.commentList.splice(threadIndex, threadIndex+1);
+            if (this.commentList[threadIndex].length === 0 || commentIndex === 0){
+              this.commentList.splice(threadIndex, threadIndex+1);
+            }
             console.log(this.commentList);
             const newCommentList = this.commentList;
             this.commentList = undefined;
@@ -148,6 +151,8 @@ export class DaPenguinsThread extends LitElement {
         }
       }
     });
+    // Listen for new comment replies
+    this.addEventListener('reply-created', this.refreshCommentList)
   }
 
   // properties that you wish to use as data in HTML, CSS, and the updated life-cycle
@@ -165,6 +170,11 @@ export class DaPenguinsThread extends LitElement {
   async authsucks() {
     this.commentList = await this.getAllComments();
     this.threadEnabled = true;
+  }
+
+  async refreshCommentList() {
+    console.log("reply created, refreshing now...")
+    this.commentList = await this.getAllComments();
   }
 
   // TODO: If this hashes the current page, how will we have multiple threads on a page (as requested for comp?)
