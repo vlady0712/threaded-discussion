@@ -31,9 +31,7 @@ export class DaPenguinsThread extends LitElement {
 
       .command-center {
         padding: 10px;
-        border: 1px solid #571C5E;
         margin: 10px;
-        width: fit-content;
         border-radius: 5px;
       }
 
@@ -394,10 +392,7 @@ export class DaPenguinsThread extends LitElement {
       <div class="entire-thread">
 
         <div class="command-center">
-          <button class="create-comment" @click=${this.showCommentPane}> New Comment </button>
-          <button class="create-comment" @click=${this.createUser}> Create User </button>
-          <button class="create-comment" @click=${this.getAllComments}> Get All Comments </button>
-          <button class="create-comment" @click=${this.querySpecificComment}> Get Specific Comment </button>
+          <button class="create-comment" @click=${this.showCommentPane}> <simple-icon-lite icon="add"></simple-icon-lite><div>Add Comment</div> </button>
         </div>
 
         <div class="new-comment-pane-hidden">

@@ -52,7 +52,7 @@ export default async function handler(req, res) {
           console.log(`Top Level Comment`);
           console.log(comment);
   
-          let childCommentQuery = await connection.query('SELECT comments.*, users.name FROM comments LEFT JOIN users ON comments.user_uid=users.uid WHERE reply_to=? AND is_reply=true AND is_deleted=false ORDER BY comments.submitted_time DESC;', [comment.uid]);
+          let childCommentQuery = await connection.query('SELECT comments.*, users.name FROM comments LEFT JOIN users ON comments.user_uid=users.uid WHERE reply_to=? AND is_reply=true AND is_deleted=false ORDER BY comments.submitted_time ASC;', [comment.uid]);
           console.log(`Child Comment`);
           console.log(childCommentQuery[0]);
           const childComments = childCommentQuery[0];

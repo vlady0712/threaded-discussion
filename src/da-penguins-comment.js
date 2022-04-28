@@ -106,14 +106,6 @@ export class DaPenguinsComment extends SimpleColors {
         filter: blur(2px);
       }
 
-      .comment-buttons {
-        padding: 10px;
-        border: 1px solid #571C5E;
-        margin: 10px;
-        width: fit-content;
-        border-radius: 5px;
-      }
-
       .style-comment {
         background-color: #DAB9DE;
         color: #571C5E;
@@ -135,12 +127,6 @@ export class DaPenguinsComment extends SimpleColors {
       .submit-button {
         background-color: #571c5e;
         color: #f4edf4;
-      }
-
-      .comment-buttons:hover,
-      .comment-buttons:focus,
-      .comment-buttons:active {
-        box-shadow: 0px 0px 2px #6100EE;
       }
 
       .edit-options-hidden {
@@ -531,9 +517,9 @@ export class DaPenguinsComment extends SimpleColors {
             <textarea class="post-body-content" readonly @input=${this.validateEditButton} > ${this.body}</textarea >
           </div>
           <div class="comment-buttons">
-            <button class="style-comment" @click=${this.handleDelete}>Delete Comment</button>
-            <button class="style-comment" @click=${this.showEditingPane}>Edit Comment</button>
-            ${!this.isReply ? html` <button class="style-comment" @click=${this.showReplyPane}>Reply Comment</button>` : html ``}
+            <button class="style-comment" @click=${this.handleDelete}><simple-icon-lite icon="delete"></simple-icon-lite><div>Delete</div></button>
+            <button class="style-comment" @click=${this.showEditingPane}><simple-icon-lite icon="image:edit"></simple-icon-lite><div>Edit</div></button>
+            ${!this.isReply ? html` <button class="style-comment" @click=${this.showReplyPane}><simple-icon-lite icon="reply"></simple-icon-lite><div>Reply</div></button>` : html ``}
           </div>
           <div class="edit-options-hidden">
             <button class="comment-buttons" @click=${this.cancelEdit}>
