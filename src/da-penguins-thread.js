@@ -1,6 +1,4 @@
-/* eslint-disable eqeqeq */
-// dependencies / things imported
-import { LitElement, html, css, supportsAdoptingStyleSheets } from 'lit';
+import { LitElement, html, css } from 'lit';
 import '@lrnwebcomponents/simple-icon/lib/simple-icons.js';
 import '@lrnwebcomponents/simple-icon/lib/simple-icon-lite.js';
 import '@lrnwebcomponents/simple-colors';
@@ -126,25 +124,18 @@ export class DaPenguinsThread extends LitElement {
     // listen to deleted events for re-render
     // Issue: commentId undefined.
     this.addEventListener('comment-deleted', (e) => {
-      console.log("delete event received", e.detail.commentId);
-      // console.log(this.commentList)
       for (const commentThread of this.commentList){
-        // console.log(commentThread);
         for (const comment of commentThread){
-          if (comment.uid == e.detail.commentId){
-            console.log("comment identified")
-            console.log(comment)
+          if (comment.uid === e.detail.commentId){
             const threadIndex = this.commentList.indexOf(commentThread);
             const commentIndex = this.commentList[threadIndex].indexOf(comment);
             this.commentList[threadIndex].splice(commentIndex, commentIndex+1);
             if (this.commentList[threadIndex].length === 0 || commentIndex === 0){
               this.commentList.splice(threadIndex, threadIndex+1);
             }
-            console.log(this.commentList);
             const newCommentList = this.commentList;
             this.commentList = undefined;
             this.commentList = newCommentList;
-
           }
         }
       }
@@ -171,7 +162,6 @@ export class DaPenguinsThread extends LitElement {
   }
 
   async refreshCommentList() {
-    console.log("reply created, refreshing now...")
     this.commentList = await this.getAllComments();
   }
 
@@ -213,11 +203,6 @@ export class DaPenguinsThread extends LitElement {
     if (super.updated){
       super.updated(changedProperties);
     }
-    changedProperties.forEach((oldValue, propName) => {
-      if (propName === 'commentList' && this[propName]){
-        console.log("comment list update wow");
-      }
-    });
   }
 
   // HTMLElement life-cycle, element has been connected to the page / added or moved
@@ -238,21 +223,6 @@ export class DaPenguinsThread extends LitElement {
   // API CALLS
 
   // eslint-disable-next-line class-methods-use-this
-  async createUser(){
-    const response = await fetch('/api/create-user', {
-      method: 'POST',
-      body: JSON.stringify({
-        name: "Jimmy",
-         is_admin: false,
-      }),
-      headers: {
-        Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
-      }
-    }).then(res => res.json());
-    console.log(response);
-  }
-
-  // eslint-disable-next-line class-methods-use-this
   async createComment(commentBody){
     const response = await fetch('/api/submit-comment', {
       method: 'POST',
@@ -263,7 +233,6 @@ export class DaPenguinsThread extends LitElement {
         is_reply: false
      })
     }).then(res => res.json());
-    console.log(response);
     return response;
   }
 
@@ -273,27 +242,13 @@ export class DaPenguinsThread extends LitElement {
     const response = await fetch(`/api/get-comment?threadId=${this.threadID}`, {headers: {
       Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
     }}).then(res => res.json());
-    console.log(response);
-    return response;
-  }
-
-  // TODO: Maybe use for chaining replies to a comment? (can be thru comment.js or thread.js)
-  // eslint-disable-next-line class-methods-use-this
-  async getSpecificComment(targetUID){
-    const response = await fetch(`/api/get-comment?uid=${targetUID}`, {headers: {
-      Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
-    }}).then(res => res.json());
-    console.log(targetUID ," ", response);
     return response;
   }
 
 // eslint-disable-next-line class-methods-use-this
   renderComment(comment) {
-    // console.log("comment", comment);
-    // console.log("uid: ", comment.uid);
-    
-    const isEdited = comment.is_edited != '0';
-    const isReply= comment.is_reply != '0';
+    const isEdited = comment.is_edited !== '0';
+    const isReply= comment.is_reply !== '0';
 
     const submittedTime = new Date(comment.submitted_time).toLocaleString();
 
@@ -302,7 +257,7 @@ export class DaPenguinsThread extends LitElement {
       editedTime = new Date(comment.edited_time).toLocaleString();
     }
 
-    if(comment.is_deleted == '0'){
+    if(comment.is_deleted === '0'){
       return html`
         <da-penguins-comment
           UID=${comment.uid}
@@ -325,18 +280,9 @@ export class DaPenguinsThread extends LitElement {
 
   // eslint-disable-next-line class-methods-use-this
   async initiateCreateComment(){
-    /*
-    const newComment = prompt("Care to add something to the discussion?\nType your comment below:", "");
-    if(newComment == null || newComment.trim() == ""){
-      console.log("nothing to see here");
-    } else {
-      this.createComment(newComment);
-    }
-    */
-
     const commentBody = this.shadowRoot.querySelector(".submit-body");
     if (commentBody.value.trim() !== ''){
-      const newComment = await this.createComment(commentBody.value);
+      await this.createComment(commentBody.value);
       commentBody.value = '';
       this.commentList = await this.getAllComments();
     }
@@ -344,11 +290,10 @@ export class DaPenguinsThread extends LitElement {
   }
 
   validateSubmitButton(){
-    console.log("NEW INPUT");
     const submitButton = this.shadowRoot.querySelector(".submit-button");
     const commentBody = this.shadowRoot.querySelector(".submit-body");
-    if (commentBody.value.trim() == ''){
-      console.log(commentBody.value);
+    if (commentBody.value.trim() === ''){
+
       submitButton.disabled = true;
     } else {
       submitButton.disabled = false;
@@ -372,11 +317,6 @@ export class DaPenguinsThread extends LitElement {
     this.validateSubmitButton();
   }
 
-  querySpecificComment(){
-    const uid = prompt("Enter the comment's UID here and view it's return in the console: ", "UID");
-    console.log(this.getSpecificComment(uid));
-  }
-
   render() {
     if (!this.threadEnabled) {
       // TODO: add different cases for various thread permissions
@@ -387,7 +327,6 @@ export class DaPenguinsThread extends LitElement {
         </div>
       `;
     }
-    console.log("all comments: ", this.commentList);
     return html`
       <div class="entire-thread">
 

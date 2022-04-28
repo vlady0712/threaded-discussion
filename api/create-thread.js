@@ -27,7 +27,6 @@ export default async function handler(request, response) {
         7: (111) Read, write, and execute permissions.
     */
     const reqBody = JSON.parse(request.body);
-    console.log(reqBody);
     if (reqBody.uid && reqBody.domain && reqBody.permissions){
       const queryResponse = await connection.query('INSERT INTO threads (uid, domain, permissions) VALUES (?,?,?)', [reqBody.uid, reqBody.domain, reqBody.permissions]);
       response.status(200).json(queryResponse);

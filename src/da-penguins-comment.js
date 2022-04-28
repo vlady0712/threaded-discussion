@@ -4,6 +4,7 @@ import 'jwt-auth-component';
 import '@lrnwebcomponents/simple-icon/lib/simple-icons.js';
 import '@lrnwebcomponents/simple-icon/lib/simple-icon-lite.js';
 import '@lrnwebcomponents/rpg-character/rpg-character.js';
+
 export class DaPenguinsComment extends SimpleColors {
   static get tag() {
     return 'da-penguins-comment';
@@ -314,7 +315,6 @@ export class DaPenguinsComment extends SimpleColors {
         is_reply: false
      })
     }).then(res => res.json());
-    console.log(response);
     return response;
   }
 
@@ -330,10 +330,6 @@ export class DaPenguinsComment extends SimpleColors {
         
      })
     }).then(res => res.json());
-    
-    console.log(response);
-    console.log("specific comment: ");
-    console.log(await this.getAllComments());
     return response;
   }
 
@@ -342,40 +338,28 @@ export class DaPenguinsComment extends SimpleColors {
     const response = await fetch(`/api/get-comment?threadId=${this.threadID}`, {headers: {
       Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
     }}).then(res => res.json());
-    console.log(response);
     return response;
   }
 
   // TODO: Maybe use for chaining replies to a comment? (can be thru comment.js or thread.js)
 
-  // eslint-disable-next-line class-methods-use-this
-  async getSpecificComment(targetUID){
-    const response = await fetch(`/api/get-comment?uid=${targetUID}`, {headers: {
-      Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
-    }}).then(res => res.json());
-    console.log(response);
-  }
-
   async likeComment(){
     // 07e76fec-9f18-4b94-b464-df930de006a1
     this.likes += 1;
-    const response = await fetch(`/api/like-comment?uid=${this.UID}`, {headers: {
+    await fetch(`/api/like-comment?uid=${this.UID}`, {headers: {
       Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
     }}).then(res => res.json());
-    console.log(response);
   }
 
   async deleteComment(){
     const response = await fetch(`/api/delete-comment?uid=${this.UID}`, {headers: {
       Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
     }}).then(res => res.json());
-    console.log(response)
     return response;
   }
 
   async handleDelete(){
-    const deleteResponse = await this.deleteComment();
-    console.log("response to delete", deleteResponse);
+    await this.deleteComment();
 
     const deleteEvent = new CustomEvent('comment-deleted', {
       bubbles: true,
@@ -388,7 +372,7 @@ export class DaPenguinsComment extends SimpleColors {
   }
 
   async editComment(newBody){
-    const response = await fetch('/api/edit-comment', {
+    return fetch('/api/edit-comment', {
       method: 'PUT',
       headers: { Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}` },
       body: JSON.stringify({
@@ -396,7 +380,6 @@ export class DaPenguinsComment extends SimpleColors {
         body: newBody
      })
     }).then(res => res.json());
-    console.log(response);
   }
 
 
@@ -428,18 +411,17 @@ export class DaPenguinsComment extends SimpleColors {
 
   submitEdit(){
     const newBody = this.shadowRoot.querySelector('.post-body-content').value.trim();
-    if(newBody != ""){
+    if(newBody !== ""){
       this.body = newBody;
       this.editComment(newBody);
       this.hideEditingPane();
     }
-    this.getSpecificComment(this.UID);
   }
 
   validateEditButton(){
     const submitButton = this.shadowRoot.querySelector("#submit-edit");
     const commentBody = this.shadowRoot.querySelector(".post-body-content");
-    if (commentBody.value.trim() == ''){
+    if (commentBody.value.trim() === ''){
       submitButton.disabled = true;
     } else {
       submitButton.disabled = false;
@@ -465,12 +447,10 @@ export class DaPenguinsComment extends SimpleColors {
 
   initiateCreateReply(){
     const replyBody = this.shadowRoot.querySelector('.reply-body').value.trim();
-    if(replyBody != ""){
+    if(replyBody !== ""){
       this.createReply(replyBody);
-      console.log("Where reply submission would occur");
       this.hideReplyPane();
     }
-    console.log(`reply: ${replyBody}`);
     this.shadowRoot.querySelector('.reply-body').value = "";
     const replyEvent = new CustomEvent('reply-created', {
       bubbles: true,
@@ -482,7 +462,7 @@ export class DaPenguinsComment extends SimpleColors {
   validateReplyButton(){
     const replyButton = this.shadowRoot.querySelector("#submit-reply");
     const replyBody = this.shadowRoot.querySelector(".reply-body");
-    if (replyBody.value.trim() == ''){
+    if (replyBody.value.trim() === ''){
       replyButton.disabled = true;
     } else {
       replyButton.disabled = false;
