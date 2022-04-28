@@ -12,13 +12,13 @@ export default async function handler(req, res) {
     const authSecret = process.env.AUTH_ACCESS_TOKEN_SECRET;
     const authHeader = req.headers.authorization;
     const userToken = authHeader && authHeader.split(' ')[1]
-    const originUser = null;
+   // const originUser = null;
     
-    pkg.verify(userToken, authSecret, (err, user) => {
+    pkg.verify(userToken, authSecret, (err) => {
       if (err) {
         res.status(403).send("Authentication Failure");
       }
-      originUser = user;
+     // originUser = user;
     });
 
     const commentID = req.query.uid;
