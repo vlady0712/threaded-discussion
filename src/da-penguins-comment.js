@@ -28,19 +28,6 @@ export class DaPenguinsComment extends SimpleColors {
           font-family: 'Open Sans', sans-serif;
           color: black;
       }
-
-      .post-main {
-        background-color: var(--simple-colors-default-theme-accent-2);
-        box-shadow: 0 0 5px var(--simple-colors-default-theme-accent-7);
-        border: solid 1px var(--simple-colors-default-theme-accent-3);
-        border-radius: 19px 19px 19px 19px;
-        margin-bottom: 15px;
-        margin-left: 15px;
-        margin-top: 15px;
-        height: 99%;
-        width: 1350px;
-      }
-
       .post-title {
         display: flex;
         background-color: var(--simple-colors-default-theme-accent-3);
@@ -519,7 +506,6 @@ export class DaPenguinsComment extends SimpleColors {
   // HTML - specific to Lit
   render() {
     return html`
-      <div id="Nest">
         <div class="post-main">
           <div class="post-title">
             <div class="profile-pic">
@@ -528,7 +514,6 @@ export class DaPenguinsComment extends SimpleColors {
             <div class="title-content">
               <div class="header">
                 <h1>${this.username ? this.username : 'Anonymous'}</h1>
-                <h2>${this.UID}</h2>
               </div>
               <div class="username">
                 <p> 
@@ -545,6 +530,11 @@ export class DaPenguinsComment extends SimpleColors {
           <div class="post-body">
             <textarea class="post-body-content" readonly @input=${this.validateEditButton} > ${this.body}</textarea >
           </div>
+          <div class="comment-buttons">
+            <button class="style-comment" @click=${this.handleDelete}>Delete Comment</button>
+            <button class="style-comment" @click=${this.showEditingPane}>Edit Comment</button>
+            ${!this.isReply ? html` <button class="style-comment" @click=${this.showReplyPane}>Reply Comment</button>` : html ``}
+          </div>
           <div class="edit-options-hidden">
             <button class="comment-buttons" @click=${this.cancelEdit}>
               Cancel
@@ -558,14 +548,8 @@ export class DaPenguinsComment extends SimpleColors {
           <div class="reply-pane-buttons">
             <button class="comment-buttons" @click=${this.cancelReply}>Cancel</button>
             <button id="submit-reply" class="comment-buttons submit-button" @click="${this.initiateCreateReply}" disabled> Reply</button>
-          </div>
         </div>
-
-        <div class="comment-buttons">
-          <button class="style-comment" @click=${this.handleDelete}>Delete Comment</button>
-          <button class="style-comment" @click=${this.showEditingPane}>Edit Comment</button>
-          <button class="style-comment" @click=${this.showReplyPane}>Reply Comment</button>
-        </div>
+        
       </div>
     `;  
   }
