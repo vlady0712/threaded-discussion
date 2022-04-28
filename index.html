@@ -39,35 +39,5 @@
 
 </script>
 
-<!-- <threaded-discussion comment-icon="send" demo source="https://webcomponents.psu.edu/styleguide/elements/threaded-discussion/demo/discussion.json">
-</threaded-discussion> -->
-
-  <!-- <textarea id="response" rows="50" cols="50"></textarea>
-  <button id="refresh">Click to refresh</button>
-  <button id="user">Add user</button>
-  <script>
-    function updateData() {
-      console.log("here");
-      fetch("/api/db").then(res => res.json()).then((data) => {
-        document.querySelector("#response").value = JSON.stringify(data, null, 2);
-      });
-    }
-    // update response
-    document.querySelector("#refresh").addEventListener("click", (e) => {updateData();});
-    // add user response
-    document.querySelector("#user").addEventListener("click", (e) => {
-      const user = {
-        name: Math.random().toString(8).slice(2),
-        email: `${Math.random().toString(10).slice(2)}@${Math.random().toString(6).slice(2)}.com`,
-        password: Math.random().toString(16).slice(2),
-      };
-      console.log(user);
-      var queryString = Object.keys(user).map(key => key + '=' + user[key]).join('&');
-      fetch(`/api/addUser?${queryString}`).then(res => res.json()).then((data) => {
-        // update the data bc we just got a result that we added a user
-        updateData();
-      });
-    });
-  </script> -->
 </body>
 </html>
