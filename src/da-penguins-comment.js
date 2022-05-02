@@ -20,7 +20,6 @@ export class DaPenguinsComment extends SimpleColors {
           /* min-width: 1375px;
           min-height: 155px; */
           border-radius: 20px;
-          padding: 20px;
           margin: 20px;
           /* width: 5em; */
           background-color: var(--simple-colors-default-theme-accent-2);
