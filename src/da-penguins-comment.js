@@ -45,7 +45,7 @@ export class DaPenguinsComment extends SimpleColors {
           margin-left: 15px;
           margin-top: 15px;
           /* height: 99%;
-        width: 1350px; */
+          width: 1350px; */
           width: var(--comment-width);
           height: var(--comment-height);
         }
@@ -604,6 +604,7 @@ export class DaPenguinsComment extends SimpleColors {
           <button class="comment-buttons" @click=${this.cancelReply}> Cancel </button>
           <button id="submit-reply" class="comment-buttons submit-button" @click="${this.initiateCreateReply}" disabled > Reply </button>
         </div>
+        
       </div>
     `;
   }
