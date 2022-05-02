@@ -566,7 +566,7 @@ export class DaPenguinsComment extends SimpleColors {
       <div class="post-main">
         <div class="post-title">
           <div class="profile-pic">
-            <!-- <rpg-character class="rpg" seed=${this.username} width="75" height="75" ></rpg-character> -->
+           <rpg-character class="rpg" seed=${this.username} width="75" height="75" ></rpg-character>
           </div>
           <div class="title-content">
             <div class="username">${this.username ? this.username : 'Anonymous'}</div>
