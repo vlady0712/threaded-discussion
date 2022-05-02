@@ -17,36 +17,18 @@ export class DaPenguinsComment extends SimpleColors {
         :host {
           display: block;
           border: 1px solid var(--simple-colors-default-theme-accent-6);
-          /* min-width: 1375px;
-          min-height: 155px; */
+          min-width: 1375px;
+          min-height: 155px;
           border-radius: 20px;
+          padding: 20px;
           margin: 20px;
-          /* width: 5em; */
+          width: 5em;
           background-color: var(--simple-colors-default-theme-accent-2);
           box-shadow: 0 0 5px var(--simple-colors-default-theme-accent-7);
 
           /* font info */
           font-family: 'Open Sans', sans-serif;
           color: black;
-
-          /* Dimensions variables */
-          --comment-width: 500px;
-          --comment-height: calc(var(--comment-width) / 2.3);
-          width: fit-content;
-        }
-
-        .post-main {
-          background-color: var(--simple-colors-default-theme-accent-2);
-          box-shadow: 0 0 5px var(--simple-colors-default-theme-accent-7);
-          border: solid 1px var(--simple-colors-default-theme-accent-3);
-          border-radius: 19px 19px 19px 19px;
-          margin-bottom: 15px;
-          margin-left: 15px;
-          margin-top: 15px;
-          /* height: 99%;
-          width: 1350px; */
-          width: var(--comment-width);
-          height: var(--comment-height);
         }
 
         .post-title {
@@ -58,7 +40,7 @@ export class DaPenguinsComment extends SimpleColors {
           margin-top: 15px;
           padding-top: 15px;
           padding-bottom: 15px;
-          width: calc(var(--comment-width) * 0.96);
+          width: 1300px;
         }
 
         .post-body {
@@ -68,8 +50,8 @@ export class DaPenguinsComment extends SimpleColors {
           margin-top: 15px;
           margin-left: 15px;
           margin-bottom: 15px;
-          height: calc(var(--comment-height) * 0.37);
-          width: calc(var(--comment-width) * 0.96);
+          height: 215px;
+          width: 1300px;
           font-size: 14px;
         }
 
@@ -79,8 +61,8 @@ export class DaPenguinsComment extends SimpleColors {
           background-color: transparent;
           resize: none;
           outline: none;
-          height: calc(var(--comment-height) * 0.37);
-          width: calc(var(--comment-width) * 0.96);
+          height: 215px;
+          width: 1300px;
           font-family: 'Open Sans', sans-serif;
           color: black;
           padding: 10px;
@@ -91,15 +73,15 @@ export class DaPenguinsComment extends SimpleColors {
           background-color: var(--simple-colors-default-theme-accent-7);
           border-radius: 50px;
           margin-left: 15px;
-          height: 35px;
-          width: 35px;
+          height: 75px;
+          width: 75px;
           vertical-align: center;
         }
 
         .title-content {
           display: block;
           margin-left: 15px;
-          width: calc(var(--comment-width) * 0.87);
+          width: 1175px;
         }
 
         .header {
@@ -118,7 +100,7 @@ export class DaPenguinsComment extends SimpleColors {
         }
 
         .edit-post-body {
-          box-shadow: 0px 0px 5px #6100ee;
+          box-shadow: 0px 0px 5px #e8e2de;
           background-color: var(--simple-colors-default-theme-accent-4);
         }
 
@@ -128,15 +110,15 @@ export class DaPenguinsComment extends SimpleColors {
 
         .comment-buttons {
           padding: 10px;
-          border: 1px solid #571c5e;
+          border: 1px solid transparent;
           margin: 10px;
           width: fit-content;
           border-radius: 5px;
         }
 
         .style-comment {
-          background-color: #dab9de;
-          color: #571c5e;
+          background-color: #aababc;
+          color: #e8e2de;
           text-align: center;
           border: none;
           border-radius: 10px;
@@ -147,20 +129,20 @@ export class DaPenguinsComment extends SimpleColors {
         }
 
         .submit-button:disabled {
-          background-color: lightgrey !important;
-          color: darkgrey !important;
+          background-color: #6a8a93 !important;
+          color: #aababc !important;
           pointer-events: none;
         }
 
         .submit-button {
-          background-color: #571c5e;
-          color: #f4edf4;
+          background-color: #6a8a93;
+          color: #e8e2de;
         }
 
-        .comment-buttons:hover,
-        .comment-buttons:focus,
-        .comment-buttons:active {
-          box-shadow: 0px 0px 2px #6100ee;
+        .submit-button:hover,
+        .submit-button:focus,
+        .submit-button:active {
+          box-shadow: 0px 0px 2px #aababc;
         }
 
         .edit-options-hidden {
@@ -186,8 +168,8 @@ export class DaPenguinsComment extends SimpleColors {
           background-color: var(--simple-colors-default-theme-accent-2);
           box-shadow: 0 0 5px var(--simple-colors-default-theme-accent-7);
           border-radius: 19px;
-          height: calc(var(--comment-height) * 0.4);
-          width: calc(var(--comment-width) * 0.87);
+          height: 200px;
+          width: 1210px;
           padding: 20px;
           margin: 20px 20px 20px 75px;
           font-family: 'Open Sans', sans-serif;
@@ -195,19 +177,19 @@ export class DaPenguinsComment extends SimpleColors {
 
         .reply-prompt {
           margin: 0px;
-          color: #571c5e;
+          color: #6a8a93;
         }
 
         .reply-body {
-          border: solid 1px #571c5e;
+          border: solid 1px #cfccc5;
           border-radius: 5px;
           background-color: whitesmoke;
           resize: none;
           outline: none;
-          width: calc(var(--comment-width) * 0.98);
-          height: calc(var(--comment-height) * 0.2);
+          width: 1186px;
+          height: 89px;
           font-family: 'Open Sans', sans-serif;
-          color: #571c5e;
+          color: #000000;
           padding: 10px;
           margin: 15px 0px;
         }
@@ -222,7 +204,7 @@ export class DaPenguinsComment extends SimpleColors {
           border-radius: 10px;
           cursor: pointer;
         }
-
+        
         .like-button:hover,
         .like-button:focus,
         .like-button:active {

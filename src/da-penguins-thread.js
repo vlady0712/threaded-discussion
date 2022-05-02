@@ -31,13 +31,14 @@ export class DaPenguinsThread extends LitElement {
 
       .command-center {
         padding: 10px;
+        border: 1px solid transparent;
         margin: 10px;
         border-radius: 5px;
       }
 
       .create-comment {
-        background-color: #DAB9DE;
-        color: #571C5E;
+        background-color: #6A8A93;
+        color: #E8E2DE;
         text-align: center;
         border: none;
         border-radius: 10px;
@@ -50,7 +51,7 @@ export class DaPenguinsThread extends LitElement {
       .create-comment:hover,
       .create-comment:focus,
       .create-comment:active {
-        box-shadow: 0px 0px 2px #6100EE;
+        box-shadow: 0px 0px 2px #59757c;
       }
 
       .submit-button:disabled {
@@ -60,15 +61,15 @@ export class DaPenguinsThread extends LitElement {
       }
 
       .submit-button {
-        background-color: #571C5E;
-        color: #F4EDF4;
+        background-color: #6A8A93;
+        color: #E8E2DE;
       }
 
       .new-comment-pane-visible {
         visibility: visible;
         background-color: #F4EDF4;
         padding: 20px;
-        border: 1px solid #571C5E;
+        border: 1px solid #889BA3;
         margin: 20px 10px;
         width: fit-content;
         border-radius: 5px;
@@ -77,11 +78,11 @@ export class DaPenguinsThread extends LitElement {
 
       .new-comment-pane-visible .comment-prompt {
         margin: 0px;
-        color: #571C5E;
+        color: #889BA3;
       }
 
       .new-comment-pane-visible .submit-body {
-        border: solid 1px #571C5E;
+        border: solid 1px #889BA3;
         border-radius: 5px;
         background-color: whitesmoke;
         resize: none;
@@ -89,7 +90,7 @@ export class DaPenguinsThread extends LitElement {
         width: 400px;
         height: 125px;
         font-family: 'Open Sans', sans-serif;
-        color: #571C5E;
+        color: #AABABC;
         padding: 10px;
         margin: 10px 0px;
       }
