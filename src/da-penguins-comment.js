@@ -16,56 +16,46 @@ export class DaPenguinsComment extends SimpleColors {
       css`
         :host {
           display: block;
-          border: 1px solid var(--simple-colors-default-theme-accent-6);
-          min-width: 1375px;
-          min-height: 155px;
-          border-radius: 20px;
-          padding: 20px;
-          margin: 20px;
-          width: 5em;
-          background-color: var(--simple-colors-default-theme-accent-2);
-          box-shadow: 0 0 5px var(--simple-colors-default-theme-accent-7);
 
           /* font info */
           font-family: 'Open Sans', sans-serif;
           color: black;
+
+          /* Dimensions variables */
+          --comment-width: 500px;
+          --comment-height: calc(var(--comment-width) / 2.3);
+          width: var(--comment-width);
+
+          /* Color Scheming */
+          --accent-color-dark: #6A8A93;
+          --accent-color-med: #889BA3;
+          --accent-color-light-1: #aababc;
+          --accent-color-light-2: #E8E2DE;
+          --accent-color-light-3: var(--simple-colors-default-theme-accent-3);
+          --accent-color-white: var(--simple-colors-default-theme-accent-2);
+        }
+
+        .post-main {
+          width: var(--comment-width);
+          height: var(--comment-height);
+          font-family: 'Open Sans', sans-serif;
+          border: 1px solid var(--simple-colors-default-theme-accent-6);
+          border-radius: 20px;
+          padding: 10px;
+          margin: 20px;
+          background-color: var(--simple-colors-default-theme-accent-2);
+          box-shadow: 0 0 5px var(--simple-colors-default-theme-accent-7);
         }
 
         .post-title {
           display: flex;
           background-color: var(--simple-colors-default-theme-accent-3);
-          border: solid 10px var(--simple-colors-default-theme-accent-2);
-          border-radius: 19px;
-          margin-left: 15px;
-          margin-top: 15px;
-          padding-top: 15px;
-          padding-bottom: 15px;
-          width: 1300px;
-        }
-
-        .post-body {
-          background-color: var(--simple-colors-default-theme-accent-3);
-          border: solid 10px var(--simple-colors-default-theme-accent-2);
-          border-radius: 19px;
-          margin-top: 15px;
-          margin-left: 15px;
-          margin-bottom: 15px;
-          height: 215px;
-          width: 1300px;
-          font-size: 14px;
-        }
-
-        .post-body-content {
-          border: solid 1px transparent;
-          border-radius: 19px;
-          background-color: transparent;
-          resize: none;
-          outline: none;
-          height: 215px;
-          width: 1300px;
-          font-family: 'Open Sans', sans-serif;
-          color: black;
-          padding: 10px;
+          border: solid 1px var(--simple-colors-default-theme-accent-2);
+          border-radius: 10px;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          width: var(--comment-width);
+          height: calc(var(--comment-height) / 3);
         }
 
         .profile-pic {
@@ -73,34 +63,57 @@ export class DaPenguinsComment extends SimpleColors {
           background-color: var(--simple-colors-default-theme-accent-7);
           border-radius: 50px;
           margin-left: 15px;
-          height: 75px;
-          width: 75px;
+          margin-bottom: auto;
+          height: 50px;
+          width: 50px;
           vertical-align: center;
         }
 
         .title-content {
           display: block;
-          margin-left: 15px;
-          width: 1175px;
-        }
-
-        .header {
-          display: block;
-          margin-left: 15px;
-          height: auto;
-          width: 97%;
+          margin-left: 20px;
+          width: calc(var(--comment-width) * 0.8);
+          line-height: 1.5;
         }
 
         .username {
           display: block;
-          margin-left: 15px;
+          font-size: 20px;
+          font-weight: bold;
+        }
+
+        .title-info {
+          display: block;
+          font-size: 12px;
+        }
+
+        .post-body {
+          background-color: var(--simple-colors-default-theme-accent-3);
+          border: solid 1px var(--simple-colors-default-theme-accent-2);
+          border-radius: 10px;
           margin-top: 10px;
-          height: auto;
-          width: 40%;
+          width: var(--comment-width);
+          height: calc(var(--comment-height) / 3);
+          font-size: 14px;
+        }
+
+        .post-body-content {
+          border: 1px solid transparent;
+          border-radius: 10px;
+          background-color: transparent;
+          resize: none;
+          outline: 0px;
+          overflow: visible;
+          width: calc(var(--comment-width) - 20px);
+          height: calc((var(--comment-height)/ 3) - 15px);
+          font-family: "Open Sans", sans-serif;
+          color: rgb(0, 0, 0);
+          padding: 5px;
+          line-height: 1.5;
         }
 
         .edit-post-body {
-          box-shadow: 0px 0px 5px #e8e2de;
+          box-shadow: 0px 0px 5px var(--accent-color-light-2);
           background-color: var(--simple-colors-default-theme-accent-4);
         }
 
@@ -108,41 +121,50 @@ export class DaPenguinsComment extends SimpleColors {
           filter: blur(2px);
         }
 
-        .comment-buttons {
-          padding: 10px;
-          border: 1px solid transparent;
-          margin: 10px;
+        .comment-buttons-visible {
+          visibility: visible;
           width: fit-content;
-          border-radius: 5px;
+        }
+
+        .comment-buttons-hidden {
+          visibility: hidden;
+          height: 0px;
         }
 
         .style-comment {
-          background-color: #aababc;
-          color: #e8e2de;
-          text-align: center;
+          background-color: var(--accent-color-light-1);
+          color: var(--accent-color-light-2);
+          text-align: right;
           border: none;
           border-radius: 10px;
-          padding: 15px 20px;
-          font-size: 16px;
+          padding: 8px;
+          font-size: 14px;
           margin: 4px 2px;
           cursor: pointer;
         }
 
+
+        .style-comment:hover,
+        .style-comment:focus,
+        .style-comment:active {
+          box-shadow: 0px 0px 2px var(--accent-color-dark);
+        }
+
         .submit-button:disabled {
-          background-color: #6a8a93 !important;
-          color: #aababc !important;
+          background-color: var(--accent-color-dark) !important;
+          color: var(--accent-color-light-1) !important;
           pointer-events: none;
         }
 
         .submit-button {
-          background-color: #6a8a93;
-          color: #e8e2de;
+          background-color: var(--accent-color-dark);
+          color: var(--accent-color-light-2);
         }
 
         .submit-button:hover,
         .submit-button:focus,
         .submit-button:active {
-          box-shadow: 0px 0px 2px #aababc;
+          box-shadow: 0px 0px 2px var(--accent-color-light-1);
         }
 
         .edit-options-hidden {
@@ -152,10 +174,8 @@ export class DaPenguinsComment extends SimpleColors {
 
         .edit-options-visible {
           visibility: visible;
-          padding: 10px;
-          margin: 10px;
+          margin-top: 6px;
           width: fit-content;
-          border-radius: 5px;
         }
 
         .reply-pane-hidden {
@@ -167,17 +187,23 @@ export class DaPenguinsComment extends SimpleColors {
           visibility: visible;
           background-color: var(--simple-colors-default-theme-accent-2);
           box-shadow: 0 0 5px var(--simple-colors-default-theme-accent-7);
-          border-radius: 19px;
-          height: 200px;
-          width: 1210px;
-          padding: 20px;
-          margin: 20px 20px 20px 75px;
-          font-family: 'Open Sans', sans-serif;
+          border-radius: 20px;
+          width: calc(var(--comment-width) - 10px);
+          height: calc(var(--comment-height)/ 2);
+          padding: 10px;
+          margin: 0px 30px;
+          font-family: "Open Sans", sans-serif;
+        }
+
+        .reply-pane-visible .style-comment {
+          padding: 8px 6px;
+          margin: 2px;
         }
 
         .reply-prompt {
           margin: 0px;
-          color: #6a8a93;
+          color: var(--accent-color-dark);
+          font-size: 14px;
         }
 
         .reply-body {
@@ -185,13 +211,14 @@ export class DaPenguinsComment extends SimpleColors {
           border-radius: 5px;
           background-color: whitesmoke;
           resize: none;
-          outline: none;
-          width: 1186px;
-          height: 89px;
-          font-family: 'Open Sans', sans-serif;
-          color: #000000;
-          padding: 10px;
-          margin: 15px 0px;
+          outline: 0px;
+          width: 97%;
+          height: 36px;
+          font-family: "Open Sans", sans-serif;
+          color: rgb(0, 0, 0);
+          padding: 5px;
+          margin-top: 6px;
+          font-size: 12px;
         }
 
         .rpg {
@@ -200,17 +227,19 @@ export class DaPenguinsComment extends SimpleColors {
 
         .like-button {
           background-color: var(--simple-colors-default-theme-accent-4);
-          border: solid 1px black;
+          border: solid 1px var(--accent-color-light-1);
           border-radius: 10px;
           cursor: pointer;
+          font-size: 12px;
         }
-        
+
         .like-button:hover,
         .like-button:focus,
         .like-button:active {
           filter: invert(0.5);
           filter: opacity(0.3);
         }
+
       `,
     ];
   }
@@ -280,9 +309,10 @@ export class DaPenguinsComment extends SimpleColors {
       if (propName === 'status' && this[propName] === 'pending') {
         this.answerIcon = false;
       }
-      if (propName === 'likes') {
-        this.likes = this.getSpecificComment(this.UID).likes;
-      }
+      // if (propName === 'likes' && this[propName] !== oldValue) {
+      //   console.log(await this.getSpecificComment(this.UID));
+      //   // this.likes = this.getSpecificComment(this.UID).likes;
+      // }
     });
   }
 
@@ -379,7 +409,6 @@ export class DaPenguinsComment extends SimpleColors {
   }
 
   async likeComment() {
-    // 07e76fec-9f18-4b94-b464-df930de006a1
     this.likes += 1;
     const response = await fetch(`/api/like-comment?uid=${this.UID}`, {
       headers: {
@@ -427,21 +456,14 @@ export class DaPenguinsComment extends SimpleColors {
     console.log(response);
   }
 
-  facilitateLike() {
-    const likeNum = parseInt(this.likes, 10) + 1;
-    this.likes = likeNum;
-    this.likeComment();
-  }
-
   showEditingPane() {
     this.shadowRoot.querySelector('.post-body-content').readOnly = false;
 
-    this.shadowRoot
-      .querySelector('.edit-options-hidden')
-      .classList.add('edit-options-visible');
-    this.shadowRoot
-      .querySelector('.edit-options-visible')
-      .classList.remove('edit-options-hidden');
+    this.shadowRoot.querySelector('.edit-options-hidden').classList.add('edit-options-visible');
+    this.shadowRoot.querySelector('.edit-options-visible').classList.remove('edit-options-hidden');
+    
+    this.shadowRoot.querySelector('.comment-buttons-visible').classList.add('comment-buttons-hidden');
+    this.shadowRoot.querySelector('.comment-buttons-hidden').classList.remove('comment-buttons-visible');
 
     this.shadowRoot.querySelector('.post-body').classList.add('edit-post-body');
     this.shadowRoot.querySelector('.post-main').classList.add('edit-post-blur');
@@ -450,19 +472,14 @@ export class DaPenguinsComment extends SimpleColors {
   hideEditingPane() {
     this.shadowRoot.querySelector('.post-body-content').readOnly = true;
 
-    this.shadowRoot
-      .querySelector('.edit-options-visible')
-      .classList.add('edit-options-hidden');
-    this.shadowRoot
-      .querySelector('.edit-options-hidden')
-      .classList.remove('edit-options-visible');
+    this.shadowRoot.querySelector('.edit-options-visible').classList.add('edit-options-hidden');
+    this.shadowRoot.querySelector('.edit-options-hidden').classList.remove('edit-options-visible');
 
-    this.shadowRoot
-      .querySelector('.post-body')
-      .classList.remove('edit-post-body');
-    this.shadowRoot
-      .querySelector('.post-main')
-      .classList.remove('edit-post-blur');
+    this.shadowRoot.querySelector('.comment-buttons-hidden').classList.add('comment-buttons-visible');
+    this.shadowRoot.querySelector('.comment-buttons-visible').classList.remove('comment-buttons-hidden');
+
+    this.shadowRoot.querySelector('.post-body').classList.remove('edit-post-body');
+    this.shadowRoot.querySelector('.post-main').classList.remove('edit-post-blur');
   }
 
   cancelEdit() {
@@ -549,41 +566,36 @@ export class DaPenguinsComment extends SimpleColors {
       <div class="post-main">
         <div class="post-title">
           <div class="profile-pic">
-            <rpg-character class="rpg" seed=${this.username} width="75" height="75" ></rpg-character>
+            <!-- <rpg-character class="rpg" seed=${this.username} width="75" height="75" ></rpg-character> -->
           </div>
           <div class="title-content">
-            <div class="header">
-              <h1>${this.username ? this.username : 'Anonymous'}</h1>
-            </div>
-            <div class="username">
-              <p> <button class="like-button" @click=${this.likeComment}> <simple-icon-lite icon="favorite"></simple-icon-lite> </button> ${this.likes} </p>
-              <p>${this.submittedTime}</p>
-              ${this.isEdited ? html`<p>edited: ${this.editedTime}</p>` : ''}
+            <div class="username">${this.username ? this.username : 'Anonymous'}</div>
+            <div class="title-info">
+              <button class="like-button" @click=${this.likeComment}> <simple-icon-lite icon="favorite"></simple-icon-lite> ${this.likes}</button> 
+              <br>
+              ${this.submittedTime}; ${this.isEdited ? html`<i>edited: ${this.editedTime}</i>` : ''}
             </div>
           </div>
         </div>
         <div class="post-body">
-          <textarea class="post-body-content" readonly @input=${this.validateEditButton} > ${this.body}</textarea >
+          <textarea class="post-body-content" readonly @input=${this.validateEditButton}> ${this.body}</textarea >
         </div>
-        <div class="comment-buttons">
-          <button class="style-comment" @click=${this.handleDelete}>
-            <simple-icon-lite icon="delete"></simple-icon-lite>
-            <div>Delete</div>
-          </button>
-          <button class="style-comment" @click=${this.showEditingPane}> <simple-icon-lite icon="image:edit"></simple-icon-lite> <div>Edit</div> </button>
-          ${!this.isReply ? html` <button class="style-comment" @click=${this.showReplyPane}> <simple-icon-lite icon="reply"></simple-icon-lite> <div>Reply</div> </button>` : html``}
+        <div class="comment-buttons-visible">
+          <button class="style-comment" @click=${this.showEditingPane}> <simple-icon-lite icon="image:edit"></simple-icon-lite> Edit</button>
+          ${!this.isReply ? html` <button class="style-comment" @click=${this.showReplyPane}> <simple-icon-lite icon="reply"></simple-icon-lite> Reply</button>` : html``}
+          <button class="style-comment delete-button" @click=${this.handleDelete}><simple-icon-lite icon="delete"></simple-icon-lite> Delete</button>
         </div>
         <div class="edit-options-hidden">
-          <button class="comment-buttons" @click=${this.cancelEdit}> Cancel </button>
-          <button id="submit-edit" class="comment-buttons submit-button" @click=${this.submitEdit} disabled > Submit </button>
+          <button class="style-comment" @click=${this.cancelEdit}> Cancel </button>
+          <button id="submit-edit" class="style-comment submit-button" @click=${this.submitEdit} disabled > Submit </button>
         </div>
       </div>
       <div class="reply-pane-hidden">
         <p class="reply-prompt">Add a Reply:</p>
         <textarea class="reply-body" @input=${this.validateReplyButton} placeholder="What Do You Think?" ></textarea>
         <div class="reply-pane-buttons">
-          <button class="comment-buttons" @click=${this.cancelReply}> Cancel </button>
-          <button id="submit-reply" class="comment-buttons submit-button" @click="${this.initiateCreateReply}" disabled > Reply </button>
+          <button class="style-comment" @click=${this.cancelReply}> Cancel </button>
+          <button id="submit-reply" class="style-comment submit-button" @click="${this.initiateCreateReply}" disabled > Reply </button>
         </div>
         
       </div>
