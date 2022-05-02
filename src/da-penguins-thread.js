@@ -1,6 +1,6 @@
 /* eslint-disable eqeqeq */
 // dependencies / things imported
-import { LitElement, html, css, supportsAdoptingStyleSheets } from 'lit';
+import { LitElement, html, css} from 'lit';
 import '@lrnwebcomponents/simple-icon/lib/simple-icons.js';
 import '@lrnwebcomponents/simple-icon/lib/simple-icon-lite.js';
 import '@lrnwebcomponents/simple-colors';
@@ -17,28 +17,36 @@ export class DaPenguinsThread extends LitElement {
   static get styles() {
     return css`
 
-      host {
+      :host {
         font-family: 'Open Sans', sans-serif;
-        font-size: 22px;
+        font-size: 18px;
         color: black;
-
-        --accent-color-white: #F4EDF4;
+        --accent-color-dark: #6A8A93;
+        --accent-color-med: #889BA3;
+        --accent-color-light-1: #aababc;
+        --accent-color-light-2: #E8E2DE;
+        --accent-color-light-3: var(--simple-colors-default-theme-accent-3);
+        --accent-color-white: var(--simple-colors-default-theme-accent-2);
       }
 
-      #Nest {
+      #Auth {
         margin: 10px;
+      }
+
+      .entire-thread {
+        margin: 0px;
+        padding: 0px;
       }
 
       .command-center {
         padding: 10px;
-        border: 1px solid transparent;
         margin: 10px;
         border-radius: 5px;
       }
 
       .create-comment {
-        background-color: #6A8A93;
-        color: #E8E2DE;
+        background-color: var(--accent-color-light-1);
+        color: var(--accent-color-light-2);
         text-align: center;
         border: none;
         border-radius: 10px;
@@ -51,7 +59,7 @@ export class DaPenguinsThread extends LitElement {
       .create-comment:hover,
       .create-comment:focus,
       .create-comment:active {
-        box-shadow: 0px 0px 2px #59757c;
+        box-shadow: 0px 0px 2px var(--accent-color-dark);
       }
 
       .submit-button:disabled {
@@ -61,15 +69,15 @@ export class DaPenguinsThread extends LitElement {
       }
 
       .submit-button {
-        background-color: #6A8A93;
-        color: #E8E2DE;
+        background-color: var(--accent-color-dark);
+        color: var(--accent-color-light-2);
       }
 
       .new-comment-pane-visible {
         visibility: visible;
-        background-color: #F4EDF4;
+        background-color: var(--accent-color-light-3);
         padding: 20px;
-        border: 1px solid #889BA3;
+        border: 1px solid var(--accent-color-med);
         margin: 20px 10px;
         width: fit-content;
         border-radius: 5px;
@@ -78,19 +86,20 @@ export class DaPenguinsThread extends LitElement {
 
       .new-comment-pane-visible .comment-prompt {
         margin: 0px;
-        color: #889BA3;
+        color: var(--accent-color-dark);
+        font-size: 16px;
       }
 
       .new-comment-pane-visible .submit-body {
-        border: solid 1px #889BA3;
+        border: solid 1px var(--accent-color-med);
         border-radius: 5px;
-        background-color: whitesmoke;
+        background-color: var(--accent-color-white);
         resize: none;
         outline: none;
         width: 400px;
         height: 125px;
         font-family: 'Open Sans', sans-serif;
-        color: #AABABC;
+        color: var(--accent-color-dark);
         padding: 10px;
         margin: 10px 0px;
       }
@@ -107,9 +116,28 @@ export class DaPenguinsThread extends LitElement {
       }
 
       .is-reply {
-        margin-left: 55px;
-        transform: scale(0.95);
+        margin-left: 30px;
+        margin-top: -10px;
+        transform: scale(0.9);
       }
+
+      @media (max-width: 550px) {
+          .rendered-comment {
+            transform: scale(0.8);
+            margin: -8% -10% -12% -10%;
+          }
+
+          .is-reply {
+            transform: scale(0.7);
+            margin: -16% -4%;
+          }
+
+          .new-comment-pane-visible {
+            transform: scale(.8);
+            margin: -6%;
+          }
+
+        }
     `;
   }
 
@@ -133,8 +161,8 @@ export class DaPenguinsThread extends LitElement {
         // console.log(commentThread);
         for (const comment of commentThread){
           if (comment.uid == e.detail.commentId){
-            console.log("comment identified")
-            console.log(comment)
+            console.log("comment identified");
+            console.log(comment);
             const threadIndex = this.commentList.indexOf(commentThread);
             const commentIndex = this.commentList[threadIndex].indexOf(comment);
             this.commentList[threadIndex].splice(commentIndex, commentIndex+1);
@@ -172,7 +200,7 @@ export class DaPenguinsThread extends LitElement {
   }
 
   async refreshCommentList() {
-    console.log("reply created, refreshing now...")
+    console.log("reply created, refreshing now...");
     this.commentList = await this.getAllComments();
   }
 
@@ -302,7 +330,6 @@ export class DaPenguinsThread extends LitElement {
     if(isEdited){
       editedTime = new Date(comment.edited_time).toLocaleString();
     }
-
     if(comment.is_deleted == '0'){
       return html`
         <da-penguins-comment
@@ -317,23 +344,14 @@ export class DaPenguinsThread extends LitElement {
           replyTo=${comment.reply_to}
           likes=${comment.likes}
           threadID=${this.threadID}
-          class="${isReply ? 'is-reply' : ''}"
+          class="rendered-comment ${isReply ? 'is-reply' : ''}"
         ></da-penguins-comment>
       `;
     }
     return html``;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   async initiateCreateComment(){
-    /*
-    const newComment = prompt("Care to add something to the discussion?\nType your comment below:", "");
-    if(newComment == null || newComment.trim() == ""){
-      console.log("nothing to see here");
-    } else {
-      this.createComment(newComment);
-    }
-    */
 
     const commentBody = this.shadowRoot.querySelector(".submit-body");
     if (commentBody.value.trim() !== ''){
@@ -382,7 +400,7 @@ export class DaPenguinsThread extends LitElement {
     if (!this.threadEnabled) {
       // TODO: add different cases for various thread permissions
       return html`
-        <div class="center" id="Nest">
+        <div class="center" id="Auth">
           <h2>Login to See the Comments!</h2>
           <jwt-auth authendpoint="/api/auth/"></jwt-auth>
         </div>
@@ -391,22 +409,19 @@ export class DaPenguinsThread extends LitElement {
     console.log("all comments: ", this.commentList);
     return html`
       <div class="entire-thread">
-
         <div class="command-center">
-          <button class="create-comment" @click=${this.showCommentPane}> <simple-icon-lite icon="add"></simple-icon-lite><div>Add Comment</div> </button>
+          <button class="create-comment" @click=${this.showCommentPane}> <simple-icon-lite icon="add"></simple-icon-lite><div>Add Comment</div></button>
         </div>
 
         <div class="new-comment-pane-hidden">
-          <p class="comment-prompt">
-            Have Something to Say? Leave a Comment Below!
-          </p>
+          <p class="comment-prompt"> Have Something to Say? Leave a Comment Below! </p>
           <textarea class="submit-body" @input=${this.validateSubmitButton} ></textarea>
           <div class="comment-pane-buttons">
             <button class="create-comment" @click=${this.cancelComment}>Cancel</button>
             <button class="create-comment submit-button" @click="${this.initiateCreateComment}" disabled>Submit</button>
           </div>
         </div>
-        <div>
+        <div class="rendered-comments">
           ${this.commentList.map(commentArray => commentArray.map(comment => html` ${this.renderComment(comment)} `) )}
         </div>
       </div>
