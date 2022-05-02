@@ -97,7 +97,7 @@ export class DaPenguinsComment extends SimpleColors {
       } 
 
       .edit-post-body{
-        box-shadow: 0px 0px 5px #6100EE;
+        box-shadow: 0px 0px 5px #E8E2DE;
         background-color: var(--simple-colors-default-theme-accent-4);
                
       }
@@ -106,9 +106,17 @@ export class DaPenguinsComment extends SimpleColors {
         filter: blur(2px);
       }
 
+      .comment-buttons {
+        padding: 10px;
+        border: 1px solid transparent;
+        margin: 10px;
+        width: fit-content;
+        border-radius: 5px;
+      }
+
       .style-comment {
-        background-color: #DAB9DE;
-        color: #571C5E;
+        background-color: #AABABC;
+        color: #E8E2DE;
         text-align: center;
         border: none;
         border-radius: 10px;
@@ -119,14 +127,20 @@ export class DaPenguinsComment extends SimpleColors {
       }
 
       .submit-button:disabled {
-        background-color: lightgrey !important;
-        color: darkgrey !important;
+        background-color: #6A8A93 !important;
+        color: #AABABC !important;
         pointer-events: none;
       }
 
       .submit-button {
-        background-color: #571c5e;
-        color: #f4edf4;
+        background-color: #6A8A93;
+        color: #E8E2DE;
+      }
+
+      .submit-button:hover,
+      .submit-button:focus,
+      .submit-button:active {
+        box-shadow: 0px 0px 2px #AABABC;
       }
 
       .edit-options-hidden {
@@ -161,11 +175,11 @@ export class DaPenguinsComment extends SimpleColors {
 
       .reply-prompt {
         margin: 0px;
-        color: #571C5E;
+        color: #6A8A93;
       }
 
       .reply-body {
-        border: solid 1px #571C5E;
+        border: solid 1px #CFCCC5;
         border-radius: 5px;
         background-color: whitesmoke;
         resize: none;
@@ -173,7 +187,7 @@ export class DaPenguinsComment extends SimpleColors {
         width: 1186px;
         height: 89px;
         font-family: 'Open Sans', sans-serif;
-        color: #571C5E;
+        color: #000000;
         padding: 10px;
         margin: 15px 0px;
       }
