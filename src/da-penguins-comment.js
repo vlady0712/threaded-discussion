@@ -4,226 +4,234 @@ import 'jwt-auth-component';
 import '@lrnwebcomponents/simple-icon/lib/simple-icons.js';
 import '@lrnwebcomponents/simple-icon/lib/simple-icon-lite.js';
 import '@lrnwebcomponents/rpg-character/rpg-character.js';
+
 export class DaPenguinsComment extends SimpleColors {
   static get tag() {
     return 'da-penguins-comment';
   }
 
   static get styles() {
-    return [...super.styles ,
-    css`
-      :host {
+    return [
+      ...super.styles,
+      css`
+        :host {
           display: block;
           border: 1px solid var(--simple-colors-default-theme-accent-6);
-          min-width: 1375px;
-          min-height: 155px;
+          /* min-width: 1375px;
+          min-height: 155px; */
           border-radius: 20px;
           padding: 20px;
           margin: 20px;
-          width: 5em;
+          /* width: 5em; */
           background-color: var(--simple-colors-default-theme-accent-2);
           box-shadow: 0 0 5px var(--simple-colors-default-theme-accent-7);
-         
+
           /* font info */
           font-family: 'Open Sans', sans-serif;
           color: black;
-      }
 
-      .post-main {
-        background-color: var(--simple-colors-default-theme-accent-2);
-        box-shadow: 0 0 5px var(--simple-colors-default-theme-accent-7);
-        border: solid 1px var(--simple-colors-default-theme-accent-3);
-        border-radius: 19px 19px 19px 19px;
-        margin-bottom: 15px;
-        margin-left: 15px;
-        margin-top: 15px;
-        height: 99%;
-        width: 1350px;
-      }
+          /* Dimensions variables */
+          --comment-width: 500px;
+          --comment-height: calc(var(--comment-width) / 2.3);
+          width: fit-content;
+        }
 
-      .post-title {
-        display: flex;
-        background-color: var(--simple-colors-default-theme-accent-3);
-        border: solid 10px var(--simple-colors-default-theme-accent-2);
-        border-radius: 19px;
-        margin-left: 15px;
-        margin-top: 15px;
-        padding-top: 15px;
-        padding-bottom: 15px;
-        width: 1300px;
-      }
+        .post-main {
+          background-color: var(--simple-colors-default-theme-accent-2);
+          box-shadow: 0 0 5px var(--simple-colors-default-theme-accent-7);
+          border: solid 1px var(--simple-colors-default-theme-accent-3);
+          border-radius: 19px 19px 19px 19px;
+          margin-bottom: 15px;
+          margin-left: 15px;
+          margin-top: 15px;
+          /* height: 99%;
+        width: 1350px; */
+          width: var(--comment-width);
+          height: var(--comment-height);
+        }
 
-      .post-body {
-        background-color: var(--simple-colors-default-theme-accent-3);
-        border: solid 10px var(--simple-colors-default-theme-accent-2);
-        border-radius: 19px;
-        margin-top: 15px;
-        margin-left: 15px;
-        margin-bottom: 15px;
-        height: 215px;
-        width: 1300px;
-        font-size: 14px;
-      }
+        .post-title {
+          display: flex;
+          background-color: var(--simple-colors-default-theme-accent-3);
+          border: solid 10px var(--simple-colors-default-theme-accent-2);
+          border-radius: 19px;
+          margin-left: 15px;
+          margin-top: 15px;
+          padding-top: 15px;
+          padding-bottom: 15px;
+          width: calc(var(--comment-width) * 0.96);
+        }
 
-      .post-body-content {
-        border: solid 1px transparent;
-        border-radius: 19px;
-        background-color: transparent;
-        resize: none;
-        outline: none;
-        height: 215px;
-        width: 1300px;
-        font-family: 'Open Sans', sans-serif;
-        color: black;
-        padding: 10px;
-      }
+        .post-body {
+          background-color: var(--simple-colors-default-theme-accent-3);
+          border: solid 10px var(--simple-colors-default-theme-accent-2);
+          border-radius: 19px;
+          margin-top: 15px;
+          margin-left: 15px;
+          margin-bottom: 15px;
+          height: calc(var(--comment-height) * 0.37);
+          width: calc(var(--comment-width) * 0.96);
+          font-size: 14px;
+        }
 
-      .profile-pic {
-        display: inline-flex;
-        background-color: var(--simple-colors-default-theme-accent-7);
-        border-radius: 50px;
-        margin-left: 15px;
-        height: 75px;
-        width: 75px;
-        vertical-align: center;
-      }
+        .post-body-content {
+          border: solid 1px transparent;
+          border-radius: 19px;
+          background-color: transparent;
+          resize: none;
+          outline: none;
+          height: calc(var(--comment-height) * 0.37);
+          width: calc(var(--comment-width) * 0.96);
+          font-family: 'Open Sans', sans-serif;
+          color: black;
+          padding: 10px;
+        }
 
-      .title-content {
-        display: block;
-        margin-left: 15px;
-        width: 1175px;
-      }
+        .profile-pic {
+          display: inline-flex;
+          background-color: var(--simple-colors-default-theme-accent-7);
+          border-radius: 50px;
+          margin-left: 15px;
+          height: 35px;
+          width: 35px;
+          vertical-align: center;
+        }
 
-      .header{
-        display: block;
-        margin-left: 15px;
-        height: auto;
-        width: 97%;
-      }
+        .title-content {
+          display: block;
+          margin-left: 15px;
+          width: calc(var(--comment-width) * 0.87);
+        }
 
-      .username {
-        display: block;
-        margin-left: 15px;
-        margin-top: 10px;
-        height: auto;
-        width: 40%;
-      } 
+        .header {
+          display: block;
+          margin-left: 15px;
+          height: auto;
+          width: 97%;
+        }
 
-      .edit-post-body{
-        box-shadow: 0px 0px 5px #6100EE;
-        background-color: var(--simple-colors-default-theme-accent-4);
-               
-      }
+        .username {
+          display: block;
+          margin-left: 15px;
+          margin-top: 10px;
+          height: auto;
+          width: 40%;
+        }
 
-      .edit-post-blur > *:not(.edit-post-body,.edit-options-visible){
-        filter: blur(2px);
-      }
+        .edit-post-body {
+          box-shadow: 0px 0px 5px #6100ee;
+          background-color: var(--simple-colors-default-theme-accent-4);
+        }
 
-      .comment-buttons {
-        padding: 10px;
-        border: 1px solid #571C5E;
-        margin: 10px;
-        width: fit-content;
-        border-radius: 5px;
-      }
+        .edit-post-blur > *:not(.edit-post-body, .edit-options-visible) {
+          filter: blur(2px);
+        }
 
-      .style-comment {
-        background-color: #DAB9DE;
-        color: #571C5E;
-        text-align: center;
-        border: none;
-        border-radius: 10px;
-        padding: 15px 20px;
-        font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
-      }
+        .comment-buttons {
+          padding: 10px;
+          border: 1px solid #571c5e;
+          margin: 10px;
+          width: fit-content;
+          border-radius: 5px;
+        }
 
-      .submit-button:disabled {
-        background-color: lightgrey !important;
-        color: darkgrey !important;
-        pointer-events: none;
-      }
+        .style-comment {
+          background-color: #dab9de;
+          color: #571c5e;
+          text-align: center;
+          border: none;
+          border-radius: 10px;
+          padding: 15px 20px;
+          font-size: 16px;
+          margin: 4px 2px;
+          cursor: pointer;
+        }
 
-      .submit-button {
-        background-color: #571c5e;
-        color: #f4edf4;
-      }
+        .submit-button:disabled {
+          background-color: lightgrey !important;
+          color: darkgrey !important;
+          pointer-events: none;
+        }
 
-      .comment-buttons:hover,
-      .comment-buttons:focus,
-      .comment-buttons:active {
-        box-shadow: 0px 0px 2px #6100EE;
-      }
+        .submit-button {
+          background-color: #571c5e;
+          color: #f4edf4;
+        }
 
-      .edit-options-hidden {
-        visibility: hidden;
-        height: 0px;
-      }
+        .comment-buttons:hover,
+        .comment-buttons:focus,
+        .comment-buttons:active {
+          box-shadow: 0px 0px 2px #6100ee;
+        }
 
-      .edit-options-visible {
-        visibility: visible;
-        padding: 10px;
-        margin: 10px;
-        width: fit-content;
-        border-radius: 5px;
-      }
+        .edit-options-hidden {
+          visibility: hidden;
+          height: 0px;
+        }
 
-      .reply-pane-hidden {
-        visibility: hidden;
-        height: 0px;
-      }
+        .edit-options-visible {
+          visibility: visible;
+          padding: 10px;
+          margin: 10px;
+          width: fit-content;
+          border-radius: 5px;
+        }
 
-      .reply-pane-visible {
-        visibility: visible;
-        background-color: var(--simple-colors-default-theme-accent-2);
-        box-shadow: 0 0 5px var(--simple-colors-default-theme-accent-7);
-        border-radius: 19px;
-        height: 200px;
-        width: 1210px;
-        padding: 20px;
-        margin: 20px 20px 20px 75px;
-        font-family: "Open Sans", sans-serif;
-      }
+        .reply-pane-hidden {
+          visibility: hidden;
+          height: 0px;
+        }
 
-      .reply-prompt {
-        margin: 0px;
-        color: #571C5E;
-      }
+        .reply-pane-visible {
+          visibility: visible;
+          background-color: var(--simple-colors-default-theme-accent-2);
+          box-shadow: 0 0 5px var(--simple-colors-default-theme-accent-7);
+          border-radius: 19px;
+          height: calc(var(--comment-height) * 0.4);
+          width: calc(var(--comment-width) * 0.87);
+          padding: 20px;
+          margin: 20px 20px 20px 75px;
+          font-family: 'Open Sans', sans-serif;
+        }
 
-      .reply-body {
-        border: solid 1px #571C5E;
-        border-radius: 5px;
-        background-color: whitesmoke;
-        resize: none;
-        outline: none;
-        width: 1186px;
-        height: 89px;
-        font-family: 'Open Sans', sans-serif;
-        color: #571C5E;
-        padding: 10px;
-        margin: 15px 0px;
-      }
+        .reply-prompt {
+          margin: 0px;
+          color: #571c5e;
+        }
 
-      .rpg {
-        display: block;
-      }
+        .reply-body {
+          border: solid 1px #571c5e;
+          border-radius: 5px;
+          background-color: whitesmoke;
+          resize: none;
+          outline: none;
+          width: calc(var(--comment-width) * 0.98);
+          height: calc(var(--comment-height) * 0.2);
+          font-family: 'Open Sans', sans-serif;
+          color: #571c5e;
+          padding: 10px;
+          margin: 15px 0px;
+        }
 
-      .like-button {
-        background-color: var(--simple-colors-default-theme-accent-4);
-        border: solid 1px black;
-        border-radius: 10px;
-        cursor: pointer;
-      }
+        .rpg {
+          display: block;
+        }
 
-      .like-button:hover,
-      .like-button:focus,
-      .like-button:active {
-        filter: invert(.5);
-        filter: opacity(.3);
-      }
+        .like-button {
+          background-color: var(--simple-colors-default-theme-accent-4);
+          border: solid 1px black;
+          border-radius: 10px;
+          cursor: pointer;
+        }
 
-    `];
+        .like-button:hover,
+        .like-button:focus,
+        .like-button:active {
+          filter: invert(0.5);
+          filter: opacity(0.3);
+        }
+      `,
+    ];
   }
 
   // overlay on div tag - wrap image in div & style div
@@ -249,7 +257,6 @@ export class DaPenguinsComment extends SimpleColors {
     this.isReply = false;
     this.replyTo = null;
     this.likes = 0;
-   
   }
 
   // properties that you wish to use as data in HTML, CSS, and the updated life-cycle
@@ -266,14 +273,14 @@ export class DaPenguinsComment extends SimpleColors {
 
       UID: { type: String },
       userUID: { type: String },
-      username: {type: String },
+      username: { type: String },
       submittedTime: { type: String },
       body: { type: String },
       editedTime: { type: String },
       isEdited: { type: Boolean },
       isReply: { type: Boolean },
       replyTo: { type: String },
-      likes: { type: Number }
+      likes: { type: Number },
     };
   }
 
@@ -295,7 +302,6 @@ export class DaPenguinsComment extends SimpleColors {
       if (propName === 'likes') {
         this.likes = this.getSpecificComment(this.UID).likes;
       }
-
     });
   }
 
@@ -311,7 +317,7 @@ export class DaPenguinsComment extends SimpleColors {
   // this fires EVERY time the element is moved
   connectedCallback() {
     super.connectedCallback();
-    if (this.threadPermissions == null){
+    if (this.threadPermissions == null) {
       this.fetchThreadData();
     }
   }
@@ -325,146 +331,170 @@ export class DaPenguinsComment extends SimpleColors {
   async fetchThreadData() {
     // throwing error bc not in db
     const apiOrigin = window.location.origin;
-    const apiURL = new URL ("/api/get-thread/", apiOrigin);
-    apiURL.searchParams.append("uid", this.threadID);
+    const apiURL = new URL('/api/get-thread/', apiOrigin);
+    apiURL.searchParams.append('uid', this.threadID);
     await fetch(apiURL)
-    .then((res) => res.json())
-    .then((data) => {
-      this.threadPermissions = data.permissions;
-    });
+      .then(res => res.json())
+      .then(data => {
+        this.threadPermissions = data.permissions;
+      });
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async createComment(commentBody){
+  async createComment(commentBody) {
     const response = await fetch('/api/submit-comment', {
       method: 'POST',
-      headers: { Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}` },
+      headers: {
+        Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`,
+      },
       body: JSON.stringify({
         thread_uid: this.threadID,
         body: commentBody,
-        is_reply: false
-     })
+        is_reply: false,
+      }),
     }).then(res => res.json());
     console.log(response);
     return response;
   }
 
-  async createReply(replyBody){
+  async createReply(replyBody) {
     const response = await fetch('/api/submit-comment', {
       method: 'POST',
-      headers: { Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}` },
+      headers: {
+        Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`,
+      },
       body: JSON.stringify({
         thread_uid: this.threadID,
         body: replyBody,
         is_reply: true,
-        reply_to: this.UID
-        
-     })
+        reply_to: this.UID,
+      }),
     }).then(res => res.json());
-    
+
     console.log(response);
-    console.log("specific comment: ");
+    console.log('specific comment: ');
     console.log(await this.getAllComments());
     return response;
   }
 
   async getAllComments() {
-    // TODO: make query into URL object
-    const response = await fetch(`/api/get-comment?threadId=${this.threadID}`, {headers: {
-      Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
-    }}).then(res => res.json());
+    const response = await fetch(`/api/get-comment?threadId=${this.threadID}`, {
+      headers: {
+        Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`,
+      },
+    }).then(res => res.json());
     console.log(response);
     return response;
   }
-
-  // TODO: Maybe use for chaining replies to a comment? (can be thru comment.js or thread.js)
 
   // eslint-disable-next-line class-methods-use-this
-  async getSpecificComment(targetUID){
-    const response = await fetch(`/api/get-comment?uid=${targetUID}`, {headers: {
-      Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
-    }}).then(res => res.json());
+  async getSpecificComment(targetUID) {
+    const response = await fetch(`/api/get-comment?uid=${targetUID}`, {
+      headers: {
+        Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`,
+      },
+    }).then(res => res.json());
     console.log(response);
   }
 
-  async likeComment(){
+  async likeComment() {
     // 07e76fec-9f18-4b94-b464-df930de006a1
     this.likes += 1;
-    const response = await fetch(`/api/like-comment?uid=${this.UID}`, {headers: {
-      Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
-    }}).then(res => res.json());
+    const response = await fetch(`/api/like-comment?uid=${this.UID}`, {
+      headers: {
+        Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`,
+      },
+    }).then(res => res.json());
     console.log(response);
   }
 
-  async deleteComment(){
-    const response = await fetch(`/api/delete-comment?uid=${this.UID}`, {headers: {
-      Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
-    }}).then(res => res.json());
+  async deleteComment() {
+    const response = await fetch(`/api/delete-comment?uid=${this.UID}`, {
+      headers: {
+        Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`,
+      },
+    }).then(res => res.json());
     console.log(response);
     return response;
   }
 
-  async handleDelete(){
+  async handleDelete() {
     const deleteResponse = await this.deleteComment();
-    console.log("response to delete", deleteResponse);
+    console.log('response to delete', deleteResponse);
 
     const deleteEvent = new CustomEvent('comment-deleted', {
       bubbles: true,
       composed: true,
       detail: {
-        commentId: this.UID
-      }
+        commentId: this.UID,
+      },
     });
     this.dispatchEvent(deleteEvent);
   }
 
-  async editComment(newBody){
+  async editComment(newBody) {
     const response = await fetch('/api/edit-comment', {
       method: 'PUT',
-      headers: { Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}` },
+      headers: {
+        Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`,
+      },
       body: JSON.stringify({
         uid: this.UID,
-        body: newBody
-     })
+        body: newBody,
+      }),
     }).then(res => res.json());
     console.log(response);
   }
 
-  facilitateLike(){
+  facilitateLike() {
     const likeNum = parseInt(this.likes, 10) + 1;
     this.likes = likeNum;
     this.likeComment();
   }
 
-  showEditingPane(){
+  showEditingPane() {
     this.shadowRoot.querySelector('.post-body-content').readOnly = false;
-   
-    this.shadowRoot.querySelector('.edit-options-hidden').classList.add('edit-options-visible');
-    this.shadowRoot.querySelector('.edit-options-visible').classList.remove('edit-options-hidden');
+
+    this.shadowRoot
+      .querySelector('.edit-options-hidden')
+      .classList.add('edit-options-visible');
+    this.shadowRoot
+      .querySelector('.edit-options-visible')
+      .classList.remove('edit-options-hidden');
 
     this.shadowRoot.querySelector('.post-body').classList.add('edit-post-body');
     this.shadowRoot.querySelector('.post-main').classList.add('edit-post-blur');
   }
 
-  hideEditingPane(){
+  hideEditingPane() {
     this.shadowRoot.querySelector('.post-body-content').readOnly = true;
 
-    this.shadowRoot.querySelector('.edit-options-visible').classList.add('edit-options-hidden');
-    this.shadowRoot.querySelector('.edit-options-hidden').classList.remove('edit-options-visible');
+    this.shadowRoot
+      .querySelector('.edit-options-visible')
+      .classList.add('edit-options-hidden');
+    this.shadowRoot
+      .querySelector('.edit-options-hidden')
+      .classList.remove('edit-options-visible');
 
-    this.shadowRoot.querySelector('.post-body').classList.remove('edit-post-body');
-    this.shadowRoot.querySelector('.post-main').classList.remove('edit-post-blur');
+    this.shadowRoot
+      .querySelector('.post-body')
+      .classList.remove('edit-post-body');
+    this.shadowRoot
+      .querySelector('.post-main')
+      .classList.remove('edit-post-blur');
   }
 
-  cancelEdit(){
+  cancelEdit() {
     this.hideEditingPane();
     this.shadowRoot.querySelector('.post-body-content').value = this.body;
     this.validateEditButton();
   }
 
-  submitEdit(){
-    const newBody = this.shadowRoot.querySelector('.post-body-content').value.trim();
-    if(newBody != ""){
+  submitEdit() {
+    const newBody = this.shadowRoot
+      .querySelector('.post-body-content')
+      .value.trim();
+    if (newBody != '') {
       this.body = newBody;
       this.editComment(newBody);
       this.hideEditingPane();
@@ -472,53 +502,60 @@ export class DaPenguinsComment extends SimpleColors {
     this.getSpecificComment(this.UID);
   }
 
-  validateEditButton(){
-    const submitButton = this.shadowRoot.querySelector("#submit-edit");
-    const commentBody = this.shadowRoot.querySelector(".post-body-content");
-    if (commentBody.value.trim() == ''){
+  validateEditButton() {
+    const submitButton = this.shadowRoot.querySelector('#submit-edit');
+    const commentBody = this.shadowRoot.querySelector('.post-body-content');
+    if (commentBody.value.trim() == '') {
       submitButton.disabled = true;
     } else {
       submitButton.disabled = false;
     }
   }
 
-  showReplyPane(){
-    this.shadowRoot.querySelector('.reply-pane-hidden').classList.add('reply-pane-visible');
-    this.shadowRoot.querySelector('.reply-pane-visible').classList.remove('reply-pane-hidden');
-
+  showReplyPane() {
+    this.shadowRoot
+      .querySelector('.reply-pane-hidden')
+      .classList.add('reply-pane-visible');
+    this.shadowRoot
+      .querySelector('.reply-pane-visible')
+      .classList.remove('reply-pane-hidden');
   }
 
-  hideReplyPane(){
-    this.shadowRoot.querySelector('.reply-pane-visible').classList.add('reply-pane-hidden');
-    this.shadowRoot.querySelector('.reply-pane-hidden').classList.remove('reply-pane-visible');
+  hideReplyPane() {
+    this.shadowRoot
+      .querySelector('.reply-pane-visible')
+      .classList.add('reply-pane-hidden');
+    this.shadowRoot
+      .querySelector('.reply-pane-hidden')
+      .classList.remove('reply-pane-visible');
     this.validateReplyButton();
   }
 
-  cancelReply(){
+  cancelReply() {
     this.hideReplyPane();
-    this.shadowRoot.querySelector('.reply-body').value = "";
+    this.shadowRoot.querySelector('.reply-body').value = '';
   }
 
-  initiateCreateReply(){
+  initiateCreateReply() {
     const replyBody = this.shadowRoot.querySelector('.reply-body').value.trim();
-    if(replyBody != ""){
+    if (replyBody != '') {
       this.createReply(replyBody);
-      console.log("Where reply submission would occur");
+      console.log('Where reply submission would occur');
       this.hideReplyPane();
     }
     console.log(`reply: ${replyBody}`);
-    this.shadowRoot.querySelector('.reply-body').value = "";
+    this.shadowRoot.querySelector('.reply-body').value = '';
     const replyEvent = new CustomEvent('reply-created', {
       bubbles: true,
-      composed: true
+      composed: true,
     });
     this.dispatchEvent(replyEvent);
   }
 
-  validateReplyButton(){
-    const replyButton = this.shadowRoot.querySelector("#submit-reply");
-    const replyBody = this.shadowRoot.querySelector(".reply-body");
-    if (replyBody.value.trim() == ''){
+  validateReplyButton() {
+    const replyButton = this.shadowRoot.querySelector('#submit-reply');
+    const replyBody = this.shadowRoot.querySelector('.reply-body');
+    if (replyBody.value.trim() == '') {
       replyButton.disabled = true;
     } else {
       replyButton.disabled = false;
@@ -528,58 +565,48 @@ export class DaPenguinsComment extends SimpleColors {
   // HTML - specific to Lit
   render() {
     return html`
-      <div id="Nest">
-        <div class="post-main">
-          <div class="post-title">
-            <div class="profile-pic">
-              <rpg-character class="rpg" seed=${this.username} width="75" height="75" ></rpg-character>
+      <div class="post-main">
+        <div class="post-title">
+          <div class="profile-pic">
+            <rpg-character class="rpg" seed=${this.username} width="75" height="75" ></rpg-character>
+          </div>
+          <div class="title-content">
+            <div class="header">
+              <h1>${this.username ? this.username : 'Anonymous'}</h1>
             </div>
-            <div class="title-content">
-              <div class="header">
-                <h1>${this.username ? this.username : 'Anonymous'}</h1>
-                <h2>${this.UID}</h2>
-              </div>
-              <div class="username">
-                <p> 
-                  <button class="like-button" @click=${this.facilitateLike}>
-                    <simple-icon-lite icon="favorite"></simple-icon-lite>
-                  </button>
-                  ${this.likes}
-                </p>
-                <p>${this.submittedTime}</p>
-                ${this.isEdited ? html`<p>edited: ${this.editedTime}</p>` : ''}
-              </div>
+            <div class="username">
+              <p> <button class="like-button" @click=${this.likeComment}> <simple-icon-lite icon="favorite"></simple-icon-lite> </button> ${this.likes} </p>
+              <p>${this.submittedTime}</p>
+              ${this.isEdited ? html`<p>edited: ${this.editedTime}</p>` : ''}
             </div>
           </div>
-          <div class="post-body">
-            <textarea class="post-body-content" readonly @input=${this.validateEditButton} > ${this.body}</textarea >
-          </div>
-          <div class="edit-options-hidden">
-            <button class="comment-buttons" @click=${this.cancelEdit}>
-              Cancel
-            </button>
-            <button id="submit-edit" class="comment-buttons submit-button" @click=${this.submitEdit} disabled > Submit </button>
-          </div>
         </div>
-        <div class="reply-pane-hidden">
-          <p class="reply-prompt">Add a Reply:</p>
-          <textarea class="reply-body" @input=${this.validateReplyButton} placeholder="What Do You Think?" ></textarea>
-          <div class="reply-pane-buttons">
-            <button class="comment-buttons" @click=${this.cancelReply}>Cancel</button>
-            <button id="submit-reply" class="comment-buttons submit-button" @click="${this.initiateCreateReply}" disabled> Reply</button>
-          </div>
+        <div class="post-body">
+          <textarea class="post-body-content" readonly @input=${this.validateEditButton} > ${this.body}</textarea >
         </div>
-
         <div class="comment-buttons">
-          <button class="style-comment" @click=${this.handleDelete}>Delete Comment</button>
-          <button class="style-comment" @click=${this.showEditingPane}>Edit Comment</button>
-          <button class="style-comment" @click=${this.showReplyPane}>Reply Comment</button>
+          <button class="style-comment" @click=${this.handleDelete}>
+            <simple-icon-lite icon="delete"></simple-icon-lite>
+            <div>Delete</div>
+          </button>
+          <button class="style-comment" @click=${this.showEditingPane}> <simple-icon-lite icon="image:edit"></simple-icon-lite> <div>Edit</div> </button>
+          ${!this.isReply ? html` <button class="style-comment" @click=${this.showReplyPane}> <simple-icon-lite icon="reply"></simple-icon-lite> <div>Reply</div> </button>` : html``}
+        </div>
+        <div class="edit-options-hidden">
+          <button class="comment-buttons" @click=${this.cancelEdit}> Cancel </button>
+          <button id="submit-edit" class="comment-buttons submit-button" @click=${this.submitEdit} disabled > Submit </button>
         </div>
       </div>
-    `;  
+      <div class="reply-pane-hidden">
+        <p class="reply-prompt">Add a Reply:</p>
+        <textarea class="reply-body" @input=${this.validateReplyButton} placeholder="What Do You Think?" ></textarea>
+        <div class="reply-pane-buttons">
+          <button class="comment-buttons" @click=${this.cancelReply}> Cancel </button>
+          <button id="submit-reply" class="comment-buttons submit-button" @click="${this.initiateCreateReply}" disabled > Reply </button>
+        </div>
+      </div>
+    `;
   }
-
-
 
   // HAX specific callback
   // This teaches HAX how to edit and work with your web component
