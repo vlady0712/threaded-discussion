@@ -526,7 +526,7 @@ export class DaPenguinsComment extends SimpleColors {
             <div class="title-info">
               <button class="like-button" @click=${this.likeComment}> <simple-icon-lite icon="favorite"></simple-icon-lite> ${this.likes}</button> 
               <br>
-              ${this.submittedTime}; ${this.isEdited ? html`<i>edited: ${this.editedTime}</i>` : ''}
+              ${this.submittedTime}${this.isEdited ? html`; <i>edited: ${this.editedTime}</i>` : ''}
             </div>
           </div>
         </div>
