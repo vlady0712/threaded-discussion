@@ -84,8 +84,8 @@ export default async function handler(req, res) {
         res.status(200).json(returnedCommentArray);
       }
       
-    const [rows] = await connection.query('SELECT * FROM comments WHERE uid = ?', commentID);
+    // const [rows] = await connection.query('SELECT * FROM comments WHERE uid = ?', commentID);
       // console.log(rows[0]);
-      res.status(200).json(rows[0]);
+      // res.status(200).json(rows[0]);
   // }
 }
