@@ -43,14 +43,14 @@ export class DaPenguinsComment extends SimpleColors {
           border-radius: 20px;
           padding: 10px;
           margin: 20px;
-          background-color: var(--simple-colors-default-theme-accent-2);
+          background-color: var(--accent-color-white);
           box-shadow: 0 0 5px var(--simple-colors-default-theme-accent-7);
         }
 
         .post-title {
           display: flex;
-          background-color: var(--simple-colors-default-theme-accent-3);
-          border: solid 1px var(--simple-colors-default-theme-accent-2);
+          background-color: var(--accent-color-light-3);
+          border: solid 1px var(--accent-color-white);
           border-radius: 10px;
           padding-top: 10px;
           padding-bottom: 10px;
@@ -244,20 +244,10 @@ export class DaPenguinsComment extends SimpleColors {
     ];
   }
 
-  // overlay on div tag - wrap image in div & style div
-  // HTMLElement life-cycle, built in; use this for setting defaults
   constructor() {
     super();
-    this.imgSrc = '';
-    this.imgKeyword = 'grey box';
-    this.status = 'pending';
-    this.answerIcon = false;
-    this.icon = '';
     this.threadPermissions = null;
-
-    // Gets the ID NEEDED FOR GETTING COMMENTS
-    this.threadID = null;
-
+    this.threadID = null; // Gets the ID NEEDED FOR GETTING COMMENTS
     this.UID = null;
     this.userUID = null;
     this.submittedTime = null;
@@ -269,18 +259,11 @@ export class DaPenguinsComment extends SimpleColors {
     this.likes = 0;
   }
 
-  // properties that you wish to use as data in HTML, CSS, and the updated life-cycle
   static get properties() {
     return {
       ...super.properties,
-      imgSrc: { type: String, reflect: true, attribute: 'img-src' },
-      imgKeyword: { type: String, attribute: 'img-keyword' },
-      status: { type: String, reflect: true }, // Correct, incorrect, pending
-      answerIcon: { type: Boolean, reflect: true },
-      icon: { type: String },
       threadPermissions: { type: String },
       threadID: { type: String },
-
       UID: { type: String },
       userUID: { type: String },
       username: { type: String },
@@ -294,38 +277,12 @@ export class DaPenguinsComment extends SimpleColors {
     };
   }
 
-  // updated fires every time a property defined above changes
-  // this allows you to react to variables changing and use javascript to perform logic
-  updated(changedProperties) {
-    changedProperties.forEach((oldValue, propName) => {
-      if (propName === 'status' && this[propName] === 'correct') {
-        this.answerIcon = true;
-        this.icon = 'check';
-      }
-      if (propName === 'status' && this[propName] === 'incorrect') {
-        this.answerIcon = true;
-        this.icon = 'cancel';
-      }
-      if (propName === 'status' && this[propName] === 'pending') {
-        this.answerIcon = false;
-      }
-      // if (propName === 'likes' && this[propName] !== oldValue) {
-      //   console.log(await this.getSpecificComment(this.UID));
-      //   // this.likes = this.getSpecificComment(this.UID).likes;
-      // }
-    });
-  }
-
-  // Lit life-cycle; this fires the 1st time the element is rendered on the screen
-  // this is a sign it is safe to make calls to this.shadowRoot
   firstUpdated(changedProperties) {
     if (super.firstUpdated) {
       super.firstUpdated(changedProperties);
     }
   }
 
-  // HTMLElement life-cycle, element has been connected to the page / added or moved
-  // this fires EVERY time the element is moved
   connectedCallback() {
     super.connectedCallback();
     if (this.threadPermissions == null) {
@@ -333,8 +290,6 @@ export class DaPenguinsComment extends SimpleColors {
     }
   }
 
-  // HTMLElement life-cycle, element has been removed from the page OR moved
-  // this fires every time the element moves
   disconnectedCallback() {
     super.disconnectedCallback();
   }
@@ -351,7 +306,6 @@ export class DaPenguinsComment extends SimpleColors {
       });
   }
 
-  // eslint-disable-next-line class-methods-use-this
   async createComment(commentBody) {
     const response = await fetch('/api/submit-comment', {
       method: 'POST',
@@ -537,8 +491,7 @@ export class DaPenguinsComment extends SimpleColors {
   initiateCreateReply() {
     const replyBody = this.shadowRoot.querySelector('.reply-body').value.trim();
     if (replyBody != '') {
-      this.createReply(replyBody);
-      console.log('Where reply submission would occur');
+      this.createReply(replyBody);;
       this.hideReplyPane();
     }
     console.log(`reply: ${replyBody}`);
@@ -566,7 +519,7 @@ export class DaPenguinsComment extends SimpleColors {
       <div class="post-main">
         <div class="post-title">
           <div class="profile-pic">
-           <rpg-character class="rpg" seed=${this.username} width="75" height="75" ></rpg-character>
+            <rpg-character class="rpg" seed=${this.username} width="50" height="50"></rpg-character>
           </div>
           <div class="title-content">
             <div class="username">${this.username ? this.username : 'Anonymous'}</div>
