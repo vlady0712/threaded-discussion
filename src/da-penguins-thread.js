@@ -33,9 +33,24 @@ export class DaPenguinsThread extends LitElement {
         margin: 10px;
       }
 
+      #dialog-window {
+        height: 500px;
+        width: 575px;
+        border: 2px var(--accent-color-dark) solid;
+        background-color: var(--accent-color-white);
+        border-radius: 10px;
+        padding: 5px 0px;
+      }
+
+      #scrollable-content {
+        height: 500px;
+        overflow: auto;
+      }
+
       .entire-thread {
         margin: 0px;
         padding: 0px;
+        
       }
 
       .command-center {
@@ -137,12 +152,14 @@ export class DaPenguinsThread extends LitElement {
             margin: -6%;
           }
 
+          #dialog-window {
+            width: calc(575px * .8);
+          }
+
         }
     `;
   }
 
-  // overlay on div tag - wrap image in div & style div
-  // HTMLElement life-cycle, built in; use this for setting defaults
   constructor() {
     super();
     if (!this.threadID){
@@ -181,10 +198,9 @@ export class DaPenguinsThread extends LitElement {
       }
     });
     // Listen for new comment replies
-    this.addEventListener('reply-created', this.refreshCommentList)
+    this.addEventListener('reply-created', this.refreshCommentList);
   }
 
-  // properties that you wish to use as data in HTML, CSS, and the updated life-cycle
   static get properties() {
     return {
       ...super.properties,
@@ -206,7 +222,6 @@ export class DaPenguinsThread extends LitElement {
     this.commentList = await this.getAllComments();
   }
 
-  // TODO: If this hashes the current page, how will we have multiple threads on a page (as requested for comp?)
   // eslint-disable-next-line class-methods-use-this
   getThreadID() {
     // the thread id is the current page hash
@@ -219,7 +234,6 @@ export class DaPenguinsThread extends LitElement {
   }
 
   async fetchThreadData() {
-    // throwing error bc not in db
     const apiOrigin = window.location.origin;
     const apiURL = new URL('/api/get-thread/', apiOrigin);
     apiURL.searchParams.append('uid', this.threadID);
@@ -231,9 +245,6 @@ export class DaPenguinsThread extends LitElement {
   }
 
   // CALLBACK FUNCTIONS
-
-  // Lit life-cycle; this fires the 1st time the element is rendered on the screen
-  // this is a sign it is safe to make calls to this.shadowRoot
   firstUpdated(changedProperties) {
     if (super.firstUpdated) {
       super.firstUpdated(changedProperties);
@@ -251,8 +262,6 @@ export class DaPenguinsThread extends LitElement {
     });
   }
 
-  // HTMLElement life-cycle, element has been connected to the page / added or moved
-  // this fires EVERY time the element is moved
   connectedCallback() {
     super.connectedCallback();
     if (this.threadPermissions == null) {
@@ -260,8 +269,6 @@ export class DaPenguinsThread extends LitElement {
     }
   }
 
-  // HTMLElement life-cycle, element has been removed from the page OR moved
-  // this fires every time the element moves
   disconnectedCallback() {
     super.disconnectedCallback();
   }
@@ -308,7 +315,6 @@ export class DaPenguinsThread extends LitElement {
     return response;
   }
 
-  // TODO: Maybe use for chaining replies to a comment? (can be thru comment.js or thread.js)
   // eslint-disable-next-line class-methods-use-this
   async getSpecificComment(targetUID){
     const response = await fetch(`/api/get-comment?uid=${targetUID}`, {headers: {
@@ -318,11 +324,7 @@ export class DaPenguinsThread extends LitElement {
     return response;
   }
 
-// eslint-disable-next-line class-methods-use-this
-  renderComment(comment) {
-    // console.log("comment", comment);
-    // console.log("uid: ", comment.uid);
-    
+  renderComment(comment) {    
     const isEdited = comment.is_edited != '0';
     const isReply= comment.is_reply != '0';
 
@@ -354,7 +356,6 @@ export class DaPenguinsThread extends LitElement {
   }
 
   async initiateCreateComment(){
-
     const commentBody = this.shadowRoot.querySelector(".submit-body");
     if (commentBody.value.trim() !== ''){
       const newComment = await this.createComment(commentBody.value);
@@ -417,21 +418,22 @@ export class DaPenguinsThread extends LitElement {
     }
     console.log("all comments: ", this.commentList);
     return html`
-      <div class="entire-thread">
-        <div class="command-center">
-          <button class="create-comment" @click=${this.showCommentPane}> <simple-icon-lite icon="add"></simple-icon-lite><div>Add Comment</div></button>
-        </div>
-
-        <div class="new-comment-pane-hidden">
-          <p class="comment-prompt"> Have Something to Say? Leave a Comment Below! </p>
-          <textarea class="submit-body" @input=${this.validateSubmitButton} ></textarea>
-          <div class="comment-pane-buttons">
-            <button class="create-comment" @click=${this.cancelComment}>Cancel</button>
-            <button class="create-comment submit-button" @click="${this.initiateCreateComment}" disabled>Submit</button>
+      <div id="dialog-window">
+        <div class="entire-thread" id="scrollable-content">
+          <div class="command-center">
+            <button class="create-comment" @click=${this.showCommentPane}> <simple-icon-lite icon="add"></simple-icon-lite><div>Add Comment</div></button>
           </div>
-        </div>
-        <div class="rendered-comments">
-          ${this.commentList.map(commentArray => commentArray.map(comment => html` ${this.renderComment(comment)} `) )}
+          <div class="new-comment-pane-hidden">
+            <p class="comment-prompt"> Have Something to Say? Leave a Comment Below! </p>
+            <textarea class="submit-body" @input=${this.validateSubmitButton} ></textarea>
+            <div class="comment-pane-buttons">
+              <button class="create-comment" @click=${this.cancelComment}>Cancel</button>
+              <button class="create-comment submit-button" @click="${this.initiateCreateComment}" disabled>Submit</button>
+            </div>
+          </div>
+          <div class="rendered-comments">
+            ${this.commentList.map(commentArray => commentArray.map(comment => html` ${this.renderComment(comment)} `) )}
+          </div>
         </div>
       </div>
     `;
