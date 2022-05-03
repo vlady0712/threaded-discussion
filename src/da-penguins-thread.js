@@ -145,7 +145,9 @@ export class DaPenguinsThread extends LitElement {
   // HTMLElement life-cycle, built in; use this for setting defaults
   constructor() {
     super();
-    this.threadID = this.getThreadID();
+    if (!this.threadID){
+      this.threadID = undefined;
+    }
     this.threadEnabled = false;
     this.threadPermissions = null;
     this.commentList = [];
@@ -186,7 +188,7 @@ export class DaPenguinsThread extends LitElement {
   static get properties() {
     return {
       ...super.properties,
-      threadID: { type: String },
+      threadID: { type: String, reflect: true, attribute: "uid"},
       threadEnabled: { type: Boolean },
       threadPermissions: { type: String },
       commentList: { type: Array },
@@ -301,7 +303,7 @@ export class DaPenguinsThread extends LitElement {
     // TODO: make query into URL object
     const response = await fetch(`/api/get-comment?threadId=${this.threadID}`, {headers: {
       Authorization: `Bearer ${window.localStorage.getItem('comment-jwt')}`
-    }}).then(res => res.json());
+    }}).then(res => res.json()).catch( e => undefined);
     console.log(response);
     return response;
   }
@@ -405,6 +407,13 @@ export class DaPenguinsThread extends LitElement {
           <jwt-auth authendpoint="/api/auth/"></jwt-auth>
         </div>
       `;
+    }
+    if (this.threadID == undefined || this.commentList == undefined){
+      return html`
+      <div class="center">
+        <p>There was an error loading the thread.</p>
+      </div>
+      ;`
     }
     console.log("all comments: ", this.commentList);
     return html`

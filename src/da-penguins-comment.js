@@ -328,9 +328,6 @@ export class DaPenguinsComment extends SimpleColors {
   // this fires EVERY time the element is moved
   connectedCallback() {
     super.connectedCallback();
-    if (this.threadPermissions == null) {
-      this.fetchThreadData();
-    }
   }
 
   // HTMLElement life-cycle, element has been removed from the page OR moved
