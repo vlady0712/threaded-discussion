@@ -5,6 +5,7 @@
 - Project Documentation:
   - [GitHub](https://github.com/Da-Penguins/threaded-discussion-docs)
   - [Site](https://da-penguins.github.io/threaded-discussion-docs/)
+- [threaded-discussion demo](http://threaded-discussion.vercel.app/)
 
 ### Goals
 
