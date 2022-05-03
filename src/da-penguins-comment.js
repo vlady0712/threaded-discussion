@@ -285,9 +285,6 @@ export class DaPenguinsComment extends SimpleColors {
 
   connectedCallback() {
     super.connectedCallback();
-    if (this.threadPermissions == null) {
-      this.fetchThreadData();
-    }
   }
 
   disconnectedCallback() {

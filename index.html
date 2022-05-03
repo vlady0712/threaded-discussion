@@ -32,18 +32,28 @@
 </head>
 
 <body>
-  <da-penguins-thread></da-penguins-thread>
-  <da-penguins-thread></da-penguins-thread>
-  
-
+  <div class="create-threads">
+    <h1>Create Threads Here</h1>
+    <p>NOTE: these threads are not long-living and will be destroyed on page reload.</p>
+    <thread-creator></thread-creator>
+  </div>
+  <div class="view-threads">
+    <h1>View Threads Here</h1>
+    <h2>Comment Block 1</h2>
+    <da-penguins-thread uid="1234"></da-penguins-thread>
+    <h2>Comment Block 2</h2>
+    <da-penguins-thread uid="15a2f77f-1a3a-4ae0-8bf6-313f42838dc7"></da-penguins-thread>
+    <h3>Comment Block 3</h3>
+    <da-penguins-thread uid="4c3288e3-6614-4872-8ef1-27a79f579ebe"></da-penguins-thread>
+  </div>
 
 <script type="module">
   import  '@lrnwebcomponents/threaded-discussion';
   import './src/da-penguins-comment.js';
   import './src/da-penguins-thread.js';
+  import './src/da-penguins-thread-creator.js'
   import '@lrnwebcomponents/rpg-character/rpg-character.js';
-
 </script>
-
+<script type="module" src="./src/utils.js" defer></script>
 </body>
 </html>
