@@ -1,6 +1,10 @@
 # Threaded-Discussion
 
-## GitHub Requirements
+## Documentation:
+- [OpenAPI Documentation](https://da-penguins.stoplight.io/docs/threaded-discussion/YXBpOjI4MTkzNA-threaded-discussion-api) 
+- Project Documentation:
+  - [GitHub](https://github.com/Da-Penguins/threaded-discussion-docs)
+  - [Site](https://da-penguins.github.io/threaded-discussion-docs/)
 
 ### Goals
 
